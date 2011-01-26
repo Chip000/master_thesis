@@ -1,0 +1,283 @@
+Neste capítulo nós apresentaremos a descrição dos modelos de CP e ILP
+usados para os problemas de ordenação por transposições, ordenação por
+reversões e ordenação por reversões e transposições. 
+
+\subsection{CP}
+\label{subsec:cp}
+O modelo de CP usado para o problema de ordenação por transposições é
+o descrito em Dias e Dias \cite{DiasDias*2009}. Nós usamos os
+limitantes inferior e superior descritos em (REFERENCIAR) para
+escrever as formulações baseadas nas teorias de Problema de Satisfação
+de Restrições (CSP) e Problema de Otimização com Restrições (COP). As
+formulações foram descritas usando a notação prolog-like de
+Marriot \cite{Marriott*1998}.
+
+
+
+The representation of permutation (\ref{perm}) and the effects of
+reversal (\ref{reversal}) and transposition (\ref{transposition}) can
+be seen as the same way we described the problem. In this model the
+permutation $\pi$ is a list of elements
+($\pi_{1},\pi_{2},\cdots,\pi_{n}$) where $\pi_{i} \in \mathbb{N}$, $0
+< \pi_{i} \le n$ and $\pi_{i} \neq \pi_{j}$ for $i \neq j$.
+
+\begin{align}
+  \label{perm}
+  \textit{per}&\textit{mutation}(\pi, N)~\text{:-} \nonumber\\
+  &\textit{length}(\pi, N), \\ 
+  &\pi~::~[1~..~N], \nonumber\\
+  &\textit{all\_different}(\pi). \nonumber
+\end{align}
+
+Note that in prolog variables are denoted by strings starting in upper
+letter or ``\_'' (the underscore) if the variable is anonymous. The
+greek letters $\pi$ and $\sigma$ are lists in this notation. The
+construction $X~::~[i~..~j]$ means that $X$ (or every element of $X$
+if $X$ is a list) ranges over the interval $[i~..~j]$.
+
+A reversal $\rho(i,j)$, $0 < i < j \leq n$, split the list in three
+sub-lists $C_{1}C_{2}C_{3}$ where $C_{1} = (\pi_{1} .. \pi_{i-1})$,
+$C_{2} = (\pi_{i} .. \pi_{j})$ and $C_{3} = (\pi_{j+1} .. \pi_{n})$.
+After we do a reverse on the block $C_{2}$ and the result is the list
+$R_{C_{2}}$. Finally we join the new list $R_{C_{2}}$ with the
+sub-lists $C_{1}$ and $C_{3}$ to form $\rho\pi = C_{1}R_{C_{2}}C_{3}$.
+
+\begin{align}
+  \label{reversal}
+  \textit{rev}&\textit{ersal}(\pi, \sigma, I, J)~\text{:-} \nonumber\\
+  &\textit{permutation}(\pi, N), \nonumber\\
+  &\textit{permutation}(\sigma, N), \nonumber \\
+  &1 \le I < J \le N, \\
+  &\textit{split}(\pi, I, J, C_{1}, C_{2}, C_{3}), \nonumber\\
+  &\textit{reverse}(C_{2}, R_{C_{2}}), \nonumber \\
+  &\sigma = C_{1}, R_{C_{2}}, C_{3}. \nonumber
+\end{align}
+
+A transposition $\rho(i,j,k)$, $0 < i < j < k\leq n$, split the list
+in four sub-lists $C_{1}C_{2}C_{3}C_{4}$ where $C_{1} = (\pi_{1}
+.. \pi_{i-1})$, $C_{2} = (\pi_{i} .. \pi_{j-1})$, $C_{3} = (\pi_{j}
+.. \pi_{k-1})$ and $C_{4} = (\pi_{k} .. \pi_{n})$. After we join them
+to form $\rho\pi = C_{1}C_{3}C_{2}C_{4}$. Note that $C_{1}$ and
+$C_{4}$ could be empty.
+
+\begin{align}
+  \label{transposition}
+  \textit{tra}&\textit{nsposition}(\pi, \sigma, I, J, K)~\text{:-} \nonumber\\
+  &\textit{permutation}(\pi, N), \nonumber\\
+  &\textit{permutation}(\sigma, N), \\
+  &1 \le I < J < K \le N, \nonumber \\
+  &\textit{split}(\pi, I, J, K, C_{1}, C_{2}, C_{3}, C_{4}), \nonumber\\
+  &\sigma = C_{1}, C_{3}, C_{2}, C_{4}. \nonumber
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CSP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We first model the problem as CSP, but the number of variables is
+unknown because we need the value of distance $d_{r}(\pi)$ to set the
+constraints and variables that represent the permutations. For this
+reason we pick a candidate value for distance $R$ such that $R \in [LB
+.. UB]$, where $LB$ is a known lower bound and $UB$ is a known upper
+bound for the problem, and try to find the appropriate combination of
+$R$ reversals. If the CSP fails with the candidate $R$, we choose
+another value for $R$ just incrementing its value. We check the value
+of $R$ using a bottom-up strategy and for definition we don't check
+any value higher than any upper bound $UB$. In transposition, the
+process is the same as in reversals, changing the value of reversal
+distance ($d_{r}(\pi)$) to transposition distance ($d_{t}(\pi)$).
+
+\begin{align}
+  \label{revdistance}
+  \textit{rev}&\textit{ersal\_distance}(\iota, 0, \_Model). \nonumber\\
+  \textit{rev}&\textit{ersal\_distance}(\pi, R, Model)~\text{:-} \nonumber\\
+  &\textit{bound}(\pi, Model, LB, UB), \nonumber\\
+  &R :: [LB .. UB], \\
+  &\textit{indomain}(R), \nonumber \\
+  &\textit{reversal}(\pi, \sigma, \_I, \_J), \nonumber \\
+  &\textit{reversal\_distance}(\sigma, R-1, Model). \nonumber
+\end{align}
+
+\begin{align}
+  \label{tradistance}
+  \textit{tra}&\textit{nsposition\_distance}(\iota, 0, \_Model). \nonumber\\
+  \textit{tra}&\textit{nsposition\_distance}(\pi, T, Model)~\text{:-} \nonumber\\
+  &\textit{bound}(\pi, Model, LB, UB), \nonumber\\
+  &T :: [LB .. UB], \\
+  &\textit{indomain}(T), \nonumber \\
+  &\textit{transposition}(\pi, \sigma, \_I, \_J, \_K), \nonumber \\
+  &\textit{transposition\_distance}(\sigma, T-1, Model). \nonumber
+\end{align}
+
+The \textit{rev\_trans\_dist} predicate (\ref{trarevdist}) returns the
+reversal and transposition distance. The \textit{event/2} predicate
+chooses the best event between the \textit{reversal} predicate
+(\ref{reversal}) and the \textit{transposition} predicate
+(\ref{transposition}) to minimize the distance.
+
+\begin{align}
+  \label{trarevdist}
+  \textit{rev}&\textit{\_trans\_dist}(\iota, 0, \_Model). \nonumber\\
+  \textit{rev}&\textit{\_trans\_dist}(\pi, N, Model)~\text{:-} \nonumber\\
+  &\textit{bound}(\pi, Model, LB, UB), \nonumber\\
+  &N :: [LB .. UB], \\
+  &\textit{indomain}(N), \nonumber \\
+  &\textit{event}(\pi, \sigma), \nonumber \\
+  &\textit{rev\_trans\_dist}(\sigma, N-1, Model). \nonumber
+\end{align}
+
+The predicate \textit{indomain(X)} on (\ref{revdistance}) and
+(\ref{tradistance}) gets the domain of the variable $X$ and chooses the
+minimum element in it. If a fail backtracks to \textit{indomain}, the
+element that generated the fail will be removed from the domain and
+another value will be chosen.
+
+The CSP models have the above structure changing only the bounds we
+used. We call \textbf{def\_csp}, \textbf{rev\_br\_csp},
+\textbf{trans\_br\_csp} and \textbf{r\_t\_br\_csp}, the model
+that doesn't use any lower bounds, the model that uses the reversal
+breakpoint lower and upper bounds showed in Theorem \ref{lurev}, the
+model that uses the transposition breakpoint lower and upper bounds
+showed in Theorem \ref{lutrans}, and the model that chooses the best
+bound for sorting by reversal and transposition problem,
+respectively. The predicate \textit{bound} on (\ref{bound}) receives
+an atom on variable \textit{Model} that represents the chosen model,
+this atom unifies with the clause that returns the appropriate lower
+and upper bound.
+
+\begin{align}
+  \label{bound}
+  \textit{bou}&\textit{nd}(\pi, def\_csp, LB, UB)~\text{:-} \nonumber\\
+  &\textit{def\_csp\_bound}(\pi, LB, UB). \nonumber \\
+  \textit{bou}&\textit{nd}(\pi, rev\_br\_csp, LB, UB)~\text{:-} \nonumber \\
+  &\textit{calc\_breakpoints\_reversal}(\pi, B), \nonumber\\
+%  &LB = \frac{B}{2},  \\
+  &LB = B / 2 ,  \\
+  &UB = B. \nonumber \\
+  \textit{bou}&\textit{nd}(\pi, trans\_br\_csp, LB, UB)~\text{:-} \nonumber\\
+  &\textit{calc\_breakpoints\_transposition}(\pi, B), \nonumber\\
+%  &LB = \frac{B}{3}, \nonumber \\
+  &LB = B / 3, \nonumber \\
+  &UB = B. \nonumber
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%%%%% COP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Another approach is to model the problem as a COP. This approach needs
+an upper bound and some changes on previous predicates. We use the
+binary variables $B$ to indicate whether a event, reversal or
+transposition, has modified the permutation.
+
+The first predicate that we need to create is \textit{reversal\_cop}
+(\ref{reversal_cop}).  First of all, given a permutation $\rho(i, j)$,
+we add a new clause to allow $(i, j) = (0, 0)$. If $(i, j) = (0, 0)$
+then $\pi\rho = \pi$. We add a new argument to the
+\textit{reversal\_cop} predicate that receive the variable $B$.
+
+\begin{align}
+  \label{reversal_cop}
+  \textit{rev}&\textit{ersal\_cop}(\iota, \iota, 0, 0, 0). \\
+  \textit{rev}&\textit{ersal\_cop}(\pi, \sigma, I, J, 1)~\text{:-}~ 
+  \textit{reversal}(\pi, \sigma, I, J). \nonumber
+\end{align}
+
+The equivalent predicate for transposition is
+\textit{transposition\_cop} (\ref{transposition_cop}). In this case,
+given a permutation $\rho(i, j, k)$, we add a new clause to allow $(i,
+j, k) = (0, 0, 0)$. If $(i, j, k) = (0, 0, 0)$ then $\pi\rho = \pi$.
+
+\begin{align}
+  \label{transposition_cop}
+  \textit{tra}&\textit{nsposition\_cop}(\iota, \iota, 0, 0, 0, 0). \\
+  \textit{tra}&\textit{nsposition\_cop}(\pi, \sigma, I, J, K, 1)~\text{:-}~ 
+  \textit{transposition}(\pi, \sigma, I, J, K). \nonumber
+\end{align}
+
+To calculate the distance in the COP model we implemented the
+\textit{reversal\_distance\_cop} predicate (\ref{revdistance_cop}),
+which set the variables $B$ using the upper bound and constrains the
+permutations by making $\pi_{k} = \pi_{k-1} \rho_{k}$. The predicate
+\textit{length/2} is a prolog built-in and is used to create a list of
+non instantiated variables of a given size. The cost function
+\textit{Cost} is the sum of variables $B$ associated with each
+$\rho_{k}$, $Cost = \sum_{k=1}^{UB} B_{k}$, where $UB$ is a known
+upper bound. The reversal distance is the minimum value of the cost
+function $d_{r} = \min Cost$. To avoid unnecessary processing, the
+value of $Cost$ must be greater or equal to any lower bound. The
+equivalent predicate for transposition is
+\textit{transposition\_distance\_cop} (\ref{tradistance_cop}).
+
+\begin{align}
+  \label{revdistance_cop}
+  \textit{rev}&\textit{ersal\_distance\_cop}(\pi, R, Model)~\text{:-} \nonumber\\
+  &\textit{bound}(\pi, Model, LB, UB), \nonumber\\
+  &\textit{length}(B, UB), \nonumber \\
+  &\textit{upperbound\_constraint\_rev}(\pi, B, Model, UB), \\
+  &\textit{sum}(B, Cost), \nonumber \\
+  &\textit{Cost} \ge \textit{LB}, \nonumber \\
+  &\textit{minimize}(Cost, R). \nonumber
+\end{align}
+
+\begin{align}
+  \label{tradistance_cop}
+  \textit{tra}&\textit{nsposition\_distance\_cop}(\pi, T, Model)~\text{:-} \nonumber\\
+  &\textit{bound}(\pi, Model, LB, UB), \nonumber\\
+  &\textit{length}(B, UB), \nonumber \\
+  &\textit{upperbound\_constraint\_trans}(\pi, B, Model, UB), \\
+  &\textit{sum}(B, Cost), \nonumber \\
+  &\textit{Cost} \ge \textit{LB}, \nonumber \\
+  &\textit{minimize}(Cost, T). \nonumber
+\end{align}
+
+The equivalent predicate for reversal and transposition is
+\textit{rev\_trans\_dist\_cop} (\ref{trarevdistcop}). The
+\textit{upperbound\_constraint\_event} predicate chooses the best
+event between reversal, using the \textit{upperbound\_constraint\_rev}
+predicate (\ref{ub_constaint_rev}), and transposition, using the
+\textit{upperbound\_constraint\_trans} predicate
+(\ref{ub_constaint_tra}), to minimize the distance.
+
+\begin{align}
+  \label{trarevdistcop}
+  \textit{rev}&\textit{\_trans\_dist\_cop}(\pi, N, Model)~\text{:-} \nonumber\\
+  &\textit{bound}(\pi, Model, LB, UB), \nonumber\\
+  &\textit{length}(B, UB), \nonumber \\
+  &\textit{upperbound\_constraint\_event}(\pi, B, Model, UB), \\
+  &\textit{sum}(B, Cost), \nonumber \\
+  &\textit{Cost} \ge \textit{LB}, \nonumber \\
+  &\textit{minimize}(Cost, N). \nonumber
+\end{align}
+
+The \textit{upperbound\_constraint\_rev} predicate
+(\ref{ub_constaint_rev}) applies the effects of $\rho_{k}$ in
+permutation and returns the value of $B$ for every reversal
+$\rho_{k}$. An important constraint is to check if it is possible to
+sort the permutation using the remaining number of reversals to avoid
+unnecessary processing. For transposition, we use
+\textit{upperbound\_constraint\_trans} (\ref{ub_constaint_tra}).
+
+\begin{align}
+  \label{ub_constaint_rev}
+  \textit{upp}&\textit{erbound\_constraint\_rev}(\iota, [~], \_Model, \_UB). \nonumber\\
+  \textit{upp}&\textit{erbound\_constraint\_rev}(\pi, [B|Bt], Model, UB)~\text{:-} \nonumber\\
+  &\textit{reversal\_cop}(\pi, \sigma, \_I, \_J, B), \\
+  &\textit{bound}(\pi, Model, LB, \_UB), \nonumber\\
+  &UB \ge LB, \nonumber \\
+  &\textit{upperbound\_constraint\_rev}(\sigma, Bt, Model, UB - 1), \nonumber 
+\end{align}
+
+\begin{align}
+  \label{ub_constaint_tra}
+  \textit{upp}&\textit{erbound\_constraint\_trans}(\iota, [~], \_Model, \_UB). \nonumber\\
+  \textit{upp}&\textit{erbound\_constraint\_trans}(\pi, [B|Bt], Model, UB)~\text{:-} \nonumber\\
+  &\textit{transposition\_cop}(\pi, \sigma, \_I, \_J, \_K, B), \\
+  &\textit{bound}(\pi, Model, LB, \_UB), \nonumber\\
+  &UB \ge LB, \nonumber \\
+  &\textit{upperbound\_constraint\_trans}(\sigma, Bt, Model, UB - 1), \nonumber 
+\end{align}
+
+The COP models have the above structure changing only the bounds we
+used. We call \textbf{def\_cop}, \textbf{rev\_br\_cop},
+\textbf{trans\_br\_cop} and \textbf{r\_t\_br\_cop}, the model
+that doesn't use any lower bounds and the permutation size as upper
+bound, the model that uses the reversal breakpoint lower and upper
+bounds showed in Theorem \ref{lurev}, the model that uses the
+transposition breakpoint lower and upper bounds showed in Theorem
+\ref{lutrans}, and the model that chooses the best bound for sorting
+by reversal and transposition problem, respectively.

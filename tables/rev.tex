@@ -1,0 +1,27 @@
+% DO NOT FORGET THE PACKAGE 'rotating'!!!!
+\begin{sidewaystable}[!ht]
+  \caption{Tempo médio (em segundos) para o modelo de ordernação por reversões. O caractere ``-'' significa que o modelo não conseguiu terminar o conjunto de testes dentro do limite de 25 horas.}
+  \label{table:rev}
+  \begin{center}
+    \begin{tabular}{| r | r | r | r | r | r | r | r | r | r | r |}
+      \hline
+      \multicolumn{11}{|c|}{\textbf{Reversals Models}} \\
+      \hline
+      \textbf{size} & \multicolumn{8}{|c|}{\textbf{CP}} & \multicolumn{2}{|c|}{\textbf{ILP}} \\
+      \cline{02-11}
+        & \multicolumn{4}{|c|}{\textbf{ECLiPSe}} & \multicolumn{4}{|c|}{\textbf{ILOG CP}} & \textbf{GLPK} & \textbf{ILOG CPLEX}  \\
+      \cline{02-09}
+        & \textbf{~def\_cop~} & \textbf{~rev\_br\_cop~} & \textbf{~def\_csp~} & \textbf{~rev\_br\_csp~} & \textbf{~def\_cop~} & \textbf{~rev\_br\_cop~} & \textbf{~def\_csp~} & \textbf{~rev\_br\_csp~}  & & \\
+      \hline
+      ~3~ & ~0.009~ & ~0.004~ & ~0.003~ & ~0.004~ & ~0.002~ & ~0.001~ & ~0.004~ & ~0.003~ & ~0.001~ & ~0.002~ \\
+      ~4~ & ~0.417~ & ~0.409~ & ~0.027~ & ~0.005~ & ~0.006~ & ~0.006~ & ~0.008~ & ~0.004~ & ~0.001~ & ~0.008~ \\
+      ~5~ & ~35.502~ & ~43.286~ & ~0.280~ & ~0.010~ & ~0.018~ & ~0.017~ & ~0.016~ & ~0.011~ & ~0.096~ & ~0.036~ \\
+      ~6~ & ~-~ & ~-~ & ~5.223~ & ~0.026~ & ~0.095~ & ~0.096~ & ~0.063~ & ~0.037~ & ~1.264~ & ~0.562~ \\
+      ~7~ & ~-~ & ~-~ & ~490.753~ & ~0.226~ & ~1.494~ & ~1.356~ & ~0.334~ & ~0.261~ & ~4.702~ & ~16.011~ \\
+      ~8~ & ~-~ & ~-~ & ~-~ & ~1.096~ & ~20.217~ & ~29.556~ & ~4.360~ & ~4.164~ & ~4.428~ & ~426.984~ \\
+      ~9~ & ~-~ & ~-~ & ~-~ & ~6.885~ & ~989.500~ & ~1458.167~ & ~217.353~ & ~216.878~ & ~-~ & ~-~ \\
+      ~10~ & ~-~ & ~-~ & ~-~ & ~30.742~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{sidewaystable}

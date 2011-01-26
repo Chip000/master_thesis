@@ -1,0 +1,29 @@
+% DO NOT FORGET THE PACKAGE 'rotating'!!!!
+\begin{sidewaystable}[!ht]
+  \caption{Tempo médio (em segundos) para o modelo de ordernação por transposições. O caractere ``-'' significa que o modelo não conseguiu terminar o conjunto de testes dentro do limite de 25 horas.}
+  \label{table:trans}
+  \begin{center}
+    \scalebox{0.7}{
+    \begin{tabular}{| r | r | r | r | r | r | r | r | r | r | r | r | r | r | r |}
+      \hline
+      \multicolumn{15}{|c|}{\textbf{Transpositions Models}} \\
+      \hline
+      \textbf{size} & \multicolumn{12}{|c|}{\textbf{CP}} & \multicolumn{2}{|c|}{\textbf{ILP}} \\
+      \cline{02-15}
+        & \multicolumn{6}{|c|}{\textbf{ECLiPSe}} & \multicolumn{6}{|c|}{\textbf{ILOG CP}} & \textbf{GLPK} & \textbf{ILOG CPLEX}  \\
+      \cline{02-13}
+        & \textbf{~def\_cop~} & \textbf{~tra\_br\_cop~} & \textbf{~tra\_cg\_cop~} & \textbf{~def\_csp~} & \textbf{~tra\_br\_csp~} & \textbf{~tra\_cg\_csp~} & \textbf{~def\_cop~} & \textbf{~tra\_br\_cop~} & \textbf{~tra\_cg\_cop~} & \textbf{~def\_csp~} & \textbf{~tra\_br\_csp~} & \textbf{~tra\_cg\_csp~}  & & \\
+      \hline
+      ~3~ & ~0.005~ & ~0.008~ & ~0.003~ & ~0.003~ & ~0.003~ & ~0.001~ & ~0.003~ & ~0.003~ & ~0.001~ & ~0.004~ & ~0.001~ & ~0.002~ & ~0.001~ & ~0.001~ \\
+      ~4~ & ~0.553~ & ~1.704~ & ~0.066~ & ~0.021~ & ~0.007~ & ~0.001~ & ~0.006~ & ~0.005~ & ~0.005~ & ~0.008~ & ~0.006~ & ~0.004~ & ~0.001~ & ~0.011~ \\
+      ~5~ & ~198.019~ & ~1479.668~ & ~3.276~ & ~0.335~ & ~0.023~ & ~0.004~ & ~0.041~ & ~0.014~ & ~0.010~ & ~0.029~ & ~0.021~ & ~0.011~ & ~0.196~ & ~0.057~ \\
+      ~6~ & ~-~ & ~-~ & ~38.020~ & ~14.197~ & ~0.156~ & ~0.008~ & ~0.243~ & ~0.074~ & ~0.045~ & ~0.104~ & ~0.075~ & ~0.043~ & ~2.348~ & ~1.375~ \\
+      ~7~ & ~-~ & ~-~ & ~-~ & ~920.502~ & ~1.416~ & ~0.029~ & ~1.588~ & ~1.253~ & ~0.429~ & ~0.559~ & ~0.472~ & ~0.266~ & ~4.650~ & ~79.015~ \\
+      ~8~ & ~-~ & ~-~ & ~-~ & ~-~ & ~12.544~ & ~0.076~ & ~23.778~ & ~26.807~ & ~16.619~ & ~4.803~ & ~4.537~ & ~3.798~ & ~-~ & ~-~ \\
+      ~9~ & ~-~ & ~-~ & ~-~ & ~-~ & ~49.813~ & ~0.382~ & ~1109.692~ & ~994.209~ & ~385.954~ & ~112.203~ & ~111.656~ & ~66.439~ & ~-~ & ~-~ \\
+      ~10~ & ~-~ & ~-~ & ~-~ & ~-~ & ~1287.331~ & ~2.297~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ \\
+      \hline
+    \end{tabular}
+}
+  \end{center}
+\end{sidewaystable}

@@ -1,0 +1,173 @@
+\documentclass[12pt,twoside]{report} % Use esta linha para tese com mais de 100 p{\'a}ginas
+%    \documentclass[12pt]{report} % Use esta linha para tese com at{\'e} 100 p{\'a}ginas
+
+% Definições do IC-Unicamp
+\usepackage{ic-tese}
+
+% Definições latex para portugues
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+% Formatação de URL
+\usepackage{url}
+
+% Adição de figuras no documento
+\usepackage{graphicx}
+
+% Tabelas longas (mais de uma página)
+\usepackage{longtable}
+
+% Formatação de códigos
+\usepackage[algoruled]{algorithm2e}
+
+% Definições de hifenização
+\hyphenation{a-de-qüa-dos a-li-nha-dos a-li-nha-men-to
+  a-li-nha-men-tos a-lign-ments a-tra-vés BAliBASE e-xem-plo
+  ge-ne-ra-li-za-da glo-bal-men-te pu-bli-ca-das re-fe-rên-cia
+  re-pe-ti-çõees se-me-lhan-ça UPGMA vi-zi-nhas}
+
+\newcommand{\aspas}[1]{``#1''}
+\newcommand{\estr}[1]{\textsl{\foreignlanguage{american}{#1}}}
+
+\newcommand{\ic}{Instituto de Computação}
+\newcommand{\bkp}{\textit{breakpoints}}
+\newcommand{\pli}{programação linear inteira}
+\newcommand{\PLI}{Programação Linear Inteira}
+\newcommand{\pr}{programação lógica por restrições}
+\newcommand{\PR}{Programação Lógica por Restrições}
+\newcommand{\rg}{rearranjo de genomas}
+\newcommand{\unicamp}{Universidade Estadual de Campinas}
+\newcommand{\seq}{seqüencia}
+
+\begin{document}
+  
+\title{Programação Linear Inteira e Programação Lógica por Restrições
+  para Problemas de Rearranjo de Genomas}
+
+\author{Victor de Abreu Iizuka}
+
+\degreesought{Mestrado} % Doutorado/Mestrado
+\titlesought{Mestre}     % Doutor(a)/Mestre
+
+\principaladvisor{Zanoni Dias}
+\advisortitle{Orientador} % Orientadora
+
+%\coadvisor{Byron Meter (Co-orientador)} % Pode ser omitido.
+
+\firstreader{?}
+\secondreader{?}
+\thirdreader{?}
+\fourthreader{?}
+
+\grants{{\rm Suporte financeiro de: Bolsa da CNPq (processo (VERIFICAR) XYZ) 2007--2011 } } % Pode ser omitido.
+
+%\submitdate{Abril de 1997} % Pode ser omitido.
+%\date{12 de junho de 1997} % Pode ser omitido.
+
+%   Se pretende utilizar \copyrighttrue, consulte antes seu orientador ou a CPG!!!
+%   Este ponto envolve quest{\~o}es legais complexas e de graves conseq{\"u}{\^e}ncias.
+\copyrightfalse % Caso nao queira que apareca a pagina de Copyright.
+%    \copyrighttrue % Caso queira que apareca a pagina de Copyright.
+%
+%    \finalversiontrue % Caso seja a versao final.
+\finalversionfalse % Caso nao seja a versao final ainda.
+%
+\tablespagetrue % Caso queira que apareca a Lista de Tabelas.
+%    \tablespagefalse % Caso nao queira que apareca a Lista de Tabelas.
+%
+\figurespagetrue % Caso queira que apareca o Lista de Figuras.
+%    \figurespagefalse % Caso nao queira que apareca o Lista de Figuras.
+%
+
+\beforepreface
+
+\prefacesection{Agradecimentos}
+\input{sections/agrad}
+
+\prefacesection{Resumo}
+TODO: O resumo deve conter no m{\'a}ximo 500 palavras...
+% \include{sections/resum}
+
+\prefacesection{Abstract}
+\input{sections/abstr}
+
+
+\afterpreface % Gera: Conteudo, Lista de Tabelas, Lista de Figuras.
+%
+
+\chapter{Introdução}
+\label{sec:intro}
+\input{sections/intro}
+
+\chapter{Conceitos Básicos}
+\label{sec:basic}
+TODO: Conceitos Basicos sobre os problemas de ordenação por transposições,
+ordenação por reversões e ordenação por reversões e transposições,
+com a explicação dos limitantes e explicação básica sobre CP e ILP.
+% \include{sections/basic}
+
+\chapter{Modelos}
+\label{sec:model}
+TODO: Descrição dos Modelos usados para CP e ILP
+% \include{sections/model}
+
+\chapter{Análise dos Resultados}
+\label{sec:resul}
+TODO: Análise dos Resultados obtidos
+% \include{sections/resul}
+
+\chapter{Conclusão}
+\label{sec:concl}
+TODO: Conclusão do trabalho
+% \include{sections/concl}
+
+
+\appendix
+
+%% Revisão Bibliográfica
+% \chapter{Revisão Bibliográfica} 
+
+% Neste apêndice apresentamos resumos de trabalhos relevantes em
+% alinhamento múltiplo de seqüências.
+
+% \input{apendice/revisao/DuretEtAl2000}
+% 
+% \input{apendice/revisao/Notredame2002}
+% 
+% \input{apendice/revisao/Notredame2007}
+% 
+% \input{apendice/revisao/WallaceEtAl2005}
+% 
+% \input{apendice/revisao/BAliBASE}
+% 
+% \input{apendice/revisao/ThompsonEtAl1999}
+% 
+% \input{apendice/revisao/Progressivo}
+% 
+% \input{apendice/revisao/ClustalW}
+% 
+% \input{apendice/revisao/DiAlign}
+% 
+% \input{apendice/revisao/ProbCons}
+% 
+% \input{apendice/revisao/SAGA}
+% 
+% \input{apendice/revisao/PRRP}
+% 
+% \input{apendice/revisao/DbClustal}
+% 
+% \input{apendice/revisao/MCoffee}
+% 
+% \input{apendice/revisao/MeidanisSetubal1995}
+% 
+% %% Estado da Arte
+% \include{apendice/survey/Survey}
+% 
+% %% Vocabulário
+% \include{apendice/vocabulario/vocabulario}
+
+\bibliographystyle{plain}
+\bibliography{tese}
+
+\end{document}
