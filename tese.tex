@@ -21,6 +21,10 @@
 % Formatação de códigos
 \usepackage[algoruled]{algorithm2e}
 
+% Definições matemáticas
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
 % Definições de hifenização
 \hyphenation{a-de-qüa-dos a-li-nha-dos a-li-nha-men-to
   a-li-nha-men-tos a-lign-ments a-tra-vés BAliBASE e-xem-plo
@@ -97,28 +101,25 @@ TODO: O resumo deve conter no m{\'a}ximo 500 palavras...
 %
 
 \chapter{Introdução}
-\label{sec:intro}
+\label{cap:intro}
 \input{sections/intro}
 
 \chapter{Conceitos Básicos}
-\label{sec:basic}
-TODO: Conceitos Basicos sobre os problemas de ordenação por transposições,
-ordenação por reversões e ordenação por reversões e transposições,
-com a explicação dos limitantes e explicação básica sobre CP e ILP.
-% \include{sections/basic}
+\label{cap:basic}
+\input{sections/basic}
 
 \chapter{Modelos}
-\label{sec:model}
+\label{cap:model}
 TODO: Descrição dos Modelos usados para CP e ILP
 % \include{sections/model}
 
 \chapter{Análise dos Resultados}
-\label{sec:resul}
+\label{cap:resul}
 TODO: Análise dos Resultados obtidos
 % \include{sections/resul}
 
 \chapter{Conclusão}
-\label{sec:concl}
+\label{cap:concl}
 TODO: Conclusão do trabalho
 % \include{sections/concl}
 
