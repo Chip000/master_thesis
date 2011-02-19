@@ -16,14 +16,25 @@ $(DVI): $(TEX)
 $(PS): $(DVI)
 	dvips -mz $(TARGET).dvi
 
-$(PDF): $(PS)
-	ps2pdf $(PS)
+$(PDF):	$(TEX)
+	pdflatex $(TEX)
+	bibtex $(TARGET)
+	pdflatex $(TEX)
+	pdflatex $(TEX)
 
-pdf: clean $(PDF)
+#$(PDF):	$(PS)
+#	ps2pdf $(PS)
+
+pdf: clean_all $(PDF)
 
 clean:
-	rm -f *~ $(PDF) $(PS) $(DVI) 
+	rm -f *~ $(PS) $(DVI) 
 	rm -f *.aux *.log *.loa *.bbl *.blg *.lof *.lot 
 	rm -f sections/*.aux
 	rm -f *.toc *.ps .nfs* *.out
 
+clean_all:
+	rm -f *~ $(PDF) $(PS) $(DVI) 
+	rm -f *.aux *.log *.loa *.bbl *.blg *.lof *.lot 
+	rm -f sections/*.aux
+	rm -f *.toc *.ps .nfs* *.out
