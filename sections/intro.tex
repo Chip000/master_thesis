@@ -11,17 +11,17 @@ expressa de um modo diferente. Tais alterações debilitam, na maioria
 dos casos, o organismo portador ou proporcionam vantagens no processo
 de seleção natural.
 
-A comparação de \seq{} é o método mais usual de se caracterizar a
+A comparação de sequência é o método mais usual de se caracterizar a
 ocorrência de mutações pontuais, sendo um dos problemas mais abordados
 em Biologia Computacional. O interesse em fazer tal comparação é
 encontrar a distância de edição~\cite{SetubalMeidanis*1997}, que é o
-número mínimo de operações de inserção, remoção e substituição
+número mínimo de operações de inserções, remoções e substituições
 necessárias que transformam uma sequência em outra.
 
 A distância de edição é uma medida capaz de estimar a distância
 evolutiva entre duas cadeias, mas não possui a informação de quais
 operações globais foram utilizadas para a transformação de uma
-\seq{} em outra. Estas operações globais são os chamados
+sequência em outra. Estas operações globais são os chamados
 Rearranjos de Genomas, que podem ser, por exemplo, reversões,
 transposições, fissões e fusões.
 
@@ -47,28 +47,22 @@ ocorrem ao mesmo tempo.
 O evento de transposição ocorre quando dois blocos adjacentes no
 genoma trocam de posição. O problema da distância de transposição é
 encontrar o número mínimo de transposições necessárias que transforma
-um genoma em outro. Este problema pertence a classe dos problemas
+um genoma em outro. Este problema pertence à classe dos problemas
 NP-Difícil e a prova foi apresentada por Bulteau, Fertin e
 Rusu~\cite{BulteauFertinRusu*2010}. O melhor algoritmo de aproximação
 conhecido possui razão de $1.375$ apresentado por Elias e
 Hartman~\cite{EliasHartman*2006}.
-
-%A complexidade deste problema ainda está em aberto, não conhecemos
-%nenhuma prova que mostre que ele se encontra na classe dos problemas
-%NP-Difícil e não existem evidências da existência de um algoritmo
-%polinomial. O melhor algoritmo de aproximação conhecido possui razão
-%de $1.375$ apresentado por Elias e Hartman~\cite{EliasHartman*2006}.
 
 % reversão
 O evento de reversão ocorre quando um bloco do genoma é invertido. O
 problema da distância de reversão é encontrar o número mínimo de
 reversões necessárias que transforma um genoma em outro. Neste
 problema é importante saber se a orientação dos genes é conhecida,
-pois existem algoritmos polinomiais para este caso. Entretanto, se não
-se conhece a orientação dos genes o problema da distância de reversão
-pertence a classe de problemas NP-Difícil, com a prova apresentada por
-Caprara~\cite{Caprara*1997}, e o melhor algoritmo de aproximação
-conhecido possui razão de $1.375$ apresentado por Berman,
+pois existem algoritmos polinomiais para este caso. Entretanto, se a
+orientação dos genes não é conhecida o problema da distância de
+reversão pertence à classe de problemas NP-Difícil, com a prova
+apresentada por Caprara~\cite{Caprara*1997}, e o melhor algoritmo de
+aproximação conhecido possui razão de $1.375$ apresentado por Berman,
 Hannenhalli e Karpinski~\cite{BermanHannenhalliKarpinski*2002}.
 
 % reversão+transposição
