@@ -74,7 +74,7 @@ Conhecer a orientação dos genes em um genoma é um fator importante no
 problema de reversão, pois existem algoritmos polinomiais para o caso
 em que a orientação é conhecida. No caso em que não se conhece a
 orientação dos genes o problema de encontrar a distância de reversão
-pertence a classe dos problemas NP-Difíceis~\cite{Caprara*1997}.
+pertence à classe dos problemas NP-Difíceis~\cite{Caprara*1997}.
 
 O primeiro algoritmo polinomial para o problema de reversão com
 orientação conhecida foi criado por Hannenhalli e
@@ -127,6 +127,11 @@ a permutação $\pi = (~4~7~3~6~2~5~1~)$.
   \caption{Grafo de \bkp{} para a permutação $\pi = (~4~7~3~6~2~5~1~)$.}
   \label{fig:rev_grafo_bkp}
 \end{figure}
+
+Um ciclo em $G(\pi)$ é chamado de \textit{alternado} se as cores de
+duas arestas consecutivas são diferentes ao longo do ciclo. Assim
+dizemos que todos os ciclos pertencentes ao grafo serão ciclos
+alternados.
 
 \subsection{Decomposição de Ciclo}
 \label{subsec:cic_dec}
