@@ -2,22 +2,30 @@ Neste capítulo nós apresentaremos a descrição dos modelos de \pr{} e
 \pli{} usados para os problemas de ordenação por transposições,
 ordenação por reversões e ordenação por reversões e transposições.
 
-\subsection{\PR}
+\section{\PR}
 \label{subsec:cp}
-O modelo de \pr{} usado para o problema de ordenação por transposições é
-o descrito em Dias e Dias \cite{DiasDias*2009}. Nós usamos os
+O modelo de \pr{} usado para o problema de ordenação por transposições
+é o descrito em Dias e Dias \cite{DiasDias*2009}. Nós usamos os
 limitantes inferior e superior descritos em (REFERENCIAR) para
 escrever as formulações baseadas nas teorias de Problema de Satisfação
 de Restrições (CSP) e Problema de Otimização com Restrições (COP). As
 formulações foram descritas usando a notação prolog-like de
-Marriot \cite{Marriott*1998}.
+Marriot \cite{Marriott*1998}. Primeiramente iremos apresentar os
+predicados que são comum às duas formulações.
 
-The representation of permutation (\ref{perm}) and the effects of
-reversal (\ref{reversal}) and transposition (\ref{transposition}) can
-be seen as the same way we described the problem. In this model the
-permutation $\pi$ is a list of elements
-($\pi_{1},\pi_{2},\cdots,\pi_{n}$) where $\pi_{i} \in \mathbb{N}$, $0
-< \pi_{i} \le n$ and $\pi_{i} \neq \pi_{j}$ for $i \neq j$.
+Em prolog as variáveis são descritas por \textit{strings} iniciadas
+com letra maiúscula ou ``\_'' (\textit{underscore}) caso a variável
+seja anônima. As letras gregas $\pi$ e $\sigma$ representam listas
+nesta notação. A construção $X~::~[i~..~j]$ significa que $X$ (ou cada
+elemento de $X$ se $X$ for uma lista) pode assumir um valor do
+intervalo $[i~..~j]$.
+
+A representação da permutação (\ref{perm}) e o efeito das operações de
+reversão (\ref{reversal}) e transposição (\ref{transposition} podem
+ser vistas da mesma maneira que são descritas pelos problemas. Neste
+modelo a permutação $\pi$ é uma lista de elementos
+($\pi_{1},~\pi_{2},~\ldots~,~\pi_{n}$) onde $\pi_{i} \in \mathbb{N}$, $0
+< \pi_{i} \le n$ e $\pi_{i} \neq \pi_{j}$ para $i \neq j$.
 
 \begin{align}
   \label{perm}
@@ -27,18 +35,13 @@ permutation $\pi$ is a list of elements
   &\textit{all\_different}(\pi). \nonumber
 \end{align}
 
-Note that in prolog variables are denoted by strings starting in upper
-letter or ``\_'' (the underscore) if the variable is anonymous. The
-greek letters $\pi$ and $\sigma$ are lists in this notation. The
-construction $X~::~[i~..~j]$ means that $X$ (or every element of $X$
-if $X$ is a list) ranges over the interval $[i~..~j]$.
-
-A reversal $\rho(i,j)$, $0 < i < j \leq n$, split the list in three
-sub-lists $C_{1}C_{2}C_{3}$ where $C_{1} = (\pi_{1} .. \pi_{i-1})$,
-$C_{2} = (\pi_{i} .. \pi_{j})$ and $C_{3} = (\pi_{j+1} .. \pi_{n})$.
-After we do a reverse on the block $C_{2}$ and the result is the list
-$R_{C_{2}}$. Finally we join the new list $R_{C_{2}}$ with the
-sub-lists $C_{1}$ and $C_{3}$ to form $\rho\pi = C_{1}R_{C_{2}}C_{3}$.
+Na reversão $\rho(i,j)$, $0 < i < j \leq n$, dividimos a lista em
+três sublistas $C_{1}C_{2}C_{3}$ onde $C_{1} =
+(\pi_{1}~..~\pi_{i-1})$, $C_{2} = (\pi_{i}~..~\pi_{j})$ e $C_{3} =
+(\pi_{j+1}~..~\pi_{n})$. Depois fazemos a reversão na sublista
+$C_{2}$, resultando na lista $R_{C_{2}}$. Então juntamos a nova lista
+$R_{C_{2}}$ com as sublistas $C_{1}$ e $C_{3}$ para formar $\rho\pi =
+C_{1}R_{C_{2}}C_{3}$.
 
 \begin{align}
   \label{reversal}
@@ -51,12 +54,14 @@ sub-lists $C_{1}$ and $C_{3}$ to form $\rho\pi = C_{1}R_{C_{2}}C_{3}$.
   &\sigma = C_{1}, R_{C_{2}}, C_{3}. \nonumber
 \end{align}
 
-A transposition $\rho(i,j,k)$, $0 < i < j < k\leq n$, split the list
-in four sub-lists $C_{1}C_{2}C_{3}C_{4}$ where $C_{1} = (\pi_{1}
-.. \pi_{i-1})$, $C_{2} = (\pi_{i} .. \pi_{j-1})$, $C_{3} = (\pi_{j}
-.. \pi_{k-1})$ and $C_{4} = (\pi_{k} .. \pi_{n})$. After we join them
-to form $\rho\pi = C_{1}C_{3}C_{2}C_{4}$. Note that $C_{1}$ and
-$C_{4}$ could be empty.
+Na transposição $\rho(i,j,k)$, $0 < i < j < k\leq n$, dividimos a
+lista em quatro sublistas $C_{1}C_{2}C_{3}C_{4}$ onde $C_{1} =
+(\pi_{1}~..~\pi_{i-1})$, $C_{2} = (\pi_{i}~..~\pi_{j-1})$, $C_{3} =
+(\pi_{j}~..~\pi_{k-1})$ e $C_{4} = (\pi_{k}~..~\pi_{n})$. Trocamos de
+posição os blocos $C_{2}$ e $C_{3}$ e juntamos elas na ordem $C_{1}$,
+$C_{3}$, $C_{2}$ e $C_{4}$ para formar $\rho\pi =
+C_{1}C_{3}C_{2}C_{4}$. Observe que as sublistas $C_{1}$ e $C_{4}$
+podem ser vazias.
 
 \begin{align}
   \label{transposition}
@@ -67,20 +72,25 @@ $C_{4}$ could be empty.
   &\textit{split}(\pi, I, J, K, C_{1}, C_{2}, C_{3}, C_{4}), \nonumber\\
   &\sigma = C_{1}, C_{3}, C_{2}, C_{4}. \nonumber
 \end{align}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CSP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We first model the problem as CSP, but the number of variables is
-unknown because we need the value of distance $d_{r}(\pi)$ to set the
-constraints and variables that represent the permutations. For this
-reason we pick a candidate value for distance $R$ such that $R \in [LB
-.. UB]$, where $LB$ is a known lower bound and $UB$ is a known upper
-bound for the problem, and try to find the appropriate combination of
-$R$ reversals. If the CSP fails with the candidate $R$, we choose
-another value for $R$ just incrementing its value. We check the value
-of $R$ using a bottom-up strategy and for definition we don't check
-any value higher than any upper bound $UB$. In transposition, the
-process is the same as in reversals, changing the value of reversal
-distance ($d_{r}(\pi)$) to transposition distance ($d_{t}(\pi)$).
+\subsection{Modelo CSP}
+\label{modelcsp}
+Primeiramente modelaremos o problema usando a teoria CSP, mas o número
+de variáveis é desconhecido devido ao fato de precisarmos do valor da
+distância $d_{r}(\pi)$ para criar as restrições e variáveis que
+representam as permutações. Por esta razão, nós escolhemos um valor
+candidato para a distância $R$ tal que $R \in [LB~..~UB]$, onde $LB$ é
+um limitante inferior conhecido e $UB$ é um limitante superior
+conhecido para o problema, e tentamos achar a combinação apropriada de
+$R$ reversões que solucionam o problema. Se o modelo CSP falha (não
+existe combinação que soluciona o problema com o valor candidato
+escolhido) com o candidato $R$, nós escolhemos outro valor $R$ apenas
+incrementando seu valor. O valor de $R$ é escolhido usando uma
+estratégia \textit{bottom-up}\footnote{EXPLICAR BOTTOM-UP} e por
+definição não verificamos nenhum valor maior que o limitante superior
+$UB$. Na transposição, o processo é o mesmo que na reversão, trocando
+apenas o valor da distância de reversão ($d_{r}(\pi)$) para o valor da
+distância de transposição ($d_{t}(\pi)$).
 
 \begin{align}
   \label{revdistance}
@@ -104,11 +114,11 @@ distance ($d_{r}(\pi)$) to transposition distance ($d_{t}(\pi)$).
   &\textit{transposition\_distance}(\sigma, T-1, Model). \nonumber
 \end{align}
 
-The \textit{rev\_trans\_dist} predicate (\ref{trarevdist}) returns the
-reversal and transposition distance. The \textit{event/2} predicate
-chooses the best event between the \textit{reversal} predicate
-(\ref{reversal}) and the \textit{transposition} predicate
-(\ref{transposition}) to minimize the distance.
+O predicado \textit{rev\_trans\_dist} (\ref{trarevdist}) retorna o
+valor da distância de reversão e transposição. O
+predicado \textit{event/2} escolhe o melhor evento entre o
+predicado \textit{reversal} (\ref{reversal}) e o predicado
+\textit{transposition} (\ref{transposition}) para minimizar o valor da distância.
 
 \begin{align}
   \label{trarevdist}
@@ -121,24 +131,60 @@ chooses the best event between the \textit{reversal} predicate
   &\textit{rev\_trans\_dist}(\sigma, N-1, Model). \nonumber
 \end{align}
 
-The predicate \textit{indomain(X)} on (\ref{revdistance}) and
-(\ref{tradistance}) gets the domain of the variable $X$ and chooses the
-minimum element in it. If a fail backtracks to \textit{indomain}, the
-element that generated the fail will be removed from the domain and
-another value will be chosen.
+O predicado \textit{indomain(X)} em (\ref{revdistance}),
+(\ref{tradistance}) e (\ref{trarevdist}) pega o domínio da variável
+$X$ e escolhe o menor elemento dele (no caso o valor do limitante
+inferior). Se o modelo retorna para o predicado \textit{indomain}
+devido a uma falha, o elemento que originou ela será removido do
+domínio e um outro valor será escolhido.
 
-The CSP models have the above structure changing only the bounds we
-used. We call \textbf{def\_csp}, \textbf{rev\_br\_csp},
-\textbf{trans\_br\_csp} and \textbf{r\_t\_br\_csp}, the model
-that doesn't use any lower bounds, the model that uses the reversal
-breakpoint lower and upper bounds showed in Theorem \ref{lurev}, the
-model that uses the transposition breakpoint lower and upper bounds
-showed in Theorem \ref{lutrans}, and the model that chooses the best
-bound for sorting by reversal and transposition problem,
-respectively. The predicate \textit{bound} on (\ref{bound}) receives
-an atom on variable \textit{Model} that represents the chosen model,
-this atom unifies with the clause that returns the appropriate lower
-and upper bound.
+Os modelos CSP para os problemas possuem a estrutura mostrada acima,
+trocando apenas os limitantes usados. Em comum a todas operações temos
+o modelo \textit{def\_csp} que não usa nenhum limitante.
+
+\textit{Ordenação por reversões:}
+\begin{itemize}
+\item{\textit{rev\_br\_csp}: 
+Modelo que usa o conceito de \bkp{} em reversões para calcular os
+limitantes conforme descrito ..... (REFERENCIA)}
+\item{\textit{rev\_cg\_csp}:
+Modelo que usa o conceito de decomposição de 2-ciclos no grafo de
+ciclos em reversões para calcular os limitantes conforme descrito
+.... (REFERENCIA)}
+\end{itemize}
+
+\textit{Ordenação por transposições:}
+\begin{itemize}
+\item{\textit{tra\_br\_csp}: 
+Modelo que usa o conceito de \bkp{} em transposições para calcular os
+limitantes conforme descrito .... (REFERENCIA)}
+\item{\textit{tra\_cg\_csp}:
+Modelo que usa o conceito de grafo de ciclos em transposições, fazendo
+a decomposição de ciclos e analisando os ciclos ímpares separadamente
+para calcular os limitantes conforme descrito .... (REFERENCIA)}
+\end{itemize}
+
+\textit{Ordenação por reversões e transposições:} 
+\begin{itemize}
+\item{\textit{r\_t\_br\_csp}: 
+Melhor limitante superior entre o limitante de \bkp{} para reversões e
+o limitante de \bkp{} para transposições.}
+\item{\textit{r\_t\_bc\_csp}:
+Melhor limitante superior entre o limitante de \bkp{} para reversões e
+o limitante do grafo de ciclos para transposições.}
+\item{\textit{r\_t\_cc\_csp}: 
+Melhor limitante superior entre o limitante do grafo de ciclos para
+reversões e o limitante do grafo de ciclos para transposições.}
+\end{itemize}
+
+O predicado \textit{bound} (\ref{bound}) recebe na
+variável \textit{Model} um átomo que representa o modelo a ser
+usado. Este átomo se conecta com o predicado que retorna o limitante
+superior e inferior apropriado para o modelo. Observe que o limitante
+inferior é igual a $0$ no caso dos modelos de ordenação por reversões
+e transposições. Isto ocorre devido ao fato que a cada nova iteração
+do modelo pode surgir um limitante inferior melhor, simplesmente
+fazendo a troca entre as operações de reversão e transposição.
 
 \begin{align}
   \label{bound}
@@ -146,27 +192,49 @@ and upper bound.
   &\textit{def\_csp\_bound}(\pi, LB, UB). \nonumber \\
   \textit{bou}&\textit{nd}(\pi, rev\_br\_csp, LB, UB)~\text{:-} \nonumber \\
   &\textit{calc\_breakpoints\_reversal}(\pi, B), \nonumber\\
-%  &LB = \frac{B}{2},  \\
-  &LB = B / 2 ,  \\
+  &LB = B / 2 \nonumber \\ % / 2 ,  \\
   &UB = B. \nonumber \\
-  \textit{bou}&\textit{nd}(\pi, trans\_br\_csp, LB, UB)~\text{:-} \nonumber\\
+  \textit{bou}&\textit{nd}(\pi, rev\_cg\_csp, LB, UB)~\text{:-} \nonumber \\
+  &\textit{find\_2\_cycle}(\pi, B, C), \nonumber\\
+  &LB = (2 * B - C) / 3 , \nonumber  \\
+  &UB = B - C / 2. \nonumber \\
+  \textit{bou}&\textit{nd}(\pi, tra\_br\_csp, LB, UB)~\text{:-} \nonumber\\
   &\textit{calc\_breakpoints\_transposition}(\pi, B), \nonumber\\
-%  &LB = \frac{B}{3}, \nonumber \\
-  &LB = B / 3, \nonumber \\
-  &UB = B. \nonumber
+  &LB = B / 3 \nonumber \\ %/ 3, \nonumber \\
+  &UB = B.  \nonumber \\
+  \textit{bou}&\textit{nd}(\pi, tra\_br\_csp, LB, UB)~\text{:-} \\
+  &\textit{calc\_oddcycle\_transposition}(\pi, N, C), \nonumber\\
+  &LB = (N + 1 - C) / 2 \nonumber \\ 
+  &UB = (3 * (N + 1 - C)) / 4. \nonumber \\
+  \textit{bou}&\textit{nd}(\pi, r\_t\_br\_csp, 0, UB)~\text{:-} \nonumber\\
+  &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \nonumber\\
+  &\textit{bound}(\pi, tra\_br, \_TLB, TUB), \nonumber\\
+  &\textit{min}(RUB, TUB, UB), \nonumber\\
+  \textit{bou}&\textit{nd}(\pi, r\_t\_bc\_csp, 0, UB)~\text{:-} \nonumber\\
+  &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \nonumber\\
+  &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \nonumber\\
+  &\textit{min}(RUB, TUB, UB), \nonumber\\
+  \textit{bou}&\textit{nd}(\pi, r\_t\_cc\_csp, 0, UB)~\text{:-} \nonumber\\
+  &\textit{bound}(\pi, rev\_cg, \_RLB, RUB), \nonumber\\
+  &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \nonumber\\
+  &\textit{min}(RUB, TUB, UB), \nonumber
 \end{align}
-%%%%%%%%%%%%%%%%%%%%%%%%%% COP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Another approach is to model the problem as a COP. This approach needs
-an upper bound and some changes on previous predicates. We use the
-binary variables $B$ to indicate whether a event, reversal or
-transposition, has modified the permutation.
+\subsection{Modelo COP}
+\label{modelcop}
+Uma outra alternativa é modular o problema usando a teoria COP. Os
+modelos que usam esta abordagem necessitam de um limitante superior,
+portanto serão feitas algumas alterações nos predicados definidos
+anteriormente. Nós usamos as variáveis binárias $B$ para indicar
+quando uma operação de reversão ou de transposição modificou ou não a
+permutação fornecida.
 
-The first predicate that we need to create is \textit{reversal\_cop}
-(\ref{reversal_cop}).  First of all, given a permutation $\rho(i, j)$,
-we add a new clause to allow $(i, j) = (0, 0)$. If $(i, j) = (0, 0)$
-then $\pi\rho = \pi$. We add a new argument to the
-\textit{reversal\_cop} predicate that receive the variable $B$.
+O primeiro predicado que precisamos criar é o \textit{reversal\_cop}
+(\ref{reversal_cop}). Primeiramente, dado uma reversão $\rho(i, j)$,
+adicionamos uma nova restrição para permitir $(i, j) = (0, 0)$. Se
+$(i, j) = (0, 0)$ então $\pi\rho = \pi$. Então, adicionamos um novo
+argumento ao predicado \textit{reversal\_cop} que recebe a variável
+$B$.
 
 \begin{align}
   \label{reversal_cop}
@@ -175,10 +243,11 @@ then $\pi\rho = \pi$. We add a new argument to the
   \textit{reversal}(\pi, \sigma, I, J). \nonumber
 \end{align}
 
-The equivalent predicate for transposition is
-\textit{transposition\_cop} (\ref{transposition_cop}). In this case,
-given a permutation $\rho(i, j, k)$, we add a new clause to allow $(i,
-j, k) = (0, 0, 0)$. If $(i, j, k) = (0, 0, 0)$ then $\pi\rho = \pi$.
+O predicado equivalente para transposição é
+o \textit{transposition\_cop} (\ref{transposition_cop}). Neste caso,
+dado uma transposição $\rho(i, j, k)$, adicionamos uma nova restrição
+para permitir $(i, j, k) = (0, 0, 0)$. Se $(i, j, k) = (0, 0, 0)$ então
+$\pi\rho = \pi$.
 
 \begin{align}
   \label{transposition_cop}
@@ -186,6 +255,21 @@ j, k) = (0, 0, 0)$. If $(i, j, k) = (0, 0, 0)$ then $\pi\rho = \pi$.
   \textit{tra}&\textit{nsposition\_cop}(\pi, \sigma, I, J, K, 1)~\text{:-}~ 
   \textit{transposition}(\pi, \sigma, I, J, K). \nonumber
 \end{align}
+
+Para calcular a distância nos modelos baseados na teoria COP,
+implementamos o predicado \textit{reversal\_distance\_cop}
+(\ref{revdistance_cop}), que ajusta as variáveis $B$ usando o valor do
+limitante superior e restringe as permutações, fazendo $\pi_{k}
+= \pi_{k-1} \rho_{k}$. O predicado \textit{length/2} é um predicado
+interno ao prolog e é usado para criar uma lista de variáveis não
+instânciadas com o tamanho dado. A função de custo \textit{Cost} é a
+soma das variáveis $B$ associadas com cada $\rho_{k}$, $Cost
+= \sum_{k=1}^{UB} B_{k}$, onde $UB$ é um limitante superior
+conhecido. A distância de reversão é o valor mínimo da função de custo
+$d_{r} = \min Cost$. Para evitar processamento desnecessários, o valor
+de $Cost$ precisa ser maior ou igual a qualquer limitante inferior. O
+predicado equivalente para transposição é
+o \textit{transposition\_distance\_cop} (\ref{tradistance_cop}).
 
 To calculate the distance in the COP model we implemented the
 \textit{reversal\_distance\_cop} predicate (\ref{revdistance_cop}),

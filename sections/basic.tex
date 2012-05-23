@@ -1,4 +1,8 @@
 % conceitos basicos
+% 
+%Arrumar este capítulo para conter a descrição de como se calcula os
+%limitantes para cada operação
+%
 Neste capítulo faremos uma apresentação dos conceitos básicos
 necessários para o entendimento e desenvolvimento deste trabalho. Na
 seção \ref{sec:defin} mostraremos as definições usadas no decorrer
@@ -56,8 +60,8 @@ conhecida (Figura~\ref{fig:rev_orientada}).
 
 A distância de reversão $d_{r}(\pi,\sigma)$ entre duas permutações
 $\pi$ e $\sigma$ é o número mínimo $r$ de reversões $\rho_{1}$,
-$\rho_{2}$, $\ldots$, $\rho_{r}$ tal que
-$\pi \rho_{1} \rho_{2} \ldots \rho_{r} = \sigma$. Note que a distância
+$\rho_{2}$,~$\ldots$~, $\rho_{r}$ tal que
+$\pi \rho_{1} \rho_{2}~\ldots~\rho_{r} = \sigma$. Note que a distância
 de reversão entre $\pi$ e $\sigma$ é igual à distância de reversão
 entre $\sigma^{-1} \pi$ e $\iota$. Então, sem perda de generalidade,
 podemos dizer que o problema da distância de reversão é equivalente ao
@@ -113,7 +117,7 @@ estendida adicionando o elemento $\pi_{0} = 0$ e $\pi_{n+1} =
 n+1$. Dois elementos consecutivos $\pi_{i}$ e $\pi_{i+1}$, $0 \le
 i \le n$, são \textit{adjacentes} quando $|\pi_{i} - \pi_{i+1}| = 1$,
 e são \estr{breakpoints} caso contrário. Define-se um grafo de arestas
-coloridas $G(\pi)$ com $n + 2$ vértices \{0, 1, $\ldots$, $n$, $n +
+coloridas $G(\pi)$ com $n + 2$ vértices \{0, 1,~$\ldots$~, $n$, $n +
 1$\}. Unimos os vértices $i$ e $j$ com uma aresta preta se $(i, j)$
 for um \estr{breakpoint}. Unimos os vértices $i$ e $j$ com uma aresta
 cinza se $|i - j| = 1$ e $i$, $j$ não são consecutivos em
