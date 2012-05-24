@@ -3,7 +3,7 @@ Neste capítulo nós apresentaremos a descrição dos modelos de \pr{} e
 ordenação por reversões e ordenação por reversões e transposições.
 
 \section{\PR}
-\label{subsec:cp}
+\label{sec:cp}
 O modelo de \pr{} usado para o problema de ordenação por transposições
 é o descrito em Dias e Dias \cite{DiasDias*2009}. Nós usamos os
 limitantes inferior e superior descritos em (REFERENCIAR) para
@@ -24,9 +24,8 @@ A representação da permutação (\ref{perm}) e o efeito das operações de
 reversão (\ref{reversal}) e transposição (\ref{transposition} podem
 ser vistas da mesma maneira que são descritas pelos problemas. Neste
 modelo a permutação $\pi$ é uma lista de elementos
-($\pi_{1},~\pi_{2},~\ldots~,~\pi_{n}$) onde $\pi_{i} \in \mathbb{N}$, $0
-< \pi_{i} \le n$ e $\pi_{i} \neq \pi_{j}$ para $i \neq j$.
-
+($\pi_{1},~\pi_{2},~\ldots~,~\pi_{n}$) onde $\pi_{i} \in \mathbb{N}$,
+$0 < \pi_{i} \le n$ e $\pi_{i} \neq \pi_{j}$ para $i \neq j$.
 \begin{align}
   \label{perm}
   \textit{per}&\textit{mutation}(\pi, N)~\text{:-} \nonumber\\
@@ -35,14 +34,13 @@ modelo a permutação $\pi$ é uma lista de elementos
   &\textit{all\_different}(\pi). \nonumber
 \end{align}
 
-Na reversão $\rho(i,j)$, $0 < i < j \leq n$, dividimos a lista em
-três sublistas $C_{1}C_{2}C_{3}$ onde $C_{1} =
-(\pi_{1}~..~\pi_{i-1})$, $C_{2} = (\pi_{i}~..~\pi_{j})$ e $C_{3} =
+Na reversão $\rho(i,j)$, $0 < i < j \leq n$, dividimos a lista em três
+sublistas $C_{1}C_{2}C_{3}$ onde $C_{1} = (\pi_{1}~..~\pi_{i-1})$,
+$C_{2} = (\pi_{i}~..~\pi_{j})$ e $C_{3} =
 (\pi_{j+1}~..~\pi_{n})$. Depois fazemos a reversão na sublista
 $C_{2}$, resultando na lista $R_{C_{2}}$. Então juntamos a nova lista
 $R_{C_{2}}$ com as sublistas $C_{1}$ e $C_{3}$ para formar $\rho\pi =
 C_{1}R_{C_{2}}C_{3}$.
-
 \begin{align}
   \label{reversal}
   \textit{rev}&\textit{ersal}(\pi, \sigma, I, J)~\text{:-} \nonumber\\
@@ -62,7 +60,6 @@ posição os blocos $C_{2}$ e $C_{3}$ e juntamos elas na ordem $C_{1}$,
 $C_{3}$, $C_{2}$ e $C_{4}$ para formar $\rho\pi =
 C_{1}C_{3}C_{2}C_{4}$. Observe que as sublistas $C_{1}$ e $C_{4}$
 podem ser vazias.
-
 \begin{align}
   \label{transposition}
   \textit{tra}&\textit{nsposition}(\pi, \sigma, I, J, K)~\text{:-} \nonumber\\
@@ -74,7 +71,7 @@ podem ser vazias.
 \end{align}
 
 \subsection{Modelo CSP}
-\label{modelcsp}
+\label{subsec:modelcsp}
 Primeiramente modelaremos o problema usando a teoria CSP, mas o número
 de variáveis é desconhecido devido ao fato de precisarmos do valor da
 distância $d_{r}(\pi)$ para criar as restrições e variáveis que
@@ -91,7 +88,6 @@ definição não verificamos nenhum valor maior que o limitante superior
 $UB$. Na transposição, o processo é o mesmo que na reversão, trocando
 apenas o valor da distância de reversão ($d_{r}(\pi)$) para o valor da
 distância de transposição ($d_{t}(\pi)$).
-
 \begin{align}
   \label{revdistance}
   \textit{rev}&\textit{ersal\_distance}(\iota, 0, \_Model). \nonumber\\
@@ -102,7 +98,6 @@ distância de transposição ($d_{t}(\pi)$).
   &\textit{reversal}(\pi, \sigma, \_I, \_J), \nonumber \\
   &\textit{reversal\_distance}(\sigma, R-1, Model). \nonumber
 \end{align}
-
 \begin{align}
   \label{tradistance}
   \textit{tra}&\textit{nsposition\_distance}(\iota, 0, \_Model). \nonumber\\
@@ -114,12 +109,12 @@ distância de transposição ($d_{t}(\pi)$).
   &\textit{transposition\_distance}(\sigma, T-1, Model). \nonumber
 \end{align}
 
-O predicado \textit{rev\_trans\_dist} (\ref{trarevdist}) retorna o
+O predicado \textit{rev\_trans\_dist/3} (\ref{trarevdist}) retorna o
 valor da distância de reversão e transposição. O
 predicado \textit{event/2} escolhe o melhor evento entre o
-predicado \textit{reversal} (\ref{reversal}) e o predicado
-\textit{transposition} (\ref{transposition}) para minimizar o valor da distância.
-
+predicado \textit{reversal/4} (\ref{reversal}) e o
+predicado \textit{transposition/5} (\ref{transposition}) para
+minimizar o valor da distância.
 \begin{align}
   \label{trarevdist}
   \textit{rev}&\textit{\_trans\_dist}(\iota, 0, \_Model). \nonumber\\
@@ -177,7 +172,7 @@ Melhor limitante superior entre o limitante do grafo de ciclos para
 reversões e o limitante do grafo de ciclos para transposições.}
 \end{itemize}
 
-O predicado \textit{bound} (\ref{bound}) recebe na
+O predicado \textit{bound/4} (\ref{bound}) recebe na
 variável \textit{Model} um átomo que representa o modelo a ser
 usado. Este átomo se conecta com o predicado que retorna o limitante
 superior e inferior apropriado para o modelo. Observe que o limitante
@@ -185,7 +180,6 @@ inferior é igual a $0$ no caso dos modelos de ordenação por reversões
 e transposições. Isto ocorre devido ao fato que a cada nova iteração
 do modelo pode surgir um limitante inferior melhor, simplesmente
 fazendo a troca entre as operações de reversão e transposição.
-
 \begin{align}
   \label{bound}
   \textit{bou}&\textit{nd}(\pi, def\_csp, LB, UB)~\text{:-} \nonumber\\
@@ -221,21 +215,20 @@ fazendo a troca entre as operações de reversão e transposição.
 \end{align}
 
 \subsection{Modelo COP}
-\label{modelcop}
-Uma outra alternativa é modular o problema usando a teoria COP. Os
+\label{subsec:modelcop}
+Uma outra alternativa é modelar o problema usando a teoria COP. Os
 modelos que usam esta abordagem necessitam de um limitante superior,
 portanto serão feitas algumas alterações nos predicados definidos
 anteriormente. Nós usamos as variáveis binárias $B$ para indicar
 quando uma operação de reversão ou de transposição modificou ou não a
 permutação fornecida.
 
-O primeiro predicado que precisamos criar é o \textit{reversal\_cop}
+O primeiro predicado que precisamos criar é o \textit{reversal\_cop/5}
 (\ref{reversal_cop}). Primeiramente, dado uma reversão $\rho(i, j)$,
 adicionamos uma nova restrição para permitir $(i, j) = (0, 0)$. Se
 $(i, j) = (0, 0)$ então $\pi\rho = \pi$. Então, adicionamos um novo
 argumento ao predicado \textit{reversal\_cop} que recebe a variável
 $B$.
-
 \begin{align}
   \label{reversal_cop}
   \textit{rev}&\textit{ersal\_cop}(\iota, \iota, 0, 0, 0). \\
@@ -244,11 +237,10 @@ $B$.
 \end{align}
 
 O predicado equivalente para transposição é
-o \textit{transposition\_cop} (\ref{transposition_cop}). Neste caso,
+o \textit{transposition\_cop/6} (\ref{transposition_cop}). Neste caso,
 dado uma transposição $\rho(i, j, k)$, adicionamos uma nova restrição
-para permitir $(i, j, k) = (0, 0, 0)$. Se $(i, j, k) = (0, 0, 0)$ então
-$\pi\rho = \pi$.
-
+para permitir $(i, j, k) = (0, 0, 0)$. Se $(i, j, k) = (0, 0, 0)$
+então $\pi\rho = \pi$.
 \begin{align}
   \label{transposition_cop}
   \textit{tra}&\textit{nsposition\_cop}(\iota, \iota, 0, 0, 0, 0). \\
@@ -257,34 +249,19 @@ $\pi\rho = \pi$.
 \end{align}
 
 Para calcular a distância nos modelos baseados na teoria COP,
-implementamos o predicado \textit{reversal\_distance\_cop}
+implementamos o predicado \textit{reversal\_distance\_cop/3}
 (\ref{revdistance_cop}), que ajusta as variáveis $B$ usando o valor do
-limitante superior e restringe as permutações, fazendo $\pi_{k}
-= \pi_{k-1} \rho_{k}$. O predicado \textit{length/2} é um predicado
-interno ao prolog e é usado para criar uma lista de variáveis não
-instânciadas com o tamanho dado. A função de custo \textit{Cost} é a
+limitante superior e restringe as permutações fazendo $\pi_{k}
+= \pi_{k-1} \rho_{k}$. O predicado \textit{length/2}, predicado
+interno do prolog, é usado para criar uma lista de variáveis não
+instanciadas com o tamanho dado. A função de custo \textit{Cost} é a
 soma das variáveis $B$ associadas com cada $\rho_{k}$, $Cost
 = \sum_{k=1}^{UB} B_{k}$, onde $UB$ é um limitante superior
 conhecido. A distância de reversão é o valor mínimo da função de custo
 $d_{r} = \min Cost$. Para evitar processamento desnecessários, o valor
 de $Cost$ precisa ser maior ou igual a qualquer limitante inferior. O
 predicado equivalente para transposição é
-o \textit{transposition\_distance\_cop} (\ref{tradistance_cop}).
-
-To calculate the distance in the COP model we implemented the
-\textit{reversal\_distance\_cop} predicate (\ref{revdistance_cop}),
-which set the variables $B$ using the upper bound and constrains the
-permutations by making $\pi_{k} = \pi_{k-1} \rho_{k}$. The predicate
-\textit{length/2} is a prolog built-in and is used to create a list of
-non instantiated variables of a given size. The cost function
-\textit{Cost} is the sum of variables $B$ associated with each
-$\rho_{k}$, $Cost = \sum_{k=1}^{UB} B_{k}$, where $UB$ is a known
-upper bound. The reversal distance is the minimum value of the cost
-function $d_{r} = \min Cost$. To avoid unnecessary processing, the
-value of $Cost$ must be greater or equal to any lower bound. The
-equivalent predicate for transposition is
-\textit{transposition\_distance\_cop} (\ref{tradistance_cop}).
-
+o \textit{transposition\_distance\_cop/3} (\ref{tradistance_cop}).
 \begin{align}
   \label{revdistance_cop}
   \textit{rev}&\textit{ersal\_distance\_cop}(\pi, R, Model)~\text{:-} \nonumber\\
@@ -295,7 +272,6 @@ equivalent predicate for transposition is
   &\textit{Cost} \ge \textit{LB}, \nonumber \\
   &\textit{minimize}(Cost, R). \nonumber
 \end{align}
-
 \begin{align}
   \label{tradistance_cop}
   \textit{tra}&\textit{nsposition\_distance\_cop}(\pi, T, Model)~\text{:-} \nonumber\\
@@ -307,14 +283,15 @@ equivalent predicate for transposition is
   &\textit{minimize}(Cost, T). \nonumber
 \end{align}
 
-The equivalent predicate for reversal and transposition is
-\textit{rev\_trans\_dist\_cop} (\ref{trarevdistcop}). The
-\textit{upperbound\_constraint\_event} predicate chooses the best
-event between reversal, using the \textit{upperbound\_constraint\_rev}
-predicate (\ref{ub_constaint_rev}), and transposition, using the
-\textit{upperbound\_constraint\_trans} predicate
-(\ref{ub_constaint_tra}), to minimize the distance.
-
+O predicado equivalente para o modelo de ordenação por reversões e
+transposições é
+o \textit{rev\_trans\_dist\_cop/3}~(\ref{trarevdistcop}). O
+predicado \textit{upperbound\_constraint\_event/4} escolhe o melhor
+evento entre a reversão, usando o
+predicado \textit{upperbound\_constraint\_rev/4}
+(\ref{ub_constaint_rev}), e a transposição, usando o
+predicado \textit{upperbound\_constraint\_trans/4}
+(\ref{ub_constaint_tra}), para minimizar o valor da distância.
 \begin{align}
   \label{trarevdistcop}
   \textit{rev}&\textit{\_trans\_dist\_cop}(\pi, N, Model)~\text{:-} \nonumber\\
@@ -326,14 +303,13 @@ predicate (\ref{ub_constaint_rev}), and transposition, using the
   &\textit{minimize}(Cost, N). \nonumber
 \end{align}
 
-The \textit{upperbound\_constraint\_rev} predicate
-(\ref{ub_constaint_rev}) applies the effects of $\rho_{k}$ in
-permutation and returns the value of $B$ for every reversal
-$\rho_{k}$. An important constraint is to check if it is possible to
-sort the permutation using the remaining number of reversals to avoid
-unnecessary processing. For transposition, we use
-\textit{upperbound\_constraint\_trans} (\ref{ub_constaint_tra}).
-
+O predicado \textit{upperbound\_constraint\_rev/4}
+(\ref{ub_constaint_rev}) aplica na permutação os efeitos de $\rho_{k}$
+e retorna o valor apropriado de $B$ para cada reversão $\rho_{k}$. Uma
+restrição importante é verificar se é possível ordenar a permutação
+usando o número restante de reversões para evitar processamento
+desnecessário. O predicado equivalente para a transposição é o
+\textit{upperbound\_constraint\_trans/4} (\ref{ub_constaint_tra}).
 \begin{align}
   \label{ub_constaint_rev}
   \textit{upp}&\textit{erbound\_constraint\_rev}(\iota, [~], \_Model, \_UB). \nonumber\\
@@ -343,7 +319,6 @@ unnecessary processing. For transposition, we use
   &UB \ge LB, \nonumber \\
   &\textit{upperbound\_constraint\_rev}(\sigma, Bt, Model, UB - 1), \nonumber 
 \end{align}
-
 \begin{align}
   \label{ub_constaint_tra}
   \textit{upp}&\textit{erbound\_constraint\_trans}(\iota, [~], \_Model, \_UB). \nonumber\\
@@ -354,12 +329,13 @@ unnecessary processing. For transposition, we use
   &\textit{upperbound\_constraint\_trans}(\sigma, Bt, Model, UB - 1), \nonumber 
 \end{align}
 
-The COP models have the above structure changing only the bounds we
-used. We call \textbf{def\_cop}, \textbf{rev\_br\_cop},
-\textbf{trans\_br\_cop} and \textbf{r\_t\_br\_cop}, the model
-that doesn't use any lower bounds and the permutation size as upper
-bound, the model that uses the reversal breakpoint lower and upper
-bounds showed in Theorem \ref{lurev}, the model that uses the
-transposition breakpoint lower and upper bounds showed in Theorem
-\ref{lutrans}, and the model that chooses the best bound for sorting
-by reversal and transposition problem, respectively.
+Os modelos baseados na teoria COP possuem a estrutura acima, trocando
+apenas os limitantes usados. Os limitantes são os mesmos usados para
+os modelos CSP, modificados para os modelos COP. Então temos os
+seguintes limitantes: \textit{def\_cop}, \textit{rev\_br\_cop},
+\textit{rev\_cg\_cop}, \textit{tra\_br\_cop}, \textit{tra\_cg\_cop}, 
+\textit{r\_t\_br\_cop}, \textit{r\_t\_bc\_cop}
+e \textit{r\_t\_cc\_cop}.
+
+\section{\PLI}
+\label{sec:cp}
