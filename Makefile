@@ -7,23 +7,26 @@ PDF=$(TARGET).pdf
 
 .PHONY: pdf clean
 
-$(DVI): $(TEX)
-	latex $(TEX)
-	bibtex $(TARGET)
-	latex $(TEX)
-	latex $(TEX)
+# PS2PDF RULES
+#$(DVI): $(TEX)
+#	latex $(TEX)
+#	bibtex $(TARGET)
+#	latex $(TEX)
+#	latex $(TEX)
+#
+#$(PS): $(DVI)
+#	dvips -mz $(TARGET).dvi
+#
+#$(PDF):	$(PS)
+#	ps2pdf $(PS)
 
-$(PS): $(DVI)
-	dvips -mz $(TARGET).dvi
-
+# PDFLATEX RULES
 $(PDF):	$(TEX)
 	pdflatex $(TEX)
 	bibtex $(TARGET)
 	pdflatex $(TEX)
 	pdflatex $(TEX)
 
-#$(PDF):	$(PS)
-#	ps2pdf $(PS)
 
 pdf: clean_all $(PDF)
 
