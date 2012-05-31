@@ -100,7 +100,7 @@ distância de transposição ($d_{t}(\pi)$).
   \textit{rev}&\textit{ersal\_distance}(\iota, 0, \_Model). \\
   \textit{rev}&\textit{ersal\_distance}(\pi, R, Model)~\text{:-} \\
   &\textit{bound}(\pi, Model, LB, UB), \\
-  &R :: [LB .. UB], \\
+  &R :: [LB~..~UB], \\
   &\textit{indomain}(R),  \\
   &\textit{reversal}(\pi, \sigma, \_I, \_J),  \\
   &\textit{reversal\_distance}(\sigma, R-1, Model). 
@@ -112,7 +112,7 @@ distância de transposição ($d_{t}(\pi)$).
   \textit{tra}&\textit{nsposition\_distance}(\iota, 0, \_Model). \\
   \textit{tra}&\textit{nsposition\_distance}(\pi, T, Model)~\text{:-} \\
   &\textit{bound}(\pi, Model, LB, UB), \\
-  &T :: [LB .. UB], \\
+  &T :: [LB~..~UB], \\
   &\textit{indomain}(T),  \\
   &\textit{transposition}(\pi, \sigma, \_I, \_J, \_K),  \\
   &\textit{transposition\_distance}(\sigma, T-1, Model). 
@@ -131,7 +131,7 @@ minimizar o valor da distância.
   \textit{rev}&\textit{\_trans\_dist}(\iota, 0, \_Model). \\
   \textit{rev}&\textit{\_trans\_dist}(\pi, N, Model)~\text{:-} \\
   &\textit{bound}(\pi, Model, LB, UB), \\
-  &N :: [LB .. UB], \\
+  &N :: [LB~..~UB], \\
   &\textit{indomain}(N),  \\
   &\textit{event}(\pi, \sigma),  \\
   &\textit{rev\_trans\_dist}(\sigma, N-1, Model). 
@@ -425,7 +425,7 @@ posição de cada permutação.
 Para o problema da distância de reversão definimos os seguintes
 conjuntos de variáveis e restrições. As variáveis binárias $r_{abk}$
 indicam quando a $k$-ésima operação de reversão afeta o blocos
-$\pi[a \cdots b]$ de $\pi$, para todo $1 \le a < b \le n$ e todo
+$\pi[a~\ldots~b]$ de $\pi$, para todo $1 \le a < b \le n$ e todo
 $1 \le k < n$.
 
 \[
@@ -444,7 +444,7 @@ operação de reversão modificou a permutação, para todo $ 1 \le k < n$.
 r_{k} = \left \{ 
 \begin{tabular}{ll} 
  1, & se $\rho_{k} = \rho(x,y)$ e
- $\rho_{k} \rho_{k-1} \cdots \rho_{1} \pi \neq \rho_{k-1} \cdots \rho_{1} \pi$\\
+ $\rho_{k} \rho_{k-1}~\ldots~\rho_{1} \pi \neq \rho_{k-1}~\ldots~\rho_{1} \pi$\\
  0, & caso contrário 
 \end{tabular}
 \right .
@@ -456,7 +456,6 @@ identificar as reversões que fazem parte da solução. A restrição
 permutação, nenhuma das reversões seguintes poderá alterar. Já a
 restrição (\ref{eq:rev2}) garante que no máximo uma reversão poderá
 ser feita por iteração.
-
 \begin{align}
   &r_{k} \le r_{k-1},~\text{para todo $1 \le k <
   n$}. \label{eq:rev1} \\
@@ -477,7 +476,7 @@ Posições que não são modificadas.
   \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n} r_{abk} +
   \sum_{a=1}^{n-1}\sum_{b=a+1}^{i-1} r_{abk} +
   (1 - r_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
-  \text{para todo $1 \le i, j \le n$ e todo $1 \le k < n$}.\end{split}
+  \text{para todo $1 \le i,~j \le n$ e todo $1 \le k < n$}.\end{split}
   \label{eq:rev3}
 \end{align}}
 \item{$a \le i \le b$:
@@ -489,11 +488,87 @@ posição $i$.
 \begin{align}
   \begin{split}
   r_{abk} + B_{b+a-i,j,k-1} - B_{ijk} \le 1, \\
-  \text{$1 \le a < b \le n, a \le i \le b, 1 \le j
-    \le n, 1 \le k < n$}.
+  \text{$1 \le a < b \le n,~a \le i \le b,~1 \le j
+    \le n,~1 \le k < n$}.
   \end{split}
   \label{eq:rev4}
 \end{align}}
 \end{enumerate}
 
 \textit{Distância de transposição.}
+Para o problema da distância de transposição usaremos os seguintes
+conjuntos de variáveis e restrições. As variáveis binárias $t_{abck}$
+indicam quando a $k$-ésima operação de transposição realiza a troca de
+lugares dos blocos $\pi[a~\ldots~b - 1]$ e $\pi[b~\ldots~c - 1]$ da
+permutação $\pi$, para todo $1 \le a < b < c \le n + 1$ e todo $ 1 \le
+k < n$.
+
+\[ 
+  t_{abck} = \left \{ 
+  \begin{tabular}{ll} 
+  1, & se $\rho_{k} = \rho(a,b,c)$ \\ 
+  0, & caso contrário 
+  \end{tabular} \right .
+\] 
+
+As variáveis binárias $t_{k}$ são usadas para decidir se a $k$-ésima
+operação de transposição modificou a permutação, para todo $ 1 \le k <
+n$.
+
+\[ 
+  t_{k} = \left \{ 
+  \begin{tabular}{ll} 
+  1, & se $\rho_{k} = \rho(x,y,z)$ e
+  $\rho_{k} \rho_{k-1}~\ldots~\rho_{1} \pi \neq \rho_{k-1}~\ldots~\rho_{1} \pi$\\
+  0, & caso contrário 
+  \end{tabular} \right .
+\]
+
+As restrições (\ref{eq:transp1}) e (\ref{eq:transp2}) são necessárias
+para identificar as transposições que fazem parte da solução. A
+restrição (\ref{eq:transp1}) garante que se a $k$-ésima transposição
+não alterar a permutação, nenhuma das transposições seguintes poderá
+alterar. Já a restrição (\ref{eq:transp2}) garante que no máximo uma
+transposição poderá ser feita por iteração.
+\begin{align}
+  &t_{k} \le t_{k-1}, \text{para todo $1 \le k <
+  n$}. \label{eq:transp1} \\
+  \sum_{a=1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{n+1} &t_{abck} \le
+  t_{k} , \text{para todo $1 \le k <
+  n$}. \label{eq:transp2} 
+\end{align}
+
+As próximas restrições refletem a modificações na permutação causada
+por uma transposição a cada passo da execução. A análise será dividida em
+três casos onde, para cada caso, analisamos cada posição $i$ da
+permutação para verificar seu valor após a operação de transposição
+$\rho(a,b,c)$ ser completada.
+\begin{enumerate}
+\item{$i < a$ ou $i \ge c$:
+Estas posições não sofrem alterações.
+\begin{align}
+  \begin{split} \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{n+1}
+  t_{abck} + \sum_{a=1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{i} t_{abck}
+  + (1 - t_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\ \text{para todo
+  $1 \le i, j \le n$ e todo $1 \le k <
+  n$}.  \end{split} \label{eq:transp3}
+\end{align}}
+\item{$a \le i < a + c -b$:
+\begin{align}
+  \begin{split}
+  t_{abck} + B_{b-a+i,j,k-1} - B_{ijk} \le 1, \\
+  \text{$1 \le a < b < c \le n + 1, a \le i < a + c -b, 1 \le j
+  \le n, 1 \le k < n$}.
+  \end{split}
+  \label{eq:transp4}
+\end{align}}
+\item{$a + c - b \le i < c$:
+\begin{align}
+  \begin{split}
+  t_{abck} + B_{b-c+i,j,k-1} - B_{ijk} \le 1, \\
+  \text{$1 \le a < b < c \le n + 1, a + c - b \le i < c, 1 \le j
+  \le n, 1 \le k < n$}.  
+  \end{split}
+  \label{eq:transp5}
+\end{align}}
+\end{enumerate}
