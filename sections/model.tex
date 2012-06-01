@@ -1,3 +1,6 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% COLOCAR AS REFERENCIAS DO CAPITULO 2 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Neste capítulo nós apresentaremos a descrição dos modelos de \pr{} e
 \pli{} usados para os problemas de ordenação por transposições,
 ordenação por reversões e ordenação por reversões e transposições.
@@ -6,9 +9,9 @@ ordenação por reversões e ordenação por reversões e transposições.
 \label{sec:cp}
 O modelo de \pr{} usado para o problema de ordenação por transposições
 é o descrito em Dias e Dias~\cite{DiasDias*2009}. Nós usamos os
-limitantes inferior e superior descritos em (REFERENCIAR) para
-escrever as formulações baseadas nas teorias de Problema de Satisfação
-de Restrições (CSP) e Problema de Otimização com Restrições (COP). As
+limitantes inferior e superior descritos em (??) para escrever as
+formulações baseadas nas teorias de Problema de Satisfação de
+Restrições (CSP) e Problema de Otimização com Restrições (COP). As
 formulações foram descritas usando a notação prolog-like de
 Marriot \cite{Marriott*1998}. Primeiramente iremos apresentar os
 predicados que são comum às duas formulações.
@@ -84,8 +87,8 @@ distância $d_{r}(\pi)$ para criar as restrições e variáveis que
 representam as permutações. Por esta razão, nós escolhemos um valor
 candidato para a distância $R$ tal que $R \in [LB~..~UB]$, onde $LB$ é
 um limitante inferior conhecido e $UB$ é um limitante superior
-conhecido para o problema, e tentamos achar a combinação apropriada de
-$R$ reversões que solucionam o problema. Se o modelo CSP falha (não
+conhecido para o problema, e tentamos achar uma combinação apropriada
+de $R$ reversões que solucionam o problema. Se o modelo CSP falha (não
 existe combinação que soluciona o problema com o valor candidato
 escolhido) com o candidato $R$, nós escolhemos outro valor $R$ apenas
 incrementando seu valor. O valor de $R$ é escolhido usando uma
@@ -153,22 +156,22 @@ o modelo \textit{def\_csp} que não usa nenhum limitante.
 \begin{itemize}
 \item{\textit{rev\_br\_csp}: 
 Modelo que usa o conceito de \bkp{} em reversões para calcular os
-limitantes conforme descrito ..... (REFERENCIA)}
+limitantes conforme descrito ..... (??)}
 \item{\textit{rev\_cg\_csp}:
 Modelo que usa o conceito de decomposição de 2-ciclos no grafo de
 ciclos em reversões para calcular os limitantes conforme descrito
-.... (REFERENCIA)}
+.... (??)}
 \end{itemize}
 
 \textit{Ordenação por transposições:}
 \begin{itemize}
 \item{\textit{tra\_br\_csp}: 
 Modelo que usa o conceito de \bkp{} em transposições para calcular os
-limitantes conforme descrito .... (REFERENCIA)}
+limitantes conforme descrito .... (??)}
 \item{\textit{tra\_cg\_csp}:
 Modelo que usa o conceito de grafo de ciclos em transposições, fazendo
 a decomposição de ciclos e analisando os ciclos ímpares separadamente
-para calcular os limitantes conforme descrito .... (REFERENCIA)}
+para calcular os limitantes conforme descrito .... (??)}
 \end{itemize}
 
 \textit{Ordenação por reversões e transposições:} 
@@ -376,7 +379,7 @@ transposição ou reversão e transposição quando ocorrem
 simultaneamente.
 
 Primeiramente vamos apresentar as variáveis e restrições que são
-comuns para todos os modelos. A idéia é assegurar que só estamos
+comuns para todos os modelos. A ideia é assegurar que só estamos
 tratando com permutações válidas.
 
 \textit{Gerando permutações válidas a cada iteração.} 
@@ -395,31 +398,21 @@ B_{ijk} = \left \{
 
 As restrições (\ref{eq:corr1}) e (\ref{eq:corr2}) garantem que a
 permutação inicial e a final são corretas. 
-
-\begin{equation} 
-\label{eq:corr1} 
-  B_{i,\pi[i],0} = 1,~\text{para todo $1 \le i \le n$}.
-\end{equation}
-\begin{equation} 
-\label{eq:corr2}
-  B_{i,\sigma[i],n-1} = 1,~\text{para todo $1 \le i \le n$}.
-\end{equation}
+\begin{align} 
+  B_{i,\pi[i],0} = 1,~\text{para todo $1 \le i \le n$}. \label{eq:corr1} \\
+  B_{i,\sigma[i],n-1} = 1,~\text{para todo $1 \le i \le n$}. \label{eq:corr2}
+\end{align}
 
 A restrição (\ref{eq:posval}) garante que cada posição de uma
 permutação possui exatamente um valor associado a ela. Já a restrição
 (\ref{eq:valpos}) garante que todo valor esteja associado a uma
 posição de cada permutação.
-
-\begin{equation}
-\label{eq:posval}
+\begin{align}
   \sum_{j=1}^{n} B_{ijk} = 1,~\text{para todo $1 \le i \le n$, 
-  $0 \le k < n$}.
-\end{equation}
-\begin{equation}
-\label{eq:valpos}
+  $0 \le k < n$}. \label{eq:posval} \\
   \sum_{i=1}^{n} B_{ijk} = 1,~\text{para todo $1 \le j \le n$, $0 \le
-   k < n$}.
-\end{equation}
+   k < n$}. \label{eq:valpos}
+\end{align}
 
 \textit{Distância de reversão.}
 Para o problema da distância de reversão definimos os seguintes
@@ -470,21 +463,22 @@ permutação para verificar seu valor após a operação de reversão
 $\rho(a,b)$ ser completada.
 \begin{enumerate}
 \item{$i < a$ ou $i > b$:
-Posições que não são modificadas.
+A operação de reversão não modifica estas posições.
 \begin{align}
   \begin{split}
-  \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n} r_{abk} +
-  \sum_{a=1}^{n-1}\sum_{b=a+1}^{i-1} r_{abk} +
-  (1 - r_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
-  \text{para todo $1 \le i,~j \le n$ e todo $1 \le k < n$}.\end{split}
+    \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n} r_{abk} +
+    \sum_{a=1}^{n-1}\sum_{b=a+1}^{i-1} r_{abk} +
+    (1 - r_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
+    \text{para todo $1 \le i,~j \le n$ e todo $1 \le k < n$}.
+  \end{split}
   \label{eq:rev3}
 \end{align}}
 \item{$a \le i \le b$:
-Reversão altera os elementos guardados nestas posições. Para não ser
-redundante, a equação precisa ter os dois primeiros termos com valor
-$1$. Neste caso, $B_{ijk} = 1$, implicando que o elemento $j$ foi
-guardado na posição $b+a-i$ antes da reversão ser movida para a
-posição $i$.
+A operação de reversão altera os elementos guardados nestas
+posições. Para não ser redundante, a desigualdade precisa ter os dois
+primeiros termos com valor $1$. Neste caso, $B_{b+a-i,j,k-1} = 1$,
+implicando que o elemento $j$ foi salvo na posição $b + a - i$ antes
+da reversão ser movida para a posição $i$ ($B_{ijk} = 1$).
 \begin{align}
   \begin{split}
   r_{abk} + B_{b+a-i,j,k-1} - B_{ijk} \le 1, \\
@@ -496,7 +490,7 @@ posição $i$.
 \end{enumerate}
 
 \textit{Distância de transposição.}
-Para o problema da distância de transposição usaremos os seguintes
+Para o problema da distância de transposição, usaremos os seguintes
 conjuntos de variáveis e restrições. As variáveis binárias $t_{abck}$
 indicam quando a $k$-ésima operação de transposição realiza a troca de
 lugares dos blocos $\pi[a~\ldots~b - 1]$ e $\pi[b~\ldots~c - 1]$ da
@@ -545,15 +539,23 @@ permutação para verificar seu valor após a operação de transposição
 $\rho(a,b,c)$ ser completada.
 \begin{enumerate}
 \item{$i < a$ ou $i \ge c$:
-Estas posições não sofrem alterações.
+A operação de transposição não altera estas posições.
 \begin{align}
-  \begin{split} \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{n+1}
-  t_{abck} + \sum_{a=1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{i} t_{abck}
-  + (1 - t_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\ \text{para todo
-  $1 \le i, j \le n$ e todo $1 \le k <
-  n$}.  \end{split} \label{eq:transp3}
+  \begin{split} 
+    \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{n+1} t_{abck}
+    + \sum_{a=1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{i} t_{abck} + (1 -
+    t_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
+    \text{para todo $1 \le i, j \le n$ e todo $1 \le k <
+    n$}.
+  \end{split} \label{eq:transp3}
 \end{align}}
 \item{$a \le i < a + c -b$:
+Após a operação de transposição ser completada, estas posições serão
+ocupadas pelos elementos que estão nas posições de $b$ a $c - 1$. Para
+não ser redundante, esta desigualdade precisa ter os dois primeiros
+termos com o valor $1$. Neste caso, temos que $B_{b-a+i,j,k-1} = 1$,
+implicando que o elemento $j$ foi salvo na posição $b - a + i$ antes
+da transposição ser movida para a posição $i$ ($B_{ijk} = 1$).
 \begin{align}
   \begin{split}
   t_{abck} + B_{b-a+i,j,k-1} - B_{ijk} \le 1, \\
@@ -563,6 +565,15 @@ Estas posições não sofrem alterações.
   \label{eq:transp4}
 \end{align}}
 \item{$a + c - b \le i < c$:
+Após a operação de transposição ser completada, estas posições serão
+ocupadas pelos elementos que estão nas posições de $a$ a $b -
+1$. Similar com o caso acima, esta desigualdade é redundante se os
+valores dos dois primeiros termos não for igual a $1$. Isto significa
+que a $k$-ésima transposição move $B^{k-1}[a~..~b-1]$ para as posições
+que precedem a posição $c$. Por definição, $i$ representa uma das
+posições que receberão um elemento deste subvetor. Então, temos que
+$B^{k}[i] = B^{k-1}[b - c + i]$, para todo $i \in [a + c - b~..~c -
+1]$ e os últimos dois termos se anulam.
 \begin{align}
   \begin{split}
   t_{abck} + B_{b-c+i,j,k-1} - B_{ijk} \le 1, \\
@@ -572,3 +583,86 @@ Estas posições não sofrem alterações.
   \label{eq:transp5}
 \end{align}}
 \end{enumerate}
+
+\textit{Distância de reversão e transposição.}
+Para o problema da distância de reversão e transposição usaremos todas
+as variáveis definidas anteriormente, com a adição das variáveis
+binárias $z_{k}$, que é usada para indicar quando uma $k$-ésima
+operação, seja ela uma reversão ou uma transposição, realmente
+modificou a permutação. Então, para todo $1 \le k < n$, temos que:
+
+\[
+z_{k} = \left \{ 
+  \begin{tabular}{ll} 
+  1, & se $\rho_{k} = \rho(x,y)$ ou $\rho_{k} = \rho(x,y,z)$ e
+  $\rho_{k} \rho_{k-1}~\ldots~\rho_{1} \pi \neq \rho_{k-1}~\ldots~\rho_{1} \pi$\\
+  0, & caso contrário
+  \end{tabular} \right .
+\]
+
+Usaremos todas as restrições definidas anteriormente, com exceção das
+restrições (\ref{eq:rev1}) e (\ref{eq:transp1}) que serão substituídas
+pelas restrições (\ref{eq:rt1}) e (\ref{eq:rt2}). A restrição
+(\ref{eq:rt1}) garante que se não ocorreu operações em uma iteração
+então não ocorrerá nenhuma operação nas iterações seguintes. A
+restrição (\ref{eq:rt2}) garante que no máximo uma operação é
+executada a cada iteração.
+\begin{align}
+  &z_{k} \le z_{k-1}, \text{para todo $1 \le k <
+    n$}. \label{eq:rt1} \\ 
+  &r_{k} + t_{k} = z_{k} , \text{para todo
+    $1 \le k < n$}. \label{eq:rt2}
+\end{align}
+
+Precisamos modificar as restrições (\ref{eq:rev3}) e
+(\ref{eq:transp3}), substituindo $r_{k}$ e $t_{k}$ por $z_{k}$,
+resultando nas restrições (\ref{eq:rt3}) e (\ref{eq:rt4}).
+\begin{align}
+  \begin{split}
+    \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n} r_{abk} +
+    \sum_{a=1}^{n-1}\sum_{b=a+1}^{i-1} r_{abk} +
+    (1 - z_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
+    \text{para todo $1 \le i,~j \le n$ e todo $1 \le k < n$}.
+  \end{split} \label{eq:rt3} \\
+  \begin{split} 
+    \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{n+1} t_{abck}
+    + \sum_{a=1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{i} t_{abck} + (1 -
+    z_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
+    \text{para todo $1 \le i, j \le n$ e todo $1 \le k <
+    n$}.
+  \end{split} \label{eq:rt4}
+\end{align}
+
+\subsection{Função Objetivo}
+\label{subsec:fo}
+Considerando as variáveis e restrições descritas anteriormente para
+cada um dos três problemas de distâncias, temos a função objetivo
+$\omega_{r} = \min \sum_{k=1}^{n-1} r_{k}$, para o problema da
+distância de reversão, a função objetivo $\omega_{t}
+= \min \sum_{k=1}^{n-1} t_{k}$, para o problema da distância de
+transposição, e a função objetivo $\omega_{rt} = \min \sum_{k=1}^{n-1}
+z_{k}$, para o problema da distância de reversão e transposição quando
+ocorrem simultaneamente.
+
+\subsection{Tamanho do modelo}
+\label{subsec:modelsize}
+É fácil observar que o modelo descrito possui tamanho polinomial em
+relação ao tamanho da permutação fornecida como entrada. A
+tabela~\ref{table:modelsize} mostra o tamanho do modelo para os três
+problemas de distâncias com relação ao parâmetro $n$ (tamanho da
+permutação de entrada).
+
+\begin{table}[h]
+\caption{Tamanho dos modelos em relação à $n$.}
+\label{table:modelsize}
+\center
+\begin{tabular}{|l|c|c|}
+  \hline
+  \textbf{Modelo} & \textbf{Variáveis} & \textbf{Restrições} \\
+  \hline
+  Distância de Reversão & $O(n^3)$ & $O(n^5)$ \\
+  Distância de Transposição & $O(n^4)$ & $O(n^6)$ \\
+  Distância de Reversão e Transposição & $O(n^4)$ & $O(n^6)$ \\
+  \hline
+\end{tabular}
+\end{table}
