@@ -1,7 +1,7 @@
 % conceitos basicos
 % 
-%Arrumar este capítulo para conter a descrição de como se calcula os
-%limitantes para cada operação
+% Arrumar este capítulo para conter a descrição de como se calcula os
+% limitantes para cada operação
 %
 Neste capítulo faremos uma apresentação dos conceitos básicos
 necessários para o entendimento e desenvolvimento deste trabalho. Na
@@ -103,14 +103,8 @@ anteriormente como, por exemplo, o algoritmo implementado por Berman,
 Hannenhalli e Karpinski~\cite{BermanHannenhalliKarpinski*2002} com
 razão de aproximação de $1.375$.
 
-A subseção~\ref{subsec:rev_bkp} apresenta a definição de grafo
-de \bkp{}, a subseção~\ref{subsec:cic_dec} descreve como se encontra
-uma decomposição de ciclos no grafo de \bkp{} e a
-subseção~\ref{subsec:rev_limitantes} descreve os limitantes usados
-para o problema de ordenação por reversões.
-
-\subsection{Grafo de \bkp{}}
-\label{subsec:rev_bkp}
+\subsection{Ferramentas para o Problema de Ordenação por Reversões.}
+\label{subsec:toolrev}
 O conceito de grafo de \bkp{} foi introduzido no trabalho de Bafna e
 Pevzner~\cite{BafnaPevzner*1996}. Inicialmente a permutação $\pi$ é
 estendida adicionando o elemento $\pi_{0} = 0$ e $\pi_{n+1} =
@@ -132,14 +126,21 @@ a permutação $\pi = (~4~7~3~6~2~5~1~)$.
   \label{fig:rev_grafo_bkp}
 \end{figure}
 
+
+
 Um ciclo em $G(\pi)$ é chamado de \textit{alternado} se as cores de
 duas arestas consecutivas são diferentes ao longo do ciclo. Assim
 dizemos que todos os ciclos pertencentes ao grafo serão ciclos
-alternados.
+alternados. O \textit{comprimento} de um ciclo é a sua quantidade de
+arestas pretas. Um $k$-ciclo é um ciclo que contem $k$ arestas
+negras. Um \textit{ciclo longo} é um ciclo de comprimento maior que
+dois.
 
-\subsection{Decomposição de Ciclo}
-\label{subsec:cic_dec}
-
+Observe que $G(\pi)$ pode ser decomposto em ciclos de arestas
+disjuntas, pois cada vertíce tem o mesmo número de arestas incidentes
+cinzas e pretas. Logo existem diversas maneiras de realizar a
+decomposição de ciclos em $G(\pi)$.
+%..........
 
 \subsection{Limitantes}
 \label{subsec:rev_limitantes}
