@@ -126,7 +126,18 @@ a permutação $\pi = (~4~7~3~6~2~5~1~)$.
   \label{fig:rev_grafo_bkp}
 \end{figure}
 
+Usando o conceito de \bkp{}, temos que uma reversão atua em dois
+pontos em uma permutação e, portanto, pode reduzir o número de \bkp{}
+em pelo menos um e no máximo dois~\cite{BafnaPevzner*1996}, levando ao
+Teorema~\ref{teo:rev_bkp_bound}. 
 
+\begin{teo}
+\label{teo:rev_bkp_bound}
+Para qualquer permutação $\pi$, 
+\[\frac{1}{2} b_r(\pi) \leq d_r(\pi) \leq
+  b_r(\pi).
+\]
+\end{teo}
 
 Um ciclo em $G(\pi)$ é chamado de \textit{alternado} se as cores de
 duas arestas consecutivas são diferentes ao longo do ciclo. Assim
@@ -139,33 +150,25 @@ dois.
 Observe que $G(\pi)$ pode ser decomposto em ciclos de arestas
 disjuntas, pois cada vertíce tem o mesmo número de arestas incidentes
 cinzas e pretas. Logo existem diversas maneiras de realizar a
-decomposição de ciclos em $G(\pi)$.
-%..........
+decomposição de ciclos em $G(\pi)$. 
 
-\subsection{Limitantes}
-\label{subsec:rev_limitantes}
-Para o problema de ordenação por reversões usamos os seguintes limitantes:
-
-\begin{itemize}
-\item{\textit{rev\_def}. 
-Este é o limitante padrão, com limite inferior igual à $0$ e limite
-superior igual a $n$ (tamanho da permutação).}
-\item{\textit{rev\_br}.
-Usando o conceito de \bkp{}, temos que uma reversão atua em dois
-pontos em uma permutação e, portanto, pode reduzir o número de \bkp{}
-em pelo menos um e no máximo dois~\cite{BafnaPevzner*1996}, levando ao
-Teorema~\ref{teo:rev_bound}. 
+Uma reversão atua em duas arestas pretas de $G(\pi)$, se estas arestas
+representam os \bkp{} que são separados pela operação de
+reversão~\cite{Christie*1998}. O Teorema~\ref{teo:rev_cic_bound},
+demonstrado no trabalho de Christie~\cite{Christie*1998}, fornece os
+limitantes para a distância de reversâo usando a quantidade de
+$2$-ciclos na máxima decomposição em ciclos de $G(\pi)$.
 
 \begin{teo}
-\label{teo:rev_bound}
-Para qualquer permutação $\pi$, $\frac{b_r(\pi)}{2} \leq d_r(\pi) \leq
-  b_r(\pi)$.
+\label{teo:rev_cic_bound}
+Se $c_{2}(\pi)$ é o número mínimo de $2$-ciclos em qualquer máxima
+decomposição em ciclos de $G(\pi)$ então: 
+\[
+\frac{2}{3} b_r(\pi)
+- \frac{1}{3} c_{2}(\pi) \leq d_r(\pi) \leq b_r(\pi) - \frac{1}{2}
+c_{2}(\pi).
+\]
 \end{teo}
-}
-\item{\textit{rev\_cg}.}
-
-\end{itemize}
-
 
 \section{Ordenação por Transposições}
 \label{sec:trans}
