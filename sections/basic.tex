@@ -87,7 +87,7 @@ aplicadas a uma estrutura intermediária conhecida como grafo
 de \bkp{}. A estratégia usada por Hannenhalli e Pevzner foi
 simplificada no trabalho de Bergeron~\cite{Bergeron*2005}. Atualmente
 já existe um algoritmo com complexidade
-sub-quadrática~\cite{TannierSagot*2004} e, quando apenas a distância é
+sub quadrática~\cite{TannierSagot*2004} e, quando apenas a distância é
 necessária, um algoritmo linear pode ser
 usado~\cite{BaderMoretYan*2001}.
 
@@ -116,13 +116,13 @@ coloridas $G(\pi)$ com $n + 2$ vértices \{0, 1,~$\ldots$~, $n$, $n +
 for um \estr{breakpoint}. Unimos os vértices $i$ e $j$ com uma aresta
 cinza se $|i - j| = 1$ e $i$, $j$ não são consecutivos em
 $\pi$. Denotamos por $b_r(\pi)$ o número de \bkp{} existentes em
-$\pi$. A Figura~\ref{fig:rev_grafo_bkp} mostra o grafo de \bkp{} para
-a permutação $\pi = (~4~7~3~6~2~5~1~)$.
+$\pi$. A Figura~\ref{fig:rev_grafo_bkp} mostra o grafo de \bkp{} da
+permutação $\pi = (~4~7~3~6~2~5~1~)$.
 
 \begin{figure}[h]
   \centering 
   \includegraphics[scale=0.6]{images/rev_grafo_bkp.png} 
-  \caption{Grafo de \bkp{} para a permutação $\pi = (~4~7~3~6~2~5~1~)$.}
+  \caption{Grafo de \bkp{} da permutação $\pi = (~4~7~3~6~2~5~1~)$.}
   \label{fig:rev_grafo_bkp}
 \end{figure}
 
@@ -148,15 +148,30 @@ negras. Um \textit{ciclo longo} é um ciclo de comprimento maior que
 dois.
 
 Observe que $G(\pi)$ pode ser decomposto em ciclos de arestas
-disjuntas, pois cada vertíce tem o mesmo número de arestas incidentes
+disjuntas, pois cada vértice tem o mesmo número de arestas incidentes
 cinzas e pretas. Logo existem diversas maneiras de realizar a
-decomposição de ciclos em $G(\pi)$. 
+decomposição de ciclos em $G(\pi)$. A
+Figura~\ref{fig:rev_grafo_bkp_dec2cic} mostra um exemplo de
+decomposição em ciclos para o grafo de \bkp{} da permutação $\pi =
+(~4~7~3~6~2~5~1~)$.
+
+\begin{figure}[h]
+  \centering 
+  \begin{tabular}{ccc} 
+  \includegraphics[scale=0.6]{images/rev_grafo_bkp_dec2cic-1.png}
+  & ~~~~
+  & \includegraphics[scale=0.6]{images/rev_grafo_bkp_dec2cic-2.png} 
+  \end{tabular} 
+  \caption{Exemplo de decomposição em ciclos de arestas disjuntas para
+  o grafo de \bkp{} da permutação $\pi = (~4~7~3~6~2~5~1~)$.}
+  \label{fig:rev_grafo_bkp_dec2cic}
+\end{figure}
 
 Uma reversão atua em duas arestas pretas de $G(\pi)$, se estas arestas
 representam os \bkp{} que são separados pela operação de
 reversão~\cite{Christie*1998}. O Teorema~\ref{teo:rev_cic_bound},
 demonstrado no trabalho de Christie~\cite{Christie*1998}, fornece os
-limitantes para a distância de reversâo usando a quantidade de
+limitantes para a distância de reversão usando a quantidade de
 $2$-ciclos na máxima decomposição em ciclos de $G(\pi)$.
 
 \begin{teo}
