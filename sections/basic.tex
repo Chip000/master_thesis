@@ -1,8 +1,4 @@
 % conceitos basicos
-% 
-% Arrumar este capítulo para conter a descrição de como se calcula os
-% limitantes para cada operação
-%
 Neste capítulo faremos uma apresentação dos conceitos básicos
 necessários para o entendimento e desenvolvimento deste trabalho. Na
 seção \ref{sec:defin} mostraremos as definições usadas no decorrer
@@ -236,30 +232,33 @@ Labarre~\cite{Labarre*2006} apresentou novos limitantes, além de
 definir classes de permutações em que a distância de transposição pode
 ser calculada em tempo e espaço lineares.
 
-Nas subseções~\ref{subsec:trans_bkp} e~\ref{subsec:trans_cycle_graph}
-apresentam ferramentas usadas para encontrar limitantes para o
-problema de ordenação por transposições. Os limitantes usados neste
-projeto estão descritos na subseção~\ref{subsec:trans_limitantes}.
-
-\subsection{Breakpoints}
-\label{subsec:trans_bkp}
+\subsection{Ferramentas para o Problema de Ordenação por Transposições.}
+\label{subsec:tooltra}
 No problema de ordenação por transposições, um \bkp{} é um par
 $(\pi_{i}, \pi_{i+1})$ tal que $\pi_{i+1} \neq \pi_{i} + 1$. Denota-se
-por $b_{t}(\pi)$ como sendo o número de \bkp{} na permutação $\pi$.
+por $b_{t}(\pi)$ como sendo o número de \bkp{} na permutação
+$\pi$. Sabemos que uma transposição atua em três pontos de uma
+permutação, logo, pode reduzir o número de \bkp{} em pelo menos um e
+no máximo três~\cite{BafnaPevzner*1998}, levando ao
+Teorema~\ref{teo:trans_br_bound}.
 
-\subsection{Grafo de ciclos}
-\label{subsec:trans_cycle_graph}
+\begin{teo}
+  \label{teo:trans_br_bound}
+  Para qualquer permutação $\pi$, 
+  \[
+  \frac{1}{3}b_t(\pi) \leq d_t(\pi) \leq b_t(\pi).
+  \]
+\end{teo}
+
 O conceito de grafo de ciclos foi introduzido por Bafna e
 Pevzner~\cite{BafnaPevzner*1998} e foi usado para obter limitantes
-melhores para o problema.
-
-Um grafo direcionado com arestas coloridas, denotado por $G(\pi)$, é
-chamado de grafo de ciclos da permutação $\pi$ se possui um conjunto
-de vértices $\{0,~1,~\ldots~,~n+1\}$ e seu conjunto de arestas é
-definido como para todo $1 \leq i \leq n+1$, arestas cinzas são
-direcionadas de $i-1$ para $i$ e arestas pretas de $\pi_{i}$ para
-$\pi_{i-1}$. A Figura~\ref{fig:trans_cycle_graph} mostra o grafo de
-ciclos para a permutação $\pi = (~4~7~3~6~2~5~1~)$.
+melhores para o problema. Um grafo direcionado com arestas coloridas,
+denotado por $G(\pi)$, é chamado de grafo de ciclos da permutação
+$\pi$ se possui um conjunto de vértices $\{0,~1,~\ldots~,~n+1\}$ e seu
+conjunto de arestas é definido como para todo $1 \leq i \leq n+1$,
+arestas cinzas são direcionadas de $i-1$ para $i$ e arestas pretas de
+$\pi_{i}$ para $\pi_{i-1}$. A Figura~\ref{fig:trans_cycle_graph}
+mostra o grafo de ciclos para a permutação $\pi = (~4~7~3~6~2~5~1~)$.
 
 \begin{figure}[h]
   \centering 
@@ -268,37 +267,27 @@ ciclos para a permutação $\pi = (~4~7~3~6~2~5~1~)$.
   \label{fig:trans_cycle_graph}
 \end{figure}
 
-\subsection{Limitantes}
-\label{subsec:trans_limitantes}
-Para o problema de ordenação por transposições usamos três tipos de
-limitantes:
+Similar ao problema de ordenação por reversões, um ciclo de $G(\pi)$ é
+chamado de \textit{alternado} se ele for um ciclo direcionado com
+arestas de cores alternadas. Para todo vértice de $G(\pi)$ toda aresta
+chegando é unicamente pareada com uma aresta saindo de cor
+diferente. Isto implica que existe uma decomposição única de ciclos
+alternados do conjunto de arestas de $G(\pi)$. A seguir o termo ciclo
+é usado no lugar de ciclos alternados e usamos o termo $k$-ciclo para
+definir um ciclo alternado de tamanho $2k$, $k$-ciclo é longo se $k >
+2$, e curto caso contrário. A Figura~\ref{fig:tra_grafo_bkp_dec}
+mostra um exemplo de decomposição em ciclos para o grafo de ciclos da
+permutação $\pi = (~4~7~3~6~2~5~1~)$.
 
-\begin{itemize}
-\item{\textit{tra\_def}. 
-Este é o limitante padrão, com limite inferior igual à $0$ e limite
-superior igual a $n$ (tamanho da permutação).}
-\item{\textit{tra\_br}.
-Usando o conceito de \bkp{} em transposições, sabemos que uma
-transposição atua em três pontos de uma permutação, logo, pode reduzir
-o número de \bkp{} em pelo menos um e no máximo
-três~\cite{BafnaPevzner*1998}, levando ao
-Teorema~\ref{teo:trans_br_bound}.
 
-\begin{teo}
-  \label{teo:trans_br_bound}
-  Para qualquer permutação $\pi$, $\frac{b_t(\pi)}{3} \leq d_t(\pi) \leq
-  b_t(\pi)$.
-\end{teo}
-}
-\item{\textit{tra\_cg}.
-Usando o conceito de grafo de ciclos, um ciclo alternado de $G(\pi)$ é
-ciclo direcionado com arestas de cores alternadas. Para todo vértice
-de $G(\pi)$ toda aresta chegando é unicamente pareada com uma aresta
-saindo de cor diferente. Isto implica que existe uma decomposição
-única de ciclos alternados do conjunto de arestas de $G(\pi)$. A
-seguir o termo ciclo é usado no lugar de ciclos alternados e usamos o
-termo $k-\text{ciclo}$ para definir um ciclo alternado de tamanho $2k$,
-$k-\text{ciclo}$ é longo se $k > 2$, e curto caso contrário.
+\begin{figure}[h]
+  \centering 
+  \includegraphics[scale=0.6]{images/trans_cycle_graph_dec-1.png}
+  \includegraphics[scale=0.6]{images/trans_cycle_graph_dec-2.png} 
+  \caption{Exemplo de decomposição em ciclos de arestas disjuntas para
+  o grafo de ciclos da permutação $\pi = (~4~7~3~6~2~5~1~)$.}
+  \label{fig:tra_grafo_bkp_dec}
+\end{figure}
 
 Para melhorar o limitante, Bafna e Pevzner~\cite{BafnaPevzner*1998}
 estudou separadamente os ciclos pares e ímpares. Um ciclo é impar se
@@ -311,12 +300,12 @@ gerando o resultado do Teorema~\ref{teo:trans_cg_bound}.
 
 \begin{teo} 
   \label{teo:trans_cg_bound} 
-  Para qualquer permutação $\pi$, $\frac{n + 1 - c_{ímpar}(\pi)}{2} \leq
-  d_t(\pi) \leq \frac{3}{4} (n + 1 - c_{ímpar}(\pi))$.
+  Para qualquer permutação $\pi$, 
+  \[ 
+  \frac{1}{2}n + 1 - c_{ímpar}(\pi) \leq d_t(\pi) \leq \frac{3}{4} (n
+  + 1 - c_{ímpar}(\pi)).
+  \]
 \end{teo}
-}
-\end{itemize}
-
 
 \section{Ordenação por Reversões e Transposições}
 \label{sec:rev_trans}
