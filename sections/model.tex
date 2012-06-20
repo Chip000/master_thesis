@@ -1,7 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% COLOCAR AS REFERENCIAS DO CAPITULO 2 %
-% EXPLICAR BOTTOM-UP                   %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% modelos
 Neste capítulo nós apresentaremos a descrição dos modelos de \pr{} e
 \pli{} usados para os problemas de ordenação por transposições,
 ordenação por reversões e ordenação por reversões e transposições.
@@ -9,11 +6,11 @@ ordenação por reversões e ordenação por reversões e transposições.
 \section{\PR}
 \label{sec:cp}
 O modelo de \pr{} usado para o problema de ordenação por transposições
-é o descrito em Dias e Dias~\cite{DiasDias*2009}. Nós usamos os
-limitantes inferior e superior descritos em (??) para escrever as
+é o descrito em Dias e Dias~\cite{DiasDias*2009}. Nós usamos as
+definições contidas no capítulo~\ref{cap:basic} para escrever as
 formulações baseadas nas teorias de Problema de Satisfação de
 Restrições (CSP) e Problema de Otimização com Restrições (COP). As
-formulações foram descritas usando a notação prolog-like de
+formulações foram descritas usando a notação \textit{prolog-like} de
 Marriot \cite{Marriott*1998}. Primeiramente iremos apresentar os
 predicados que são comum às duas formulações.
 
@@ -93,11 +90,12 @@ de $R$ reversões que solucionam o problema. Se o modelo CSP falha (não
 existe combinação que soluciona o problema com o valor candidato
 escolhido) com o candidato $R$, nós escolhemos outro valor $R$ apenas
 incrementando seu valor. O valor de $R$ é escolhido usando uma
-estratégia \textit{bottom-up}\footnote{EXPLICAR BOTTOM-UP} e por
-definição não verificamos nenhum valor maior que o limitante superior
-$UB$. Na transposição, o processo é o mesmo que na reversão, trocando
-apenas o valor da distância de reversão ($d_{r}(\pi)$) para o valor da
-distância de transposição ($d_{t}(\pi)$).
+estratégia \textit{bottom-up}, ou seja, a verificação inicia pelo
+valor do limitante inferior $LB$ e termina quando o valor é maior que o
+limitante superior $UB$. Na transposição, o processo é o mesmo que na
+reversão, trocando apenas o valor da distância de reversão
+($d_{r}(\pi)$) para o valor da distância de transposição
+($d_{t}(\pi)$).
 \begin{align}
   \label{revdistance}
   \begin{split}
@@ -149,9 +147,21 @@ inferior). Se o modelo retorna para o predicado \textit{indomain}
 devido a uma falha, o elemento que originou ela será removido do
 domínio e um outro valor será escolhido.
 
-Os modelos CSP para os problemas possuem a estrutura mostrada acima,
-trocando apenas os limitantes usados. Em comum a todas operações temos
-o modelo \textit{def\_csp} que não usa nenhum limitante.
+Os modelos CSP para os problemas de ordenação possuem a estrutura
+mostrada acima, trocando apenas os limitantes usados. A seguir
+apresentaremos os predicados que lidam com a escolha do modelo a ser
+usado.
+
+Em comum para os todos eventos descritos temos o
+modelo \textit{def\_csp} que não usa nenhum limitante.
+\begin{align}
+  \label{bound_def}
+  \begin{split}
+  \textit{bou}&\textit{nd}(\pi, def\_csp, LB, UB)~\text{:-} \\
+  &LB = 0, \\
+  &\textit{length}(\pi, UB).
+  \end{split}
+\end{align}
 
 \textit{Ordenação por reversões:}
 \begin{itemize}
@@ -163,17 +173,44 @@ Modelo que usa o número de $2$-ciclos na máxima decomposição em ciclos
 de $G(\pi)$ para calcular os limitantes descritos no
 Teorema~\ref{teo:rev_cic_bound}.}
 \end{itemize}
+\begin{align}
+  \label{bound_rev}
+  \begin{split}
+  \textit{bou}&\textit{nd}(\pi, rev\_br\_csp, LB, UB)~\text{:-}  \\
+  &\textit{calc\_breakpoints\_reversal}(\pi, B), \\
+  &LB = B / 2  \\ % / 2 ,  \\
+  &UB = B.  \\
+  \textit{bou}&\textit{nd}(\pi, rev\_cg\_csp, LB, UB)~\text{:-}  \\
+  &\textit{find\_2\_cycle}(\pi, B, C), \\
+  &LB = (2 * B - C) / 3 ,   \\
+  &UB = B - C / 2.
+  \end{split}
+\end{align}
 
 \textit{Ordenação por transposições:}
 \begin{itemize}
 \item{\textit{tra\_br\_csp}: 
 Modelo que usa o conceito de \bkp{} em transposições para calcular os
-limitantes conforme descrito .... (??)}
+limitantes conforme descrito no Teorema~\ref{teo:trans_br_bound}.}
 \item{\textit{tra\_cg\_csp}:
 Modelo que usa o conceito de grafo de ciclos em transposições, fazendo
 a decomposição de ciclos e analisando os ciclos ímpares separadamente
-para calcular os limitantes conforme descrito .... (??)}
+para calcular os limitantes conforme descrito no
+Teorema~\ref{teo:trans_cg_bound}.}
 \end{itemize}
+\begin{align}
+  \label{bound_tra}
+  \begin{split}
+  \textit{bou}&\textit{nd}(\pi, tra\_br\_csp, LB, UB)~\text{:-} \\
+  &\textit{calc\_breakpoints\_transposition}(\pi, B), \\
+  &LB = B / 3  \\ %/ 3,  \\
+  &UB = B.   \\
+  \textit{bou}&\textit{nd}(\pi, tra\_cg\_csp, LB, UB)~\text{:-} \\
+  &\textit{calc\_oddcycle\_transposition}(\pi, N, C), \\
+  &LB = (N + 1 - C) / 2  \\ 
+  &UB = (3 * (N + 1 - C)) / 4.
+  \end{split}
+\end{align}
 
 \textit{Ordenação por reversões e transposições:} 
 \begin{itemize}
@@ -187,36 +224,9 @@ o limitante do grafo de ciclos para transposições.}
 Melhor limitante superior entre o limitante do grafo de ciclos para
 reversões e o limitante do grafo de ciclos para transposições.}
 \end{itemize}
-
-O predicado \textit{bound/4} (\ref{bound}) recebe na
-variável \textit{Model} um átomo que representa o modelo a ser
-usado. Este átomo se conecta com o predicado que retorna o limitante
-superior e inferior apropriado para o modelo. Observe que o limitante
-inferior é igual a $0$ no caso dos modelos de ordenação por reversões
-e transposições. Isto ocorre devido ao fato que a cada nova iteração
-do modelo pode surgir um limitante inferior melhor, simplesmente
-fazendo a troca entre as operações de reversão e transposição.
 \begin{align}
-  \label{bound}
+  \label{bound_r_t}
   \begin{split}
-  \textit{bou}&\textit{nd}(\pi, def\_csp, LB, UB)~\text{:-} \\
-  &\textit{def\_csp\_bound}(\pi, LB, UB).  \\
-  \textit{bou}&\textit{nd}(\pi, rev\_br\_csp, LB, UB)~\text{:-}  \\
-  &\textit{calc\_breakpoints\_reversal}(\pi, B), \\
-  &LB = B / 2  \\ % / 2 ,  \\
-  &UB = B.  \\
-  \textit{bou}&\textit{nd}(\pi, rev\_cg\_csp, LB, UB)~\text{:-}  \\
-  &\textit{find\_2\_cycle}(\pi, B, C), \\
-  &LB = (2 * B - C) / 3 ,   \\
-  &UB = B - C / 2.  \\
-  \textit{bou}&\textit{nd}(\pi, tra\_br\_csp, LB, UB)~\text{:-} \\
-  &\textit{calc\_breakpoints\_transposition}(\pi, B), \\
-  &LB = B / 3  \\ %/ 3,  \\
-  &UB = B.   \\
-  \textit{bou}&\textit{nd}(\pi, tra\_br\_csp, LB, UB)~\text{:-} \\
-  &\textit{calc\_oddcycle\_transposition}(\pi, N, C), \\
-  &LB = (N + 1 - C) / 2  \\ 
-  &UB = (3 * (N + 1 - C)) / 4.  \\
   \textit{bou}&\textit{nd}(\pi, r\_t\_br\_csp, 0, UB)~\text{:-} \\
   &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \\
   &\textit{bound}(\pi, tra\_br, \_TLB, TUB), \\
@@ -231,6 +241,52 @@ fazendo a troca entre as operações de reversão e transposição.
   &\textit{min}(RUB, TUB, UB), 
   \end{split}
 \end{align}
+
+O predicado \textit{bound/4} (\ref{bound_def}), (\ref{bound_rev}),
+(\ref{bound_tra}), (\ref{bound_r_t}) recebe na variável \textit{Model}
+um átomo que representa o modelo a ser usado. Este átomo se conecta
+com o predicado que retorna o limitante superior e inferior apropriado
+para o modelo. Observe que o limitante inferior é igual a $0$ no caso
+dos modelos de ordenação por reversões e transposições. Isto ocorre
+devido ao fato que a cada nova iteração do modelo pode surgir um
+limitante inferior melhor, simplesmente fazendo a troca entre as
+operações de reversão e transposição.
+%
+%\begin{align}
+%  \label{bound}
+%  \begin{split}
+%  \textit{bou}&\textit{nd}(\pi, def\_csp, LB, UB)~\text{:-} \\
+%  &\textit{def\_csp\_bound}(\pi, LB, UB).  \\
+%  \textit{bou}&\textit{nd}(\pi, rev\_br\_csp, LB, UB)~\text{:-}  \\
+%  &\textit{calc\_breakpoints\_reversal}(\pi, B), \\
+%  &LB = B / 2  \\ % / 2 ,  \\
+%  &UB = B.  \\
+%  \textit{bou}&\textit{nd}(\pi, rev\_cg\_csp, LB, UB)~\text{:-}  \\
+%  &\textit{find\_2\_cycle}(\pi, B, C), \\
+%  &LB = (2 * B - C) / 3 ,   \\
+%  &UB = B - C / 2.  \\
+%  \textit{bou}&\textit{nd}(\pi, tra\_br\_csp, LB, UB)~\text{:-} \\
+%  &\textit{calc\_breakpoints\_transposition}(\pi, B), \\
+%  &LB = B / 3  \\ %/ 3,  \\
+%  &UB = B.   \\
+%  \textit{bou}&\textit{nd}(\pi, tra\_cg\_csp, LB, UB)~\text{:-} \\
+%  &\textit{calc\_oddcycle\_transposition}(\pi, N, C), \\
+%  &LB = (N + 1 - C) / 2  \\ 
+%  &UB = (3 * (N + 1 - C)) / 4.  \\
+%  \textit{bou}&\textit{nd}(\pi, r\_t\_br\_csp, 0, UB)~\text{:-} \\
+%  &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \\
+%  &\textit{bound}(\pi, tra\_br, \_TLB, TUB), \\
+%  &\textit{min}(RUB, TUB, UB), \\
+%  \textit{bou}&\textit{nd}(\pi, r\_t\_bc\_csp, 0, UB)~\text{:-} \\
+%  &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \\
+%  &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \\
+%  &\textit{min}(RUB, TUB, UB), \\
+%  \textit{bou}&\textit{nd}(\pi, r\_t\_cc\_csp, 0, UB)~\text{:-} \\
+%  &\textit{bound}(\pi, rev\_cg, \_RLB, RUB), \\
+%  &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \\
+%  &\textit{min}(RUB, TUB, UB), 
+%  \end{split}
+%\end{align}
 
 \subsection{Modelo COP}
 \label{subsec:modelcop}
