@@ -1,9 +1,11 @@
-TARGET=tese
+TARGET=main
+OUTFILE=tese.pdf
 
 TEX=$(TARGET).tex
 DVI=$(TARGET).dvi
 PS=$(TARGET).ps
 PDF=$(TARGET).pdf
+BIB=bioinf
 
 .PHONY: pdf clean
 
@@ -22,13 +24,13 @@ PDF=$(TARGET).pdf
 
 # PDFLATEX RULES
 $(PDF):	$(TEX)
-	pdflatex $(TEX)
+	pdflatex $(TEX) 
 	bibtex $(TARGET)
 	pdflatex $(TEX)
 	pdflatex $(TEX)
+	mv $(PDF) $(OUTFILE)
 
-
-pdf: clean_all $(PDF)
+pdf: clean_all $(PDF) clean
 
 clean:
 	rm -f *~ $(PS) $(DVI) 
@@ -37,7 +39,7 @@ clean:
 	rm -f *.toc *.ps .nfs* *.out
 
 clean_all:
-	rm -f *~ $(PDF) $(PS) $(DVI) 
+	rm -f *~ $(OUTFILE) $(PS) $(DVI) 
 	rm -f *.aux *.log *.loa *.bbl *.blg *.lof *.lot 
 	rm -f sections/*.aux
 	rm -f *.toc *.ps .nfs* *.out
