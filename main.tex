@@ -1,5 +1,5 @@
-\documentclass[12pt,twoside]{report} % Use esta linha para tese com mais de 100 p{\'a}ginas
-%    \documentclass[12pt]{report} % Use esta linha para tese com at{\'e} 100 p{\'a}ginas
+%\documentclass[12pt,twoside]{report} % Use esta linha para tese com mais de 100 p{\'a}ginas
+\documentclass[12pt]{report} % Use esta linha para tese com at{\'e} 100 p{\'a}ginas
 
 % Definições do IC-Unicamp
 \usepackage{ic-tese}
@@ -17,6 +17,9 @@
 
 % Tabelas longas (mais de uma página)
 \usepackage{longtable}
+\usepackage{rotating}
+\usepackage{array}
+\usepackage{multirow}
 
 % Formatação de códigos
 \usepackage[algoruled]{algorithm2e}
@@ -118,13 +121,12 @@ TODO: O resumo deve conter no m{\'a}ximo 500 palavras...
 
 \chapter{Análise dos Resultados}
 \label{cap:resul}
-TODO: Análise dos Resultados obtidos
-% \include{sections/resul}
+\input{sections/resul}
 
 \chapter{Conclusões}
 \label{cap:concl}
 TODO: Conclusão do trabalho
-% \include{sections/concl}
+% \input{sections/concl}
 
 
 \appendix
