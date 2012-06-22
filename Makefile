@@ -39,7 +39,7 @@ clean:
 	rm -f *.toc *.ps .nfs* *.out
 
 clean_all:
-	rm -f *~ $(OUTFILE) $(PS) $(DVI) 
+	rm -f *~ $(OUTFILE) $(PS) $(DVI) $(PDF)
 	rm -f *.aux *.log *.loa *.bbl *.blg *.lof *.lot 
 	rm -f sections/*.aux
 	rm -f *.toc *.ps .nfs* *.out

@@ -1,29 +1,33 @@
 % DO NOT FORGET THE PACKAGE 'rotating'!!!!
+% DO NOT FORGET THE PACKAGE 'array'!!!!
+% DO NOT FORGET THE PACKAGE 'multirow'!!!!
 \begin{sidewaystable}[!ht]
-  \caption{Tempo médio (em segundos) para o modelo de ordernação por reversões e transposições. O caractere ``-'' significa que o modelo não conseguiu terminar o conjunto de testes dentro do limite de 25 horas.}
+  \caption[Modelos de Ordenação por Reversões e Transposições.]{Tempo médio (em segundos) para o modelo de ordernação por reversões e transposições. O caractere ``-'' significa que o modelo não conseguiu terminar o conjunto de testes dentro do limite de 25 horas. O caractere ``*'' significa que o modelo não conseguir terminar devido ao limite de memória do sistema.}
   \label{table:r_t}
   \begin{center}
-    \scalebox{0.7}{
-    \begin{tabular}{| r | r | r | r | r | r | r | r | r | r | r | r | r | r | r |}
+  \scalebox{0.520000}{
+    \begin{tabular}{| r | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} |}
       \hline
-      \multicolumn{15}{|c|}{\textbf{Reversals and Transpositions Models}} \\
+      \multicolumn{19}{|c|}{\textbf{Modelos de Ordenação por Reversões e Transposições}} \\
       \hline
-      \textbf{size} & \multicolumn{12}{|c|}{\textbf{CP}} & \multicolumn{2}{|c|}{\textbf{ILP}} \\
-      \cline{02-15}
-        & \multicolumn{6}{|c|}{\textbf{ECLiPSe}} & \multicolumn{6}{|c|}{\textbf{ILOG CP}} & \textbf{GLPK} & \textbf{ILOG CPLEX}  \\
-      \cline{02-13}
-        & \textbf{~def\_cop~} & \textbf{~r\_t\_br\_cop~} & \textbf{~r\_t\_bc\_cop~} & \textbf{~def\_csp~} & \textbf{~r\_t\_br\_csp~} & \textbf{~r\_t\_bc\_csp~} & \textbf{~def\_cop~} & \textbf{~r\_t\_br\_cop~} & \textbf{~r\_t\_bc\_cop~} & \textbf{~def\_csp~} & \textbf{~r\_t\_br\_csp~} & \textbf{~r\_t\_bc\_csp~}  & & \\
+      \multirow{4}{*}{\textbf{size}} & \multicolumn{16}{c|}{\textbf{CP}} & \multicolumn{2}{c|}{\textbf{ILP}} \\
+      \cline{02-19}
+        & \multicolumn{8}{c|}{\textbf{ECLiPSe}} & \multicolumn{8}{c|}{\textbf{ILOG CP}} & \centering\multirow{3}{*}{\textbf{GLPK}} & \multirow{3}{1.8cm}{\centering\textbf{ILOG CPLEX}} \\
+      \cline{02-17}
+        & \multicolumn{4}{c|}{\textbf{CSP}} & \multicolumn{4}{c|}{\textbf{COP}} & \multicolumn{4}{c|}{\textbf{CSP}} & \multicolumn{4}{c|}{\textbf{COP}} &  & \\
+      \cline{02-17}
+        & \centering\textbf{~def~} & \centering\textbf{~r\_t\_br~} & \centering\textbf{~r\_t\_bc~} & \centering\textbf{~r\_t\_cc~} & \centering\textbf{~def~} & \centering\textbf{~r\_t\_br~} & \centering\textbf{~r\_t\_bc~} & \centering\textbf{~r\_t\_cc~} & \centering\textbf{~def~} & \centering\textbf{~r\_t\_br~} & \centering\textbf{~r\_t\_bc~} & \centering\textbf{~r\_t\_cc~} & \centering\textbf{~def~} & \centering\textbf{~r\_t\_br~} & \centering\textbf{~r\_t\_bc~} & \centering\textbf{~r\_t\_cc~} &  & \\
       \hline
-      ~3~ & ~0.034~ & ~0.012~ & ~0.003~ & ~0.004~ & ~0.003~ & ~0.002~ & ~0.004~ & ~0.002~ & ~0.001~ & ~0.004~ & ~0.002~ & ~0.003~ & ~0.001~ & ~0.002~ \\
-      ~4~ & ~7.370~ & ~12.288~ & ~0.341~ & ~0.028~ & ~0.007~ & ~0.004~ & ~0.008~ & ~0.008~ & ~0.007~ & ~0.012~ & ~0.009~ & ~0.005~ & ~0.001~ & ~0.012~ \\
-      ~5~ & ~-~ & ~-~ & ~26.047~ & ~0.343~ & ~0.020~ & ~0.010~ & ~0.026~ & ~0.024~ & ~0.021~ & ~0.031~ & ~0.021~ & ~0.013~ & ~0.396~ & ~0.055~ \\
-      ~6~ & ~-~ & ~-~ & ~409.079~ & ~16.742~ & ~0.122~ & ~0.031~ & ~0.268~ & ~0.232~ & ~0.103~ & ~0.085~ & ~0.066~ & ~0.046~ & ~4.062~ & ~0.808~ \\
-      ~7~ & ~-~ & ~-~ & ~-~ & ~593.666~ & ~0.670~ & ~0.104~ & ~1.896~ & ~1.967~ & ~1.179~ & ~0.533~ & ~0.400~ & ~0.255~ & ~3.660~ & ~94.429~ \\
-      ~8~ & ~-~ & ~-~ & ~-~ & ~-~ & ~2.579~ & ~0.149~ & ~12.851~ & ~10.589~ & ~5.566~ & ~3.088~ & ~2.655~ & ~1.531~ & ~-~ & ~-~ \\
-      ~9~ & ~-~ & ~-~ & ~-~ & ~-~ & ~13.958~ & ~0.339~ & ~468.581~ & ~422.396~ & ~102.687~ & ~61.973~ & ~60.465~ & ~19.984~ & ~-~ & ~-~ \\
-      ~10~ & ~-~ & ~-~ & ~-~ & ~-~ & ~64.208~ & ~1.318~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~1189.290~ & ~-~ & ~-~ \\
+      ~3~ & ~0.035~ & ~0.010~ & ~0.004~ & ~0.006~ & ~0.004~ & ~0.005~ & ~0.004~ & ~0.008~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ \\
+      ~4~ & ~6.434~ & ~10.333~ & ~0.248~ & ~0.687~ & ~0.022~ & ~0.026~ & ~0.035~ & ~0.081~ & ~0.002~ & ~0.002~ & ~0.002~ & ~0.003~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.008~ & ~0.008~ \\
+      ~5~ & ~-~ & ~-~ & ~30.824~ & ~64.170~ & ~0.379~ & ~0.414~ & ~0.680~ & ~2.066~ & ~0.019~ & ~0.020~ & ~0.022~ & ~0.023~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.466~ & ~0.059~ \\
+      ~6~ & ~-~ & ~-~ & ~519.803~ & ~-~ & ~11.566~ & ~12.776~ & ~21.264~ & ~89.760~ & ~0.340~ & ~0.327~ & ~0.319~ & ~0.319~ & ~0.001~ & ~0.001~ & ~0.001~ & ~0.001~ & ~4.642~ & ~1.374~ \\
+      ~7~ & ~-~ & ~-~ & ~-~ & ~-~ & ~400.904~ & ~441.946~ & ~792.422~ & ~*~ & ~2.052~ & ~2.062~ & ~2.066~ & ~2.088~ & ~0.004~ & ~0.004~ & ~0.002~ & ~0.004~ & ~5.094~ & ~82.241~ \\
+      ~8~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~11.894~ & ~11.727~ & ~12.367~ & ~12.369~ & ~0.002~ & ~0.004~ & ~0.004~ & ~0.004~ & ~-~ & ~82.220~ \\
+      ~9~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~310.012~ & ~304.331~ & ~331.275~ & ~328.956~ & ~0.006~ & ~0.006~ & ~0.004~ & ~0.005~ & ~-~ & ~-~ \\
+      ~10~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~0.012~ & ~0.010~ & ~0.010~ & ~0.011~ & ~-~ & ~-~ \\
       \hline
     \end{tabular}
-}
+  }
   \end{center}
 \end{sidewaystable}
