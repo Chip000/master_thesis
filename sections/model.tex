@@ -81,20 +81,20 @@ podem ser vazias.
 \label{subsec:modelcsp}
 Primeiramente modelaremos o problema usando a teoria CSP, mas o número
 de variáveis é desconhecido devido ao fato de precisarmos do valor da
-distância $d_{r}(\pi)$ para criar as restrições e variáveis que
-representam as permutações. Por esta razão, nós escolhemos um valor
-candidato para a distância $R$ tal que $R \in [LB~..~UB]$, onde $LB$ é
-um limitante inferior conhecido e $UB$ é um limitante superior
-conhecido para o problema, e tentamos achar uma combinação apropriada
-de $R$ reversões que solucionam o problema. Se o modelo CSP falha (não
-existe combinação que soluciona o problema com o valor candidato
-escolhido) com o candidato $R$, nós escolhemos outro valor $R$ apenas
-incrementando seu valor. O valor de $R$ é escolhido usando uma
-estratégia \textit{bottom-up}, ou seja, a verificação inicia pelo
-valor do limitante inferior $LB$ e termina quando o valor é maior que o
-limitante superior $UB$. Na transposição, o processo é o mesmo que na
-reversão, trocando apenas o valor da distância de reversão
-($d_{r}(\pi)$) para o valor da distância de transposição
+distância de reversão $d_{r}(\pi)$ para criar as restrições e
+variáveis que representam as permutações. Por esta razão, nós
+escolhemos um valor candidato para a distância $R$ tal que $R \in
+[LB~..~UB]$, onde $LB$ é um limitante inferior conhecido e $UB$ é um
+limitante superior conhecido para o problema, e tentamos achar uma
+combinação apropriada de $R$ reversões que solucionam o problema. Se o
+modelo CSP falha (não existe combinação que soluciona o problema com o
+valor candidato escolhido) com o candidato $R$, nós escolhemos outro
+valor $R$ apenas incrementando seu valor. O valor de $R$ é escolhido
+usando uma estratégia \textit{bottom-up}, ou seja, a verificação
+inicia pelo valor do limitante inferior $LB$ e termina quando o valor
+é maior que o limitante superior $UB$. Na transposição, o processo é o
+mesmo que na reversão, trocando apenas o valor da distância de
+reversão ($d_{r}(\pi)$) para o valor da distância de transposição
 ($d_{t}(\pi)$).
 \begin{align}
   \label{revdistance}
@@ -230,15 +230,15 @@ reversões e o limitante do grafo de ciclos para transposições.}
   \textit{bou}&\textit{nd}(\pi, r\_t\_br\_csp, 0, UB)~\text{:-} \\
   &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \\
   &\textit{bound}(\pi, tra\_br, \_TLB, TUB), \\
-  &\textit{min}(RUB, TUB, UB), \\
+  &\textit{min}(RUB, TUB, UB). \\
   \textit{bou}&\textit{nd}(\pi, r\_t\_bc\_csp, 0, UB)~\text{:-} \\
   &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \\
   &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \\
-  &\textit{min}(RUB, TUB, UB), \\
+  &\textit{min}(RUB, TUB, UB). \\
   \textit{bou}&\textit{nd}(\pi, r\_t\_cc\_csp, 0, UB)~\text{:-} \\
   &\textit{bound}(\pi, rev\_cg, \_RLB, RUB), \\
   &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \\
-  &\textit{min}(RUB, TUB, UB), 
+  &\textit{min}(RUB, TUB, UB).
   \end{split}
 \end{align}
 
@@ -297,12 +297,12 @@ anteriormente. Nós usamos as variáveis binárias $B$ para indicar
 quando uma operação de reversão ou de transposição modificou ou não a
 permutação fornecida.
 
-O primeiro predicado que precisamos criar é o \textit{reversal\_cop/5}
-(\ref{reversal_cop}). Primeiramente, dado uma reversão $\rho(i, j)$,
-adicionamos uma nova restrição para permitir $(i, j) = (0, 0)$. Se
-$(i, j) = (0, 0)$ então $\pi\rho = \pi$. Então, adicionamos um novo
-argumento ao predicado \textit{reversal\_cop} que recebe a variável
-$B$.
+O primeiro predicado que precisamos criar para o evento de reversão é
+o \textit{reversal\_cop/5} (\ref{reversal_cop}). Primeiramente, dado
+uma reversão $\rho(i, j)$, adicionamos uma nova restrição para
+permitir $(i, j) = (0, 0)$. Se $(i, j) = (0, 0)$ então $\pi\rho
+= \pi$. Então, adicionamos um novo argumento ao
+predicado \textit{reversal\_cop} que recebe a variável $B$.
 \begin{align}
   \label{reversal_cop}
   \begin{split}
@@ -312,7 +312,7 @@ $B$.
   \end{split}
 \end{align}
 
-O predicado equivalente para transposição é
+O predicado equivalente para o evento de transposição é
 o \textit{transposition\_cop/6} (\ref{transposition_cop}). Neste caso,
 dado uma transposição $\rho(i, j, k)$, adicionamos uma nova restrição
 para permitir $(i, j, k) = (0, 0, 0)$. Se $(i, j, k) = (0, 0, 0)$
@@ -326,8 +326,8 @@ então $\pi\rho = \pi$.
   \end{split}
 \end{align}
 
-Para calcular a distância nos modelos baseados na teoria COP,
-implementamos o predicado \textit{reversal\_distance\_cop/3}
+Para calcular a distância de reversão nos modelos baseados na teoria
+COP, implementamos o predicado \textit{reversal\_distance\_cop/3}
 (\ref{revdistance_cop}), que ajusta as variáveis $B$ usando o valor do
 limitante superior e restringe as permutações fazendo $\pi_{k}
 = \pi_{k-1} \rho_{k}$. O predicado \textit{length/2}, predicado
@@ -338,7 +338,7 @@ soma das variáveis $B$ associadas com cada $\rho_{k}$, $Cost
 conhecido. A distância de reversão é o valor mínimo da função de custo
 $d_{r} = \min Cost$. Para evitar processamento desnecessários, o valor
 de $Cost$ precisa ser maior ou igual a qualquer limitante inferior. O
-predicado equivalente para transposição é
+predicado equivalente para o problema de ordenação por transposições é
 o \textit{transposition\_distance\_cop/3} (\ref{tradistance_cop}).
 \begin{align}
   \label{revdistance_cop}
@@ -392,8 +392,8 @@ O predicado \textit{upperbound\_constraint\_rev/4}
 e retorna o valor apropriado de $B$ para cada reversão $\rho_{k}$. Uma
 restrição importante é verificar se é possível ordenar a permutação
 usando o número restante de reversões para evitar processamento
-desnecessário. O predicado equivalente para a transposição é o
-\textit{upperbound\_constraint\_trans/4} (\ref{ub_constaint_tra}).
+desnecessário. O predicado equivalente para o evento de transposição é
+o \textit{upperbound\_constraint\_trans/4} (\ref{ub_constaint_tra}).
 \begin{align}
   \label{ub_constaint_rev}
   \begin{split}
@@ -402,7 +402,7 @@ desnecessário. O predicado equivalente para a transposição é o
   &\textit{reversal\_cop}(\pi, \sigma, \_I, \_J, B), \\
   &\textit{bound}(\pi, Model, LB, \_UB), \\
   &UB \ge LB,  \\
-  &\textit{upperbound\_constraint\_rev}(\sigma, Bt, Model, UB - 1),  
+  &\textit{upperbound\_constraint\_rev}(\sigma, Bt, Model, UB - 1).
   \end{split}
 \end{align}
 \begin{align}
@@ -413,7 +413,7 @@ desnecessário. O predicado equivalente para a transposição é o
   &\textit{transposition\_cop}(\pi, \sigma, \_I, \_J, \_K, B), \\
   &\textit{bound}(\pi, Model, LB, \_UB), \\
   &UB \ge LB,  \\
-  &\textit{upperbound\_constraint\_trans}(\sigma, Bt, Model, UB - 1),  
+  &\textit{upperbound\_constraint\_trans}(\sigma, Bt, Model, UB - 1).
   \end{split}
 \end{align}
 

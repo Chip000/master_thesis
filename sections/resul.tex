@@ -1,9 +1,10 @@
 % resultados
 Neste capítulo apresentaremos os resultados obtidos pelos modelos
 descritos no capítulo~\ref{cap:model}. A seção \ref{sec:tspec} mostra
-as características do computador utilizado para executar os
-testes. ---MORE HERE---. A seção \ref{sec:analise} apresenta a análise dos
-resultados obtidos durante este trabalho.
+as características do computador utilizado para executar os testes. A
+seção \ref{sec:testes} descreve como os testes foram executados. A
+seção \ref{sec:analise} apresenta a análise dos resultados obtidos
+durante este trabalho.
 
 \section{Especificações Técnicas}
 \label{sec:tspec}
@@ -43,7 +44,19 @@ usando as seguintes ferramentas:
   CPLEX\textregistered{} Optimizer v 12.1}~\cite{ilogcplex*2011}..}
 \end{itemize}
 
-%\section{}
+\section{Descrição dos Testes}
+\label{sec:testes}
+Os testes foram separados de acordo com o tamanho das
+permutações. Uma instância contém o conjunto de permutações com
+tamanho $n$, onde $n > 2$ devido ao fato de ser trivial fazer uma das
+operações de ordenação em uma permutação com tamanho $2$. Para cada
+instância, geramos $50$ permutações com tamanho $n$.
+
+Todas instâncias foram executadas nos softwares indicados na
+seção \ref{sec:tspec}. Para cada instância foi dado o tempo máximo de
+$25$ horas. Fazemos a comparação dos modelos se baseando nos tempos
+médios usados para resolver cada instância. Como referência usamos os
+modelos de \pli{} descritos na seção \ref{sec:pli}.
 
 \section{Análise dos Resultados}
 \label{sec:analise}
