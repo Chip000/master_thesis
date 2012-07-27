@@ -60,11 +60,30 @@ modelos de \pli{} descritos na seção \ref{sec:pli}.
 
 \section{Análise dos Resultados}
 \label{sec:analise}
+As tabelas \ref{table:rev}, \ref{table:trans}, \ref{table:r_t}
+apresentam os tempos médios usados para resolver cada instância dos
+testes. O caractere ``-'' significa que o modelo não conseguiu
+solucionar todas as permutações da instância dentro do limite de 25
+horas. O caractere ``*'' significa que o modelo não conseguiu terminar
+devido ao limite de memória do sistema.
 
-
-
-
+Podemos observar que nos três casos que os modelos de programação por
+restrições baseados na teoria COP possuem os piores tempos de execução
+e os modelos baseados na teoria CSP possuem os melhores
+resultados. Outro fato que podemos notar é que quanto melhor os
+limitantes menor é o tempo necessário para solucionar as instâncias.
 
 \input{tables/rev.tex}
 \input{tables/trans.tex}
 \input{tables/r_t.tex}
+
+\subsection{Ordenação por Reversões}
+\label{subsec:analise_rev}
+Nos modelos de ordenação por reversões, podemos notar que foi o único
+modelo no qual não foi possível solucionar as permutações devido à
+falta de memória.
+
+
+
+
+%%%%%%%% CSP vs COP %%%%%%%%%%%
