@@ -24,8 +24,9 @@ Todos modelos de \pr{} foram implementados usando as seguintes
 ferramentas:
 
 \begin{itemize}
-  \item{Sistema de programação de código
-  aberto \textit{ECLiPSe-6.0}~\cite{eclipse*2009}. } 
+  \item{Sistema de programação de código aberto\footnote{Em
+  inglês \textit{Open
+  Source}.} \textit{ECLiPSe-6.0}~\cite{eclipse*2009}. }
   
  \item{Pacote proprietário para a linguagem de programação
   C++ \textit{IBM\textregistered{} ILOG\textregistered{}
@@ -70,20 +71,119 @@ devido ao limite de memória do sistema.
 Podemos observar que nos três casos que os modelos de programação por
 restrições baseados na teoria COP possuem os piores tempos de execução
 e os modelos baseados na teoria CSP possuem os melhores
-resultados. Outro fato que podemos notar é que quanto melhor os
-limitantes menor é o tempo necessário para solucionar as instâncias.
+resultados. 
 
-\input{tables/rev.tex}
-\input{tables/trans.tex}
-\input{tables/r_t.tex}
+Também podemos notar que quanto melhor os limitantes menor é o tempo
+necessário para solucionar as instâncias, conseguindo resolver mais
+instâncias com permutações ``maiores''\footnote{Apesar que nenhum
+modelo conseguiu resolver instâncias com permutações de tamanho $n >
+14$, dentro do tempo limite de $25$ horas.}. Isto ocorre pela redução
+do conjunto solução para o problema.
 
 \subsection{Ordenação por Reversões}
 \label{subsec:analise_rev}
-Nos modelos de ordenação por reversões, podemos notar que foi o único
-modelo no qual não foi possível solucionar as permutações devido à
-falta de memória.
+Nos modelos de ordenação por reversões, tabela \ref{table:rev},
+podemos notar que alguns modelos não conseguiram solucionar as
+permutações devido ao limite de memória do sistema. Isto ocorreu com
+as permutações de tamanho $n = 10$ usando os três limitantes nos
+modelos baseados na teoria CSP desenvolvido para o \textit{ILOG CP},
+com as permutações de tamanho $n = 13$ para o
+limitante \textit{rev\_cg\_csp} no modelo baseado na teoria CSP e com
+as permutações de tamanho $n = 6$ para o
+limitante \textit{rev\_cg\_cop} no modelo baseado na teoria COP
+desenvolvidos para o \textit{ECLiPSe}.
 
+No \textit{ECLiPSe}, é possível observar que nos modelos baseados na
+teoria COP, quanto melhor o limitante maior é o tempo necessário para
+resolver as instâncias. Isto ocorre devido ao tamanho do espaço de
+busca dos modelos COP. 
 
+Outro fator é que os melhores limitantes usam algoritmos mais
+complexos, necessitando de mais tempo para calcular os valores dos
+limitantes. Isto pode ser notado nos modelos baseados na teoria CSP
+desenvolvidos para o \textit{ILOG CP}.
+
+Nenhum modelo de ordenação por reversões conseguiu solucionar as
+instâncias com permutações de tamanho $n > 13$ dentro do tempo limite
+de $25$ horas.
+
+\input{tables/rev.tex}
+
+\subsection{Ordenação por Transposições}
+\label{subsec:analise_tra}
+Nos modelos de ordenação por transposições, tabela \ref{table:trans},
+os modelos baseados na teoria COP que usam o
+limitante \textit{tra\_br\_cop} apresentaram os piores resultados.
+
+Similar ao modelo de ordenação por reversões, nos modelos baseados na
+teoria CSP desenvolvidos para o \textit{ILOG CP}, quanto melhor o
+limitante maior é o tempo necessário para resolver as instâncias.
+
+Nenhum modelo de ordenação por transposições conseguiu solucionar as
+instâncias com permutações de tamanho $n > 14$ dentro do tempo limite
+de $25$ horas.
+
+\input{tables/trans.tex}
+
+\subsection{Ordenação por Reversões e Transposições}
+\label{subsec:analise_r_t}
+Os modelos de ordenação por reversões e transposições,
+tabela \ref{table:r_t} obtiveram os piores resultados\footnote{Nenhum
+modelo conseguiu resolver instâncias com permutações de tamanho $n >
+10$, dentro do tempo limite de $25$ horas.}. Isto já era esperado,
+devido ao fato que os modelos utilizam tanto a operação de reversão
+como a operação de transposição, resultando em um espaço de busca
+maior e no aumento do tempo necessário para encontrar a solução.
+
+O modelo baseado na teoria CSP que usa o
+limitante \textit{r\_t\_cc\_csp} desenvolvido para o \textit{ECLiPSe}
+não conseguiu resolver a instância com permutações de tamanho $n = 7$
+devido ao limite de memória do sistema. Foi o único modelo de
+ordenação por reversões e transposições que ocorreu este problema.
+
+É possível notar claramente o rápido crescimento do espaço de busca
+dos modelos conforme o tamanho das permutações. Como exemplo, podemos
+pegar os modelos baseados na teoria CSP desenvolvidos para
+o \textit{ILOG CP}. O modelo que obteve o pior tempo para a instância
+com permutações de tamanho $n = 10$ foi o modelo \textit{def\_csp},
+que não utiliza limitantes, e o seu tempo de execução para essa
+instância foi de $0.012$ segundos. Um tempo excelente para o modelo
+que, diferentemente dos modelos que utilizam as operações
+isoladamente, conseguiu solucionar esta instância. Porém para as
+instâncias com permutações de tamanho $n > 10$, os modelos não
+conseguiram solucionar todas permutações dentro do limite de tempo.
+
+Nenhum modelo de ordenação por transposições conseguiu solucionar as
+instâncias com permutações de tamanho $n > 10$ dentro do tempo limite
+de $25$ horas.
+
+\input{tables/r_t.tex}
+
+\subsection{Sistemas Proprietários x Livres}
+\label{subsec:analise_close_open}
+Um dos objetivos deste trabalho é analisar se os softwares
+proprietários são inferiores ou superiores aos softwares de código
+aberto.
+
+No caso das formulações em programação linear inteira, podemos notar
+que as formulações desenvolvidas para o \textit{ILOG CPLEX} obtiveram
+os melhores tempos para as instâncias com permutações de tamanho
+$n \le 7$, mas para permutações com $n > 7$ as formulações
+desenvolvidas para o \textit{GLPK} foram mais rápidas, com exceção da
+instância com permutações de tamanho $n = 10$ que o \textit{GLPK} não
+conseguiu solucionar dentro do tempo limite, ao contrário
+do \textit{ILOG CPLEX}. Então para programação linear inteira podemos
+dizer que o \textit{ILOG CPLEX} é o mais adequado para os problemas,
+devido ao fato de resolver uma instância a mais em relação
+ao \textit{GLPK}.
+
+No caso dos modelos de programação por restrições, podemos notar que
+os modelos baseados na teoria COP, o \textit{ILOG CP} foi superior
+ao \textit{ECLiPSe}. Mas para os modelos baseados na teoria CSP,
+o \textit{ECLiPSe} não só obteve tempos melhores, mas também resolveu
+instâncias maiores, exceto nos modelos de ordenação por reversões e
+transposições. Então para programação por restrições podemos dizer que
+o \textit{ECLiPSe} é o mais adequado.
 
 
 %%%%%%%% CSP vs COP %%%%%%%%%%%
