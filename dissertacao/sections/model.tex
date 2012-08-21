@@ -1,0 +1,725 @@
+% modelos
+Neste capítulo nós apresentaremos a descrição dos modelos de \pr{} e
+\pli{} usados para os problemas de ordenação por transposições,
+ordenação por reversões e ordenação por reversões e transposições.
+
+\section{\PR}
+\label{sec:cp}
+O modelo de \pr{} usado para o problema de ordenação por transposições
+é o descrito em Dias e Dias~\cite{DiasDias*2009}. Nós usamos as
+definições contidas no capítulo~\ref{cap:basic} para escrever as
+formulações baseadas nas teorias de Problema de Satisfação de
+Restrições (CSP) e Problema de Otimização com Restrições (COP). As
+formulações foram descritas usando a notação \textit{prolog-like} de
+Marriot \cite{Marriott*1998}. Primeiramente iremos apresentar os
+predicados que são comum às duas formulações.
+
+Em prolog as variáveis são descritas por \textit{strings} iniciadas
+com letra maiúscula ou ``\_'' (\textit{underscore}) caso a variável
+seja anônima. As letras gregas $\pi$ e $\sigma$ representam listas
+nesta notação. A construção $X~::~[i~..~j]$ significa que $X$ (ou cada
+elemento de $X$ se $X$ for uma lista) pode assumir um valor do
+intervalo $[i~..~j]$.
+
+A representação da permutação (\ref{perm}) e o efeito das operações de
+reversão (\ref{reversal}) e transposição (\ref{transposition} podem
+ser vistas da mesma maneira que são descritas pelos problemas. Neste
+modelo a permutação $\pi$ é uma lista de elementos
+($\pi_{1},~\pi_{2},~\ldots~,~\pi_{n}$) onde $\pi_{i} \in \mathbb{N}$,
+$0 < \pi_{i} \le n$ e $\pi_{i} \neq \pi_{j}$ para $i \neq j$.
+\begin{align}
+  \label{perm}
+  \begin{split}
+  \textit{per}&\textit{mutation}(\pi, N)~\text{:-} \\
+  &\textit{length}(\pi, N), \\ 
+  &\pi~::~[1~..~N], \\
+  &\textit{all\_different}(\pi). 
+  \end{split}
+\end{align}
+
+Na reversão $\rho(i,j)$, $0 < i < j \leq n$, dividimos a lista em três
+sublistas $C_{1}C_{2}C_{3}$ onde $C_{1} = (\pi_{1}~..~\pi_{i-1})$,
+$C_{2} = (\pi_{i}~..~\pi_{j})$ e $C_{3} =
+(\pi_{j+1}~..~\pi_{n})$. Depois fazemos a reversão na sublista
+$C_{2}$, resultando na lista $R_{C_{2}}$. Então juntamos a nova lista
+$R_{C_{2}}$ com as sublistas $C_{1}$ e $C_{3}$ para formar $\rho\pi =
+C_{1}R_{C_{2}}C_{3}$.
+\begin{align}
+  \label{reversal}
+  \begin{split}
+  \textit{rev}&\textit{ersal}(\pi, \sigma, I, J)~\text{:-} \\
+  &\textit{permutation}(\pi, N), \\
+  &\textit{permutation}(\sigma, N),  \\
+  &1 \le I < J \le N, \\
+  &\textit{split}(\pi, I, J, C_{1}, C_{2}, C_{3}), \\
+  &\textit{reverse}(C_{2}, R_{C_{2}}),  \\
+  &\sigma = C_{1}, R_{C_{2}}, C_{3}. 
+  \end{split}
+\end{align}
+
+Na transposição $\rho(i,j,k)$, $0 < i < j < k\leq n$, dividimos a
+lista em quatro sublistas $C_{1}C_{2}C_{3}C_{4}$ onde $C_{1} =
+(\pi_{1}~..~\pi_{i-1})$, $C_{2} = (\pi_{i}~..~\pi_{j-1})$, $C_{3} =
+(\pi_{j}~..~\pi_{k-1})$ e $C_{4} = (\pi_{k}~..~\pi_{n})$. Trocamos de
+posição os blocos $C_{2}$ e $C_{3}$ e juntamos elas na ordem $C_{1}$,
+$C_{3}$, $C_{2}$ e $C_{4}$ para formar $\rho\pi =
+C_{1}C_{3}C_{2}C_{4}$. Observe que as sublistas $C_{1}$ e $C_{4}$
+podem ser vazias.
+\begin{align}
+  \label{transposition}
+  \begin{split}
+  \textit{tra}&\textit{nsposition}(\pi, \sigma, I, J, K)~\text{:-} \\
+  &\textit{permutation}(\pi, N), \\
+  &\textit{permutation}(\sigma, N), \\
+  &1 \le I < J < K \le N,  \\
+  &\textit{split}(\pi, I, J, K, C_{1}, C_{2}, C_{3}, C_{4}), \\
+  &\sigma = C_{1}, C_{3}, C_{2}, C_{4}. 
+  \end{split}
+\end{align}
+
+\subsection{Modelo CSP}
+\label{subsec:modelcsp}
+Primeiramente modelaremos o problema usando a teoria CSP, mas o número
+de variáveis é desconhecido devido ao fato de precisarmos do valor da
+distância de reversão $d_{r}(\pi)$ para criar as restrições e
+variáveis que representam as permutações. Por esta razão, nós
+escolhemos um valor candidato para a distância $R$ tal que $R \in
+[LB~..~UB]$, onde $LB$ é um limitante inferior conhecido e $UB$ é um
+limitante superior conhecido para o problema, e tentamos achar uma
+combinação apropriada de $R$ reversões que solucionam o problema. Se o
+modelo CSP falha (não existe combinação que soluciona o problema com o
+valor candidato escolhido) com o candidato $R$, nós escolhemos outro
+valor $R$ apenas incrementando seu valor. O valor de $R$ é escolhido
+usando uma estratégia \textit{bottom-up}, ou seja, a verificação
+inicia pelo valor do limitante inferior $LB$ e termina quando o valor
+é maior que o limitante superior $UB$. Na transposição, o processo é o
+mesmo que na reversão, trocando apenas o valor da distância de
+reversão ($d_{r}(\pi)$) para o valor da distância de transposição
+($d_{t}(\pi)$).
+\begin{align}
+  \label{revdistance}
+  \begin{split}
+  \textit{rev}&\textit{ersal\_distance}(\iota, 0, \_Model). \\
+  \textit{rev}&\textit{ersal\_distance}(\pi, R, Model)~\text{:-} \\
+  &\textit{bound}(\pi, Model, LB, UB), \\
+  &R :: [LB~..~UB], \\
+  &\textit{indomain}(R),  \\
+  &\textit{reversal}(\pi, \sigma, \_I, \_J),  \\
+  &\textit{reversal\_distance}(\sigma, R-1, Model). 
+  \end{split}
+\end{align}
+\begin{align}
+  \label{tradistance}
+  \begin{split}
+  \textit{tra}&\textit{nsposition\_distance}(\iota, 0, \_Model). \\
+  \textit{tra}&\textit{nsposition\_distance}(\pi, T, Model)~\text{:-} \\
+  &\textit{bound}(\pi, Model, LB, UB), \\
+  &T :: [LB~..~UB], \\
+  &\textit{indomain}(T),  \\
+  &\textit{transposition}(\pi, \sigma, \_I, \_J, \_K),  \\
+  &\textit{transposition\_distance}(\sigma, T-1, Model). 
+  \end{split}
+\end{align}
+
+O predicado \textit{rev\_trans\_dist/3} (\ref{trarevdist}) retorna o
+valor da distância de reversão e transposição. O
+predicado \textit{event/2} escolhe o melhor evento entre o
+predicado \textit{reversal/4} (\ref{reversal}) e o
+predicado \textit{transposition/5} (\ref{transposition}) para
+minimizar o valor da distância.
+\begin{align}
+  \label{trarevdist}
+  \begin{split}
+  \textit{rev}&\textit{\_trans\_dist}(\iota, 0, \_Model). \\
+  \textit{rev}&\textit{\_trans\_dist}(\pi, N, Model)~\text{:-} \\
+  &\textit{bound}(\pi, Model, LB, UB), \\
+  &N :: [LB~..~UB], \\
+  &\textit{indomain}(N),  \\
+  &\textit{event}(\pi, \sigma),  \\
+  &\textit{rev\_trans\_dist}(\sigma, N-1, Model). 
+  \end{split}
+\end{align}
+
+O predicado \textit{indomain(X)} em (\ref{revdistance}),
+(\ref{tradistance}) e (\ref{trarevdist}) pega o domínio da variável
+$X$ e escolhe o menor elemento dele (no caso o valor do limitante
+inferior). Se o modelo retorna para o predicado \textit{indomain}
+devido a uma falha, o elemento que originou ela será removido do
+domínio e um outro valor será escolhido.
+
+Os modelos CSP para os problemas de ordenação possuem a estrutura
+mostrada acima, trocando apenas os limitantes usados. A seguir
+apresentaremos os predicados que lidam com a escolha do modelo a ser
+usado.
+
+Em comum para os todos eventos descritos temos o
+modelo \textit{def\_csp} que não usa nenhum limitante.
+\begin{align}
+  \label{bound_def}
+  \begin{split}
+  \textit{bou}&\textit{nd}(\pi, def\_csp, LB, UB)~\text{:-} \\
+  &LB = 0, \\
+  &\textit{length}(\pi, UB).
+  \end{split}
+\end{align}
+
+\textit{Ordenação por reversões:}
+\begin{itemize}
+\item{\textit{rev\_br\_csp}: 
+Modelo que usa o conceito de \bkp{} em reversões para calcular os
+limitantes descritos no Teorema~\ref{teo:rev_bkp_bound}.}
+\item{\textit{rev\_cg\_csp}:
+Modelo que usa o número de $2$-ciclos na máxima decomposição em ciclos
+de $G(\pi)$ para calcular os limitantes descritos no
+Teorema~\ref{teo:rev_cic_bound}.}
+\end{itemize}
+\begin{align}
+  \label{bound_rev}
+  \begin{split}
+  \textit{bou}&\textit{nd}(\pi, rev\_br\_csp, LB, UB)~\text{:-}  \\
+  &\textit{calc\_breakpoints\_reversal}(\pi, B), \\
+  &LB = B / 2  \\ % / 2 ,  \\
+  &UB = B.  \\
+  \textit{bou}&\textit{nd}(\pi, rev\_cg\_csp, LB, UB)~\text{:-}  \\
+  &\textit{find\_2\_cycle}(\pi, B, C), \\
+  &LB = (2 * B - C) / 3 ,   \\
+  &UB = B - C / 2.
+  \end{split}
+\end{align}
+
+\textit{Ordenação por transposições:}
+\begin{itemize}
+\item{\textit{tra\_br\_csp}: 
+Modelo que usa o conceito de \bkp{} em transposições para calcular os
+limitantes conforme descrito no Teorema~\ref{teo:trans_br_bound}.}
+\item{\textit{tra\_cg\_csp}:
+Modelo que usa o conceito de grafo de ciclos em transposições, fazendo
+a decomposição de ciclos e analisando os ciclos ímpares separadamente
+para calcular os limitantes conforme descrito no
+Teorema~\ref{teo:trans_cg_bound}.}
+\end{itemize}
+\begin{align}
+  \label{bound_tra}
+  \begin{split}
+  \textit{bou}&\textit{nd}(\pi, tra\_br\_csp, LB, UB)~\text{:-} \\
+  &\textit{calc\_breakpoints\_transposition}(\pi, B), \\
+  &LB = B / 3  \\ %/ 3,  \\
+  &UB = B.   \\
+  \textit{bou}&\textit{nd}(\pi, tra\_cg\_csp, LB, UB)~\text{:-} \\
+  &\textit{calc\_oddcycle\_transposition}(\pi, N, C), \\
+  &LB = (N + 1 - C) / 2  \\ 
+  &UB = (3 * (N + 1 - C)) / 4.
+  \end{split}
+\end{align}
+
+\textit{Ordenação por reversões e transposições:} 
+\begin{itemize}
+\item{\textit{r\_t\_br\_csp}: 
+Melhor limitante superior entre o limitante de \bkp{} para reversões e
+o limitante de \bkp{} para transposições.}
+\item{\textit{r\_t\_bc\_csp}:
+Melhor limitante superior entre o limitante de \bkp{} para reversões e
+o limitante do grafo de ciclos para transposições.}
+\item{\textit{r\_t\_cc\_csp}: 
+Melhor limitante superior entre o limitante do grafo de ciclos para
+reversões e o limitante do grafo de ciclos para transposições.}
+\end{itemize}
+\begin{align}
+  \label{bound_r_t}
+  \begin{split}
+  \textit{bou}&\textit{nd}(\pi, r\_t\_br\_csp, 0, UB)~\text{:-} \\
+  &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \\
+  &\textit{bound}(\pi, tra\_br, \_TLB, TUB), \\
+  &\textit{min}(RUB, TUB, UB). \\
+  \textit{bou}&\textit{nd}(\pi, r\_t\_bc\_csp, 0, UB)~\text{:-} \\
+  &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \\
+  &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \\
+  &\textit{min}(RUB, TUB, UB). \\
+  \textit{bou}&\textit{nd}(\pi, r\_t\_cc\_csp, 0, UB)~\text{:-} \\
+  &\textit{bound}(\pi, rev\_cg, \_RLB, RUB), \\
+  &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \\
+  &\textit{min}(RUB, TUB, UB).
+  \end{split}
+\end{align}
+
+O predicado \textit{bound/4} (\ref{bound_def}), (\ref{bound_rev}),
+(\ref{bound_tra}), (\ref{bound_r_t}) recebe na variável \textit{Model}
+um átomo que representa o modelo a ser usado. Este átomo se conecta
+com o predicado que retorna o limitante superior e inferior apropriado
+para o modelo. Observe que o limitante inferior é igual a $0$ no caso
+dos modelos de ordenação por reversões e transposições. Isto ocorre
+devido ao fato que a cada nova iteração do modelo pode surgir um
+limitante inferior melhor, simplesmente fazendo a troca entre as
+operações de reversão e transposição.
+%
+%\begin{align}
+%  \label{bound}
+%  \begin{split}
+%  \textit{bou}&\textit{nd}(\pi, def\_csp, LB, UB)~\text{:-} \\
+%  &\textit{def\_csp\_bound}(\pi, LB, UB).  \\
+%  \textit{bou}&\textit{nd}(\pi, rev\_br\_csp, LB, UB)~\text{:-}  \\
+%  &\textit{calc\_breakpoints\_reversal}(\pi, B), \\
+%  &LB = B / 2  \\ % / 2 ,  \\
+%  &UB = B.  \\
+%  \textit{bou}&\textit{nd}(\pi, rev\_cg\_csp, LB, UB)~\text{:-}  \\
+%  &\textit{find\_2\_cycle}(\pi, B, C), \\
+%  &LB = (2 * B - C) / 3 ,   \\
+%  &UB = B - C / 2.  \\
+%  \textit{bou}&\textit{nd}(\pi, tra\_br\_csp, LB, UB)~\text{:-} \\
+%  &\textit{calc\_breakpoints\_transposition}(\pi, B), \\
+%  &LB = B / 3  \\ %/ 3,  \\
+%  &UB = B.   \\
+%  \textit{bou}&\textit{nd}(\pi, tra\_cg\_csp, LB, UB)~\text{:-} \\
+%  &\textit{calc\_oddcycle\_transposition}(\pi, N, C), \\
+%  &LB = (N + 1 - C) / 2  \\ 
+%  &UB = (3 * (N + 1 - C)) / 4.  \\
+%  \textit{bou}&\textit{nd}(\pi, r\_t\_br\_csp, 0, UB)~\text{:-} \\
+%  &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \\
+%  &\textit{bound}(\pi, tra\_br, \_TLB, TUB), \\
+%  &\textit{min}(RUB, TUB, UB), \\
+%  \textit{bou}&\textit{nd}(\pi, r\_t\_bc\_csp, 0, UB)~\text{:-} \\
+%  &\textit{bound}(\pi, rev\_br, \_RLB, RUB), \\
+%  &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \\
+%  &\textit{min}(RUB, TUB, UB), \\
+%  \textit{bou}&\textit{nd}(\pi, r\_t\_cc\_csp, 0, UB)~\text{:-} \\
+%  &\textit{bound}(\pi, rev\_cg, \_RLB, RUB), \\
+%  &\textit{bound}(\pi, tra\_cg, \_TLB, TUB), \\
+%  &\textit{min}(RUB, TUB, UB), 
+%  \end{split}
+%\end{align}
+
+\subsection{Modelo COP}
+\label{subsec:modelcop}
+Uma outra alternativa é modelar o problema usando a teoria COP. Os
+modelos que usam esta abordagem necessitam de um limitante superior,
+portanto serão feitas algumas alterações nos predicados definidos
+anteriormente. Nós usamos as variáveis binárias $B$ para indicar
+quando uma operação de reversão ou de transposição modificou ou não a
+permutação fornecida.
+
+O primeiro predicado que precisamos criar para o evento de reversão é
+o \textit{reversal\_cop/5} (\ref{reversal_cop}). Primeiramente, dado
+uma reversão $\rho(i, j)$, adicionamos uma nova restrição para
+permitir $(i, j) = (0, 0)$. Se $(i, j) = (0, 0)$ então $\pi\rho
+= \pi$. Então, adicionamos um novo argumento ao
+predicado \textit{reversal\_cop} que recebe a variável $B$.
+\begin{align}
+  \label{reversal_cop}
+  \begin{split}
+  \textit{rev}&\textit{ersal\_cop}(\iota, \iota, 0, 0, 0). \\
+  \textit{rev}&\textit{ersal\_cop}(\pi, \sigma, I, J, 1)~\text{:-}~ 
+  \textit{reversal}(\pi, \sigma, I, J).
+  \end{split}
+\end{align}
+
+O predicado equivalente para o evento de transposição é
+o \textit{transposition\_cop/6} (\ref{transposition_cop}). Neste caso,
+dado uma transposição $\rho(i, j, k)$, adicionamos uma nova restrição
+para permitir $(i, j, k) = (0, 0, 0)$. Se $(i, j, k) = (0, 0, 0)$
+então $\pi\rho = \pi$.
+\begin{align}
+  \label{transposition_cop}
+  \begin{split}
+  \textit{tra}&\textit{nsposition\_cop}(\iota, \iota, 0, 0, 0, 0). \\
+  \textit{tra}&\textit{nsposition\_cop}(\pi, \sigma, I, J, K, 1)~\text{:-}~ 
+  \textit{transposition}(\pi, \sigma, I, J, K). 
+  \end{split}
+\end{align}
+
+Para calcular a distância de reversão nos modelos baseados na teoria
+COP, implementamos o predicado \textit{reversal\_distance\_cop/3}
+(\ref{revdistance_cop}), que ajusta as variáveis $B$ usando o valor do
+limitante superior e restringe as permutações fazendo $\pi_{k}
+= \pi_{k-1} \rho_{k}$. O predicado \textit{length/2}, predicado
+interno do prolog, é usado para criar uma lista de variáveis não
+instanciadas com o tamanho dado. A função de custo \textit{Cost} é a
+soma das variáveis $B$ associadas com cada $\rho_{k}$, $Cost
+= \sum_{k=1}^{UB} B_{k}$, onde $UB$ é um limitante superior
+conhecido. A distância de reversão é o valor mínimo da função de custo
+$d_{r} = \min Cost$. Para evitar processamento desnecessários, o valor
+de $Cost$ precisa ser maior ou igual a qualquer limitante inferior. O
+predicado equivalente para o problema de ordenação por transposições é
+o \textit{transposition\_distance\_cop/3} (\ref{tradistance_cop}).
+\begin{align}
+  \label{revdistance_cop}
+  \begin{split}
+  \textit{rev}&\textit{ersal\_distance\_cop}(\pi, R, Model)~\text{:-} \\
+  &\textit{bound}(\pi, Model, LB, UB), \\
+  &\textit{length}(B, UB),  \\
+  &\textit{upperbound\_constraint\_rev}(\pi, B, Model, UB), \\
+  &\textit{sum}(B, Cost),  \\
+  &\textit{Cost} \ge \textit{LB},  \\
+  &\textit{minimize}(Cost, R). 
+  \end{split}
+\end{align}
+\begin{align}
+  \label{tradistance_cop}
+  \begin{split}
+  \textit{tra}&\textit{nsposition\_distance\_cop}(\pi, T, Model)~\text{:-} \\
+  &\textit{bound}(\pi, Model, LB, UB), \\
+  &\textit{length}(B, UB),  \\
+  &\textit{upperbound\_constraint\_trans}(\pi, B, Model, UB), \\
+  &\textit{sum}(B, Cost),  \\
+  &\textit{Cost} \ge \textit{LB},  \\
+  &\textit{minimize}(Cost, T). 
+  \end{split}
+\end{align}
+
+O predicado equivalente para o modelo de ordenação por reversões e
+transposições é
+o \textit{rev\_trans\_dist\_cop/3}~(\ref{trarevdistcop}). O
+predicado \textit{upperbound\_constraint\_event/4} escolhe o melhor
+evento entre a reversão, usando o
+predicado \textit{upperbound\_constraint\_rev/4}
+(\ref{ub_constaint_rev}), e a transposição, usando o
+predicado \textit{upperbound\_constraint\_trans/4}
+(\ref{ub_constaint_tra}), para minimizar o valor da distância.
+\begin{align}
+  \label{trarevdistcop}
+  \begin{split}
+  \textit{rev}&\textit{\_trans\_dist\_cop}(\pi, N, Model)~\text{:-} \\
+  &\textit{bound}(\pi, Model, LB, UB), \\
+  &\textit{length}(B, UB),  \\
+  &\textit{upperbound\_constraint\_event}(\pi, B, Model, UB), \\
+  &\textit{sum}(B, Cost),  \\
+  &\textit{Cost} \ge \textit{LB},  \\
+  &\textit{minimize}(Cost, N). 
+  \end{split}
+\end{align}
+
+O predicado \textit{upperbound\_constraint\_rev/4}
+(\ref{ub_constaint_rev}) aplica na permutação os efeitos de $\rho_{k}$
+e retorna o valor apropriado de $B$ para cada reversão $\rho_{k}$. Uma
+restrição importante é verificar se é possível ordenar a permutação
+usando o número restante de reversões para evitar processamento
+desnecessário. O predicado equivalente para o evento de transposição é
+o \textit{upperbound\_constraint\_trans/4} (\ref{ub_constaint_tra}).
+\begin{align}
+  \label{ub_constaint_rev}
+  \begin{split}
+  \textit{upp}&\textit{erbound\_constraint\_rev}(\iota, [~], \_Model, \_UB). \\
+  \textit{upp}&\textit{erbound\_constraint\_rev}(\pi, [B|Bt], Model, UB)~\text{:-} \\
+  &\textit{reversal\_cop}(\pi, \sigma, \_I, \_J, B), \\
+  &\textit{bound}(\pi, Model, LB, \_UB), \\
+  &UB \ge LB,  \\
+  &\textit{upperbound\_constraint\_rev}(\sigma, Bt, Model, UB - 1).
+  \end{split}
+\end{align}
+\begin{align}
+  \label{ub_constaint_tra}
+  \begin{split}
+  \textit{upp}&\textit{erbound\_constraint\_trans}(\iota, [~], \_Model, \_UB). \\
+  \textit{upp}&\textit{erbound\_constraint\_trans}(\pi, [B|Bt], Model, UB)~\text{:-} \\
+  &\textit{transposition\_cop}(\pi, \sigma, \_I, \_J, \_K, B), \\
+  &\textit{bound}(\pi, Model, LB, \_UB), \\
+  &UB \ge LB,  \\
+  &\textit{upperbound\_constraint\_trans}(\sigma, Bt, Model, UB - 1).
+  \end{split}
+\end{align}
+
+Os modelos baseados na teoria COP possuem a estrutura acima, trocando
+apenas os limitantes usados. Os limitantes são os mesmos usados para
+os modelos CSP, modificados para os modelos COP. Então temos os
+seguintes limitantes: \textit{def\_cop}, \textit{rev\_br\_cop},
+\textit{rev\_cg\_cop}, \textit{tra\_br\_cop}, \textit{tra\_cg\_cop}, 
+\textit{r\_t\_br\_cop}, \textit{r\_t\_bc\_cop}
+e \textit{r\_t\_cc\_cop}.
+
+\section{\PLI}
+\label{sec:pli}
+A abordagem utilizada para programação linear inteira é a descrita no
+trabalho de Dias e de Souza~\cite{DiasSouza*2007}. Neste trabalho,
+define-se um modelo para o problema da distância com tamanho
+polinomial em relação ao tamanho da permutação fornecida como
+entrada. O modelo é específico para os eventos de reversão,
+transposição ou reversão e transposição quando ocorrem
+simultaneamente.
+
+Primeiramente vamos apresentar as variáveis e restrições que são
+comuns para todos os modelos. A ideia é assegurar que só estamos
+tratando com permutações válidas.
+
+\textit{Gerando permutações válidas a cada iteração.} 
+As variáveis $B_{ijk}$ indicam se a $i$-ésima posição de $\pi$ possui
+o valor $j$ depois da $k$-ésima operação ter sido executada, para todo
+$1 \le i, j \le n$ e todo $ 0 \le k < n$.
+
+\[ 
+B_{ijk} = \left \{ 
+\begin{tabular}{ll} 
+  1, & se $\pi[i]$ = $j$ depois da $k$-ésima operação \\ 
+  0, & caso contrário
+\end{tabular} 
+\right .
+\]
+
+As restrições (\ref{eq:corr1}) e (\ref{eq:corr2}) garantem que a
+permutação inicial e a final são corretas. 
+\begin{align} 
+  B_{i,\pi[i],0} = 1,~\text{para todo $1 \le i \le n$}. \label{eq:corr1} \\
+  B_{i,\sigma[i],n-1} = 1,~\text{para todo $1 \le i \le n$}. \label{eq:corr2}
+\end{align}
+
+A restrição (\ref{eq:posval}) garante que cada posição de uma
+permutação possui exatamente um valor associado a ela. Já a restrição
+(\ref{eq:valpos}) garante que todo valor esteja associado a uma
+posição de cada permutação.
+\begin{align}
+  \sum_{j=1}^{n} B_{ijk} = 1,~\text{para todo $1 \le i \le n$, 
+  $0 \le k < n$}. \label{eq:posval} \\
+  \sum_{i=1}^{n} B_{ijk} = 1,~\text{para todo $1 \le j \le n$, $0 \le
+   k < n$}. \label{eq:valpos}
+\end{align}
+
+\textit{Distância de reversão.}
+Para o problema da distância de reversão definimos os seguintes
+conjuntos de variáveis e restrições. As variáveis binárias $r_{abk}$
+indicam quando a $k$-ésima operação de reversão afeta o blocos
+$\pi[a~\ldots~b]$ de $\pi$, para todo $1 \le a < b \le n$ e todo
+$1 \le k < n$.
+
+\[
+r_{abk} = \left \{ 
+\begin{tabular}{ll} 
+  1, & se $\rho_{k} = \rho(a,b)$ \\
+  0, & caso contrário
+\end{tabular} 
+\right .
+\]
+
+As variáveis binárias $r_{k}$ são usadas para decidir se a $k$-ésima
+operação de reversão modificou a permutação, para todo $ 1 \le k < n$.
+
+\[
+r_{k} = \left \{ 
+\begin{tabular}{ll} 
+ 1, & se $\rho_{k} = \rho(x,y)$ e
+ $\rho_{k} \rho_{k-1}~\ldots~\rho_{1} \pi \neq \rho_{k-1}~\ldots~\rho_{1} \pi$\\
+ 0, & caso contrário 
+\end{tabular}
+\right .
+\]
+
+As restrições (\ref{eq:rev1}) e (\ref{eq:rev2}) são necessárias para
+identificar as reversões que fazem parte da solução. A restrição
+(\ref{eq:rev1}) garante que se a $k$-ésima reversão não alterar a
+permutação, nenhuma das reversões seguintes poderá alterar. Já a
+restrição (\ref{eq:rev2}) garante que no máximo uma reversão poderá
+ser feita por iteração.
+\begin{align}
+  &r_{k} \le r_{k-1},~\text{para todo $1 \le k <
+  n$}. \label{eq:rev1} \\
+  \sum_{a=1}^{n-1}\sum_{b=a+1}^{n}
+  &r_{abk} \le r_{k},~\text{para todo $1 \le k < n$}. \label{eq:rev2}
+\end{align}
+
+As próximas restrições lidam com as modificações na permutação causada
+pela reversão a cada iteração da execução. A análise será dividida em
+dois casos onde, para cada caso, analisamos cada posição $i$ da
+permutação para verificar seu valor após a operação de reversão
+$\rho(a,b)$ ser completada.
+\begin{enumerate}
+\item{$i < a$ ou $i > b$:
+A operação de reversão não modifica estas posições.
+\begin{align}
+  \begin{split}
+    \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n} r_{abk} +
+    \sum_{a=1}^{n-1}\sum_{b=a+1}^{i-1} r_{abk} +
+    (1 - r_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
+    \text{para todo $1 \le i,~j \le n$ e todo $1 \le k < n$}.
+  \end{split}
+  \label{eq:rev3}
+\end{align}}
+\item{$a \le i \le b$:
+A operação de reversão altera os elementos guardados nestas
+posições. Para não ser redundante, a desigualdade precisa ter os dois
+primeiros termos com valor $1$. Neste caso, $B_{b+a-i,j,k-1} = 1$,
+implicando que o elemento $j$ foi salvo na posição $b + a - i$ antes
+da reversão ser movida para a posição $i$ ($B_{ijk} = 1$).
+\begin{align}
+  \begin{split}
+  r_{abk} + B_{b+a-i,j,k-1} - B_{ijk} \le 1, \\
+  \text{$1 \le a < b \le n,~a \le i \le b,~1 \le j
+    \le n,~1 \le k < n$}.
+  \end{split}
+  \label{eq:rev4}
+\end{align}}
+\end{enumerate}
+
+\textit{Distância de transposição.}
+Para o problema da distância de transposição, usaremos os seguintes
+conjuntos de variáveis e restrições. As variáveis binárias $t_{abck}$
+indicam quando a $k$-ésima operação de transposição realiza a troca de
+lugares dos blocos $\pi[a~\ldots~b - 1]$ e $\pi[b~\ldots~c - 1]$ da
+permutação $\pi$, para todo $1 \le a < b < c \le n + 1$ e todo $ 1 \le
+k < n$.
+
+\[ 
+  t_{abck} = \left \{ 
+  \begin{tabular}{ll} 
+  1, & se $\rho_{k} = \rho(a,b,c)$ \\ 
+  0, & caso contrário 
+  \end{tabular} \right .
+\] 
+
+As variáveis binárias $t_{k}$ são usadas para decidir se a $k$-ésima
+operação de transposição modificou a permutação, para todo $ 1 \le k <
+n$.
+
+\[ 
+  t_{k} = \left \{ 
+  \begin{tabular}{ll} 
+  1, & se $\rho_{k} = \rho(x,y,z)$ e
+  $\rho_{k} \rho_{k-1}~\ldots~\rho_{1} \pi \neq \rho_{k-1}~\ldots~\rho_{1} \pi$\\
+  0, & caso contrário 
+  \end{tabular} \right .
+\]
+
+As restrições (\ref{eq:transp1}) e (\ref{eq:transp2}) são necessárias
+para identificar as transposições que fazem parte da solução. A
+restrição (\ref{eq:transp1}) garante que se a $k$-ésima transposição
+não alterar a permutação, nenhuma das transposições seguintes poderá
+alterar. Já a restrição (\ref{eq:transp2}) garante que no máximo uma
+transposição poderá ser feita por iteração.
+\begin{align}
+  &t_{k} \le t_{k-1}, \text{para todo $1 \le k <
+  n$}. \label{eq:transp1} \\
+  \sum_{a=1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{n+1} &t_{abck} \le
+  t_{k} , \text{para todo $1 \le k <
+  n$}. \label{eq:transp2} 
+\end{align}
+
+As próximas restrições refletem a modificações na permutação causada
+por uma transposição a cada passo da execução. A análise será dividida em
+três casos onde, para cada caso, analisamos cada posição $i$ da
+permutação para verificar seu valor após a operação de transposição
+$\rho(a,b,c)$ ser completada.
+\begin{enumerate}
+\item{$i < a$ ou $i \ge c$:
+A operação de transposição não altera estas posições.
+\begin{align}
+  \begin{split} 
+    \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{n+1} t_{abck}
+    + \sum_{a=1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{i} t_{abck} + (1 -
+    t_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
+    \text{para todo $1 \le i, j \le n$ e todo $1 \le k <
+    n$}.
+  \end{split} \label{eq:transp3}
+\end{align}}
+\item{$a \le i < a + c -b$:
+Após a operação de transposição ser completada, estas posições serão
+ocupadas pelos elementos que estão nas posições de $b$ a $c - 1$. Para
+não ser redundante, esta desigualdade precisa ter os dois primeiros
+termos com o valor $1$. Neste caso, temos que $B_{b-a+i,j,k-1} = 1$,
+implicando que o elemento $j$ foi salvo na posição $b - a + i$ antes
+da transposição ser movida para a posição $i$ ($B_{ijk} = 1$).
+\begin{align}
+  \begin{split}
+  t_{abck} + B_{b-a+i,j,k-1} - B_{ijk} \le 1, \\
+  \text{$1 \le a < b < c \le n + 1, a \le i < a + c -b, 1 \le j
+  \le n, 1 \le k < n$}.
+  \end{split}
+  \label{eq:transp4}
+\end{align}}
+\item{$a + c - b \le i < c$:
+Após a operação de transposição ser completada, estas posições serão
+ocupadas pelos elementos que estão nas posições de $a$ a $b -
+1$. Similar com o caso acima, esta desigualdade é redundante se os
+valores dos dois primeiros termos não for igual a $1$. Isto significa
+que a $k$-ésima transposição move $B^{k-1}[a~..~b-1]$ para as posições
+que precedem a posição $c$. Por definição, $i$ representa uma das
+posições que receberão um elemento deste subvetor. Então, temos que
+$B^{k}[i] = B^{k-1}[b - c + i]$, para todo $i \in [a + c - b~..~c -
+1]$ e os últimos dois termos se anulam.
+\begin{align}
+  \begin{split}
+  t_{abck} + B_{b-c+i,j,k-1} - B_{ijk} \le 1, \\
+  \text{$1 \le a < b < c \le n + 1, a + c - b \le i < c, 1 \le j
+  \le n, 1 \le k < n$}.  
+  \end{split}
+  \label{eq:transp5}
+\end{align}}
+\end{enumerate}
+
+\textit{Distância de reversão e transposição.}
+Para o problema da distância de reversão e transposição usaremos todas
+as variáveis definidas anteriormente, com a adição das variáveis
+binárias $z_{k}$, que é usada para indicar quando uma $k$-ésima
+operação, seja ela uma reversão ou uma transposição, realmente
+modificou a permutação. Então, para todo $1 \le k < n$, temos que:
+
+\[
+z_{k} = \left \{ 
+  \begin{tabular}{ll} 
+  1, & se $\rho_{k} = \rho(x,y)$ ou $\rho_{k} = \rho(x,y,z)$ e
+  $\rho_{k} \rho_{k-1}~\ldots~\rho_{1} \pi \neq \rho_{k-1}~\ldots~\rho_{1} \pi$\\
+  0, & caso contrário
+  \end{tabular} \right .
+\]
+
+Usaremos todas as restrições definidas anteriormente, com exceção das
+restrições (\ref{eq:rev1}) e (\ref{eq:transp1}) que serão substituídas
+pelas restrições (\ref{eq:rt1}) e (\ref{eq:rt2}). A restrição
+(\ref{eq:rt1}) garante que se não ocorreu operações em uma iteração
+então não ocorrerá nenhuma operação nas iterações seguintes. A
+restrição (\ref{eq:rt2}) garante que no máximo uma operação é
+executada a cada iteração.
+\begin{align}
+  &z_{k} \le z_{k-1}, \text{para todo $1 \le k <
+    n$}. \label{eq:rt1} \\ 
+  &r_{k} + t_{k} = z_{k} , \text{para todo
+    $1 \le k < n$}. \label{eq:rt2}
+\end{align}
+
+Precisamos modificar as restrições (\ref{eq:rev3}) e
+(\ref{eq:transp3}), substituindo $r_{k}$ e $t_{k}$ por $z_{k}$,
+resultando nas restrições (\ref{eq:rt3}) e (\ref{eq:rt4}).
+\begin{align}
+  \begin{split}
+    \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n} r_{abk} +
+    \sum_{a=1}^{n-1}\sum_{b=a+1}^{i-1} r_{abk} +
+    (1 - z_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
+    \text{para todo $1 \le i,~j \le n$ e todo $1 \le k < n$}.
+  \end{split} \label{eq:rt3} \\
+  \begin{split} 
+    \sum_{a=i+1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{n+1} t_{abck}
+    + \sum_{a=1}^{n-1}\sum_{b=a+1}^{n}\sum_{c=b+1}^{i} t_{abck} + (1 -
+    z_{k}) + B_{i,j,k-1} - B_{ijk} \le 1, \\
+    \text{para todo $1 \le i, j \le n$ e todo $1 \le k <
+    n$}.
+  \end{split} \label{eq:rt4}
+\end{align}
+
+\subsection{Função Objetivo}
+\label{subsec:fo}
+Considerando as variáveis e restrições descritas anteriormente para
+cada um dos três problemas de distâncias, temos a função objetivo
+$\omega_{r} = \min \sum_{k=1}^{n-1} r_{k}$, para o problema da
+distância de reversão, a função objetivo $\omega_{t}
+= \min \sum_{k=1}^{n-1} t_{k}$, para o problema da distância de
+transposição, e a função objetivo $\omega_{rt} = \min \sum_{k=1}^{n-1}
+z_{k}$, para o problema da distância de reversão e transposição quando
+ocorrem simultaneamente.
+
+\subsection{Tamanho do modelo}
+\label{subsec:modelsize}
+É fácil observar que o modelo descrito possui tamanho polinomial em
+relação ao tamanho da permutação fornecida como entrada. A
+tabela~\ref{table:modelsize} mostra o tamanho do modelo para os três
+problemas de distâncias com relação ao parâmetro $n$ (tamanho da
+permutação de entrada).
+
+\begin{table}[h]
+\caption{Tamanho dos modelos em relação à $n$.}
+\label{table:modelsize}
+\center
+\begin{tabular}{|l|c|c|}
+  \hline
+  \textbf{Modelo} & \textbf{Variáveis} & \textbf{Restrições} \\
+  \hline
+  Distância de Reversão & $O(n^3)$ & $O(n^5)$ \\
+  Distância de Transposição & $O(n^4)$ & $O(n^6)$ \\
+  Distância de Reversão e Transposição & $O(n^4)$ & $O(n^6)$ \\
+  \hline
+\end{tabular}
+\end{table}

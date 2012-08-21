@@ -1,0 +1,204 @@
+% resultados
+Neste capítulo apresentaremos os resultados obtidos pelos modelos
+descritos no capítulo~\ref{cap:model}. A seção \ref{sec:tspec} mostra
+as características do computador utilizado para executar os testes. A
+seção \ref{sec:testes} descreve como os testes foram executados. A
+seção \ref{sec:analise} apresenta a análise dos resultados obtidos
+durante este trabalho.
+
+\section{Especificações Técnicas}
+\label{sec:tspec}
+O computador utilizado para executar os testes possui as seguintes
+características:
+
+\begin{itemize}
+  \item{Processador: Intel\textregistered{}~Core\texttrademark~2 Duo
+  2.33GHz.}
+
+  \item{Memória RAM: 3 GB.}
+  
+  \item{Sistema Operacional: Ubuntu Linux com kernel 2.6.31.}
+\end{itemize}
+
+Todos modelos de \pr{} foram implementados usando as seguintes
+ferramentas:
+
+\begin{itemize}
+  \item{Sistema de programação de código aberto\footnote{Em
+  inglês \textit{Open
+  Source}.} \textit{ECLiPSe-6.0}~\cite{eclipse*2009}. }
+  
+ \item{Pacote proprietário para a linguagem de programação
+  C++ \textit{IBM\textregistered{} ILOG\textregistered{}
+  CPLEX\textregistered{} CP Optimizer v 2.3}~\cite{ilogcp*2011}.}
+\end{itemize}
+
+Todas formulações de programação linear inteira foram implementadas
+usando as seguintes ferramentas:
+
+\begin{itemize}
+  \item{Sistema de programação de código
+  aberto \textit{GLPK-4.35}~\cite{glpk*2010}.}
+  
+  \item{Pacote proprietário para a linguagem de programação
+  C++ \textit{IBM\textregistered{} ILOG\textregistered{}
+  CPLEX\textregistered{} Optimizer v 12.1}~\cite{ilogcplex*2011}..}
+\end{itemize}
+
+\section{Descrição dos Testes}
+\label{sec:testes}
+Os testes foram separados de acordo com o tamanho das
+permutações. Uma instância contém o conjunto de permutações com
+tamanho $n$, onde $n > 2$ devido ao fato de ser trivial fazer uma das
+operações de ordenação em uma permutação com tamanho $2$. Para cada
+instância, geramos $50$ permutações com tamanho $n$.
+
+Todas instâncias foram executadas nos softwares indicados na
+seção \ref{sec:tspec}. Para cada instância foi dado o tempo máximo de
+$25$ horas. Fazemos a comparação dos modelos se baseando nos tempos
+médios usados para resolver cada instância. Como referência usamos os
+modelos de \pli{} descritos na seção \ref{sec:pli}.
+
+\section{Análise dos Resultados}
+\label{sec:analise}
+As tabelas \ref{table:rev}, \ref{table:trans}, \ref{table:r_t}
+apresentam os tempos médios usados para resolver cada instância dos
+testes. O caractere ``-'' significa que o modelo não conseguiu
+solucionar todas as permutações da instância dentro do limite de 25
+horas. O caractere ``*'' significa que o modelo não conseguiu terminar
+devido ao limite de memória do sistema.
+
+Podemos observar que nos três casos que os modelos de programação por
+restrições baseados na teoria COP possuem os piores tempos de execução
+e os modelos baseados na teoria CSP possuem os melhores
+resultados. 
+
+O modelo baseado na teoria COP tem como objetivo otimizar o resultado
+do problema. Seu mecanismo de busca consiste em encontrar uma solução
+base para depois encontrar uma solução melhor, usando um valor melhor
+para a função de custo. Com isso, ele acaba gerando um espaço de busca
+maior do que o modelo correspondente baseado na teoria CSP, que usa
+uma estratégia \textit{bottom-up}.
+
+Também podemos notar que quanto melhor os limitantes menor é o tempo
+necessário para solucionar as instâncias, conseguindo resolver mais
+instâncias com permutações ``maiores''\footnote{Apesar que nenhum
+modelo conseguiu resolver instâncias com permutações de tamanho $n >
+14$, dentro do tempo limite de $25$ horas.}. Isto ocorre pela redução
+do conjunto das possíveis soluções do problema.
+
+A seguir faremos a análise separadamente para cada caso. A
+subseção \ref{subsec:analise_rev} contém os resultados para o
+problema de ordenação por reversões. A
+subseção \ref{subsec:analise_tra} contém os resultados para o
+problema de ordenação por transposições. A
+subseção \ref{subsec:analise_r_t} contém os resultados para o
+problema de ordenação por reversões e transposições. A
+subseção \ref{subsec:analise_ferramentas} apresenta a comparação das
+ferramentas utilizadas nos testes.
+
+\subsection{Ordenação por Reversões}
+\label{subsec:analise_rev}
+Nos modelos de ordenação por reversões, tabela \ref{table:rev},
+podemos notar que alguns modelos não conseguiram solucionar as
+permutações devido ao limite de memória do sistema. Isto ocorreu com
+as permutações de tamanho $n = 10$ usando os três limitantes nos
+modelos baseados na teoria CSP desenvolvido para o \textit{ILOG CP},
+com as permutações de tamanho $n = 13$ para o
+limitante \textit{rev\_cg\_csp} no modelo baseado na teoria CSP e com
+as permutações de tamanho $n = 6$ para o
+limitante \textit{rev\_cg\_cop} no modelo baseado na teoria COP
+desenvolvidos para o \textit{ECLiPSe}.
+
+No \textit{ECLiPSe}, é possível observar que nos modelos baseados na
+teoria COP, quanto melhor o limitante maior é o tempo necessário para
+resolver as instâncias. Isto ocorre devido ao tamanho do espaço de
+busca dos modelos COP. 
+
+Outro fator é que os melhores limitantes usam algoritmos mais
+complexos, necessitando de mais tempo para calcular os valores dos
+limitantes. Isto pode ser notado nos modelos baseados na teoria CSP
+desenvolvidos para o \textit{ILOG CP}.
+
+Nenhum modelo de ordenação por reversões conseguiu solucionar as
+instâncias com permutações de tamanho $n > 13$ dentro do tempo limite
+de $25$ horas.
+
+\input{tables/rev.tex}
+
+\subsection{Ordenação por Transposições}
+\label{subsec:analise_tra}
+Nos modelos de ordenação por transposições, tabela \ref{table:trans},
+os modelos baseados na teoria COP que usam o
+limitante \textit{tra\_br\_cop} apresentaram os piores resultados.
+
+Similar ao modelo de ordenação por reversões, nos modelos baseados na
+teoria CSP desenvolvidos para o \textit{ILOG CP}, quanto melhor o
+limitante maior é o tempo necessário para resolver as instâncias.
+
+Nenhum modelo de ordenação por transposições conseguiu solucionar as
+instâncias com permutações de tamanho $n > 14$ dentro do tempo limite
+de $25$ horas.
+
+\input{tables/trans.tex}
+
+\subsection{Ordenação por Reversões e Transposições}
+\label{subsec:analise_r_t}
+Os modelos de ordenação por reversões e transposições,
+tabela \ref{table:r_t} obtiveram os piores resultados\footnote{Nenhum
+modelo conseguiu resolver instâncias com permutações de tamanho $n >
+10$, dentro do tempo limite de $25$ horas.}. Isto já era esperado,
+devido ao fato que os modelos utilizam tanto a operação de reversão
+como a operação de transposição, resultando em um espaço de busca
+maior e no aumento do tempo necessário para encontrar a solução.
+
+O modelo baseado na teoria CSP que usa o
+limitante \textit{r\_t\_cc\_csp} desenvolvido para o \textit{ECLiPSe}
+não conseguiu resolver a instância com permutações de tamanho $n = 7$
+devido ao limite de memória do sistema. Foi o único modelo de
+ordenação por reversões e transposições que ocorreu este problema.
+
+É possível notar claramente o rápido crescimento do espaço de busca
+dos modelos conforme o tamanho das permutações. Como exemplo, podemos
+pegar os modelos baseados na teoria CSP desenvolvidos para
+o \textit{ILOG CP}. O modelo que obteve o pior tempo para a instância
+com permutações de tamanho $n = 10$ foi o modelo \textit{def\_csp},
+que não utiliza limitantes, e o seu tempo de execução para essa
+instância foi de $0.012$ segundos. Um tempo excelente para o modelo
+que, diferentemente dos modelos que utilizam as operações
+isoladamente, conseguiu solucionar esta instância. Porém para as
+instâncias com permutações de tamanho $n > 10$, os modelos não
+conseguiram solucionar todas permutações dentro do limite de tempo.
+
+Nenhum modelo de ordenação por transposições conseguiu solucionar as
+instâncias com permutações de tamanho $n > 10$ dentro do tempo limite
+de $25$ horas.
+
+\input{tables/r_t.tex}
+
+\subsection{Comparação das ferramentas}
+\label{subsec:analise_ferramentas}
+Um dos objetivos deste trabalho é analisar se os softwares
+proprietários são inferiores ou superiores aos softwares de código
+aberto.
+
+No caso das formulações em programação linear inteira, podemos notar
+que as formulações desenvolvidas para o \textit{ILOG CPLEX} obtiveram
+os melhores tempos para as instâncias com permutações de tamanho
+$n \le 7$, mas para permutações com $n > 7$ as formulações
+desenvolvidas para o \textit{GLPK} foram mais rápidas, com exceção da
+instância com permutações de tamanho $n = 10$ que o \textit{GLPK} não
+conseguiu solucionar dentro do tempo limite, ao contrário
+do \textit{ILOG CPLEX}. Então para programação linear inteira podemos
+dizer que o \textit{ILOG CPLEX} é o mais adequado para os problemas de
+ordenação, devido ao fato de resolver uma instância a mais em relação
+ao \textit{GLPK}.
+
+No caso dos modelos de programação por restrições, podemos notar que
+os modelos baseados na teoria COP, o \textit{ILOG CP} foi superior
+ao \textit{ECLiPSe}. Mas para os modelos baseados na teoria CSP,
+o \textit{ECLiPSe} não só obteve tempos melhores, mas também resolveu
+instâncias maiores, exceto nos modelos de ordenação por reversões e
+transposições. Então para programação por restrições podemos dizer que
+o \textit{ECLiPSe} é o mais adequado.
+
