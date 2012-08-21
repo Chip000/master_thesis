@@ -73,12 +73,29 @@ restrições baseados na teoria COP possuem os piores tempos de execução
 e os modelos baseados na teoria CSP possuem os melhores
 resultados. 
 
+O modelo baseado na teoria COP tem como objetivo otimizar o resultado
+do problema. Seu mecanismo de busca consiste em encontrar uma solução
+base para depois encontrar uma solução melhor, usando um valor melhor
+para a função de custo. Com isso, ele acaba gerando um espaço de busca
+maior do que o modelo correspondente baseado na teoria CSP, que usa
+uma estratégia \textit{bottom-up}.
+
 Também podemos notar que quanto melhor os limitantes menor é o tempo
 necessário para solucionar as instâncias, conseguindo resolver mais
 instâncias com permutações ``maiores''\footnote{Apesar que nenhum
 modelo conseguiu resolver instâncias com permutações de tamanho $n >
 14$, dentro do tempo limite de $25$ horas.}. Isto ocorre pela redução
-do conjunto solução para o problema.
+do conjunto das possíveis soluções do problema.
+
+A seguir faremos a análise separadamente para cada caso. A
+subseção \ref{subsec:analise_rev} contém os resultados para o
+problema de ordenação por reversões. A
+subseção \ref{subsec:analise_tra} contém os resultados para o
+problema de ordenação por transposições. A
+subseção \ref{subsec:analise_r_t} contém os resultados para o
+problema de ordenação por reversões e transposições. A
+subseção \ref{subsec:analise_ferramentas} apresenta a comparação das
+ferramentas utilizadas nos testes.
 
 \subsection{Ordenação por Reversões}
 \label{subsec:analise_rev}
@@ -159,8 +176,8 @@ de $25$ horas.
 
 \input{tables/r_t.tex}
 
-\subsection{Sistemas Proprietários x Livres}
-\label{subsec:analise_close_open}
+\subsection{Comparação das ferramentas}
+\label{subsec:analise_ferramentas}
 Um dos objetivos deste trabalho é analisar se os softwares
 proprietários são inferiores ou superiores aos softwares de código
 aberto.
@@ -173,8 +190,8 @@ desenvolvidas para o \textit{GLPK} foram mais rápidas, com exceção da
 instância com permutações de tamanho $n = 10$ que o \textit{GLPK} não
 conseguiu solucionar dentro do tempo limite, ao contrário
 do \textit{ILOG CPLEX}. Então para programação linear inteira podemos
-dizer que o \textit{ILOG CPLEX} é o mais adequado para os problemas,
-devido ao fato de resolver uma instância a mais em relação
+dizer que o \textit{ILOG CPLEX} é o mais adequado para os problemas de
+ordenação, devido ao fato de resolver uma instância a mais em relação
 ao \textit{GLPK}.
 
 No caso dos modelos de programação por restrições, podemos notar que
@@ -185,5 +202,3 @@ instâncias maiores, exceto nos modelos de ordenação por reversões e
 transposições. Então para programação por restrições podemos dizer que
 o \textit{ECLiPSe} é o mais adequado.
 
-
-%%%%%%%% CSP vs COP %%%%%%%%%%%
