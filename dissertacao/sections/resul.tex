@@ -123,7 +123,7 @@ resultados de ordenação por reversões com os resultados de ordenação
 por transposições, Tabela \ref{table:trans}. É possível notar que, nos
 resultados dos limitantes triviais, coluna \textbf{def}, e dos no
 grafo de \bkp{} para reversões.limitantes que usam \bkp{},
-colunas \textbf{rev\_br} e \textbf{tra\_br}, o tempo dos modelos de
+colunas \textit{rev\_br} e \textit{tra\_br}, o tempo dos modelos de
 ordenação por reversão é melhor, em relação aos modelos de
 transposição. Isto ocorre, devido à procura dos blocos na permutação,
 que irá sofrer o evento escolhido. A reversão irá alterar apenas um
@@ -135,15 +135,18 @@ transposição é maior do que o espaço dos modelos de ordenação por
 reversões.
 
 Entretanto, se focarmos apenas nos melhores limitantes dos dois tipos
-de ordenação, colunas \textbf{rev\_cg} e \textbf{tra\_cg}, ocorre
-justamente o inverso. 
-
-%Para calcular a quantidade de ciclos ímpares no grafo de ciclos para
-%transposições é mais simples do que encontrar o número de $2$-ciclos
-%no grafo de \bkp{} para reversões.
-
-%Como demostrado por Christie~\cite{Christie*1998}, para achar a
-%quantidade de $2$-ciclos é necessário
+de ordenação, colunas \textit{rev\_cg} e \textit{tra\_cg}, ocorre
+justamente o inverso. Este comportamente pode ser explicado usando a
+decomposição em ciclos. Na transposição a decomposição é única, para
+todo vértice do grafo de ciclos, toda aresta chegando é únicamente
+pareada com uma aresta saindo de cor diferente, então basta encontrar
+o número de ciclos ímpares. No caso da reversão, todo vértice possui o
+mesmo número de arestas incidentes cinzas e pretas no grafo
+de \bkp{}. Logo existem diversas maneiras para realizar a decomposição
+em ciclos. Como o modelo usa os limitantes definidos por
+Christie~\cite{Christie*1998}, é necessário mais processamento
+para encontrar a decomposição máxima em $2$-ciclos, aumentando o
+espaço de busca dos modelos de ordenação por reversões.
 
 A diferença na complexidade pode ser notado, também, nos modelos
 baseados na teoria CSP desenvolvidos para o \textit{ILOG CP}. Isto
@@ -185,8 +188,13 @@ triviais \textit{def\_cop}.
 
 No \textit{ECLiPSe}, é possível observar que, diferentemente do modelo
 de ordenação por reversões, nos modelos baseados na teoria COP, o
-melhor limitante (\textit{tra\_cg\_cop}) obteve o melhor tempo de
-execução. 
+melhor limitante, \textit{tra\_cg\_cop}, obteve o melhor tempo de
+execução. Este limitante conseguiu reduzir o espaço de busca por ser
+mais preciso que os outros. Neste caso, a redução do espaço de busca
+supriu a necessidade da quantidade de processamento para encontrar o
+número de ciclos ímpares no grafo de ciclos da ordenação por
+transposições, ao contrário do modelo de ordenação por reversões que
+usa o limitante \textit{rev\_cg}.
 
 Similar ao modelo de ordenação por reversões, nos modelos baseados na
 teoria CSP desenvolvidos para o \textit{ILOG CP}, quanto melhor o
@@ -201,12 +209,10 @@ de $25$ horas.
 \subsection{Ordenação por Reversões e Transposições}
 \label{subsec:analise_r_t}
 Os modelos de ordenação por reversões e transposições,
-Tabela \ref{table:r_t} obtiveram os piores resultados\footnote{Nenhum
-modelo conseguiu resolver instâncias com permutações de tamanho $n >
-10$, dentro do tempo limite de $25$ horas.}. Isto já era esperado,
-devido ao fato que os modelos utilizam tanto a operação de reversão
-como a operação de transposição, resultando em um espaço de busca
-maior e no aumento do tempo necessário para encontrar a solução.
+Tabela \ref{table:r_t}, obtiveram os piores resultados. Isto já era
+esperado, devido ao fato que os modelos utilizam tanto a operação de
+reversão como a operação de transposição, resultando em um espaço de
+busca maior e no aumento do tempo necessário para encontrar a solução.
 
 O modelo baseado na teoria CSP que usa o
 limitante \textit{r\_t\_cc\_csp} desenvolvido para o \textit{ECLiPSe}
@@ -226,9 +232,9 @@ isoladamente, conseguiu solucionar esta instância. Porém para as
 instâncias com permutações de tamanho $n > 10$, os modelos não
 conseguiram solucionar todas permutações dentro do limite de tempo.
 
-Nenhum modelo de ordenação por transposições conseguiu solucionar as
-instâncias com permutações de tamanho $n > 10$ dentro do tempo limite
-de $25$ horas.
+Nenhum modelo de ordenação por reversões e transposições conseguiu
+solucionar as instâncias com permutações de tamanho $n > 10$ dentro do
+tempo limite de $25$ horas.
 
 \input{tables/r_t.tex}
 
@@ -243,18 +249,29 @@ que as formulações desenvolvidas para o \textit{ILOG CPLEX} obtiveram
 os melhores tempos para as instâncias com permutações de tamanho
 $n \le 7$, mas para permutações com $n > 7$ as formulações
 desenvolvidas para o \textit{GLPK} foram mais rápidas, com exceção da
-instância com permutações de tamanho $n = 10$ que o \textit{GLPK} não
+instância com permutações de tamanho $n = 9$ que o \textit{GLPK} não
 conseguiu solucionar dentro do tempo limite, ao contrário
-do \textit{ILOG CPLEX}. Então para programação linear inteira podemos
-dizer que o \textit{ILOG CPLEX} é o mais adequado para os problemas de
-ordenação, devido ao fato de resolver uma instância a mais em relação
-ao \textit{GLPK}.
+do \textit{ILOG CPLEX}. Se analizamos somente a quantia de instâncias
+resolvidas, podemos afirmar que \textit{ILOG CPLEX} é o mais adequado
+para os problemas de ordenação, devido ao fato de resolver uma
+instância a mais em relação ao \textit{GLPK}. Mas se analisamos os
+tempos de execução, o \textit{ILOG CPLEX} ganha somente nos modelos de
+ordenação por reversões, perdendo para o \textit{GLPK} nos modelos de
+ordenação por transposições e ordenação por reversões e transposições.
 
 No caso dos modelos de programação por restrições, podemos notar que
-os modelos baseados na teoria COP, o \textit{ILOG CP} foi superior
-ao \textit{ECLiPSe}. Mas para os modelos baseados na teoria CSP,
-o \textit{ECLiPSe} não só obteve tempos melhores, mas também resolveu
-instâncias maiores, exceto nos modelos de ordenação por reversões e
-transposições. Então para programação por restrições podemos dizer que
-o \textit{ECLiPSe} é o mais adequado.
+os modelos baseados na teoria COP, nos três casos, o \textit{ILOG CP}
+foi superior ao \textit{ECLiPSe}, tanto nos tempos de execução, quanto
+na quantia de instâncias resolvidas. Para os modelos baseados na teria
+COP, podemos afirmar que o \textit{ILOG CP} é o mais adequado para os
+problemas de ordenação.
+
+Mas para os modelos baseados na teoria CSP, o \textit{ECLiPSe} não só
+obteve tempos melhores, mas também resolveu instâncias maiores, exceto
+nos modelos de ordenação por reversões e transposições. 
+
+
+Então para
+programação por restrições podemos dizer que o \textit{ECLiPSe} é o
+mais adequado.
 
