@@ -5,8 +5,8 @@ Seção \ref{sec:defin} mostraremos as definições usadas no decorrer
 deste trabalho. As seções \ref{sec:rev}, \ref{sec:trans}
 e \ref{sec:rev_trans} descrevem, respectivamente, os problemas de
 ordenação por reversões, ordenação por transposições e ordenação por
-reversões e transposições. A Seção \ref{sec:def_cp} explica o que
-é \pr{}.
+reversões e transposições. A Seção \ref{sec:def_cp} explica o conceito
+de \pr{}.
 
 \section{Definições}
 \label{sec:defin}
@@ -345,3 +345,111 @@ operação de reversão e transposição simultaneamente.
 
 \section{Programação por Restrições}
 \label{sec:def_cp}
+Programação por Restrições é um paradigma de programação que usa
+restrições para estabelecer as relações entre as
+variáveis. Diferentemente da programação imperativa, as restrições não
+usam passos para executar, mas usam as propriedades da solução a ser
+encontrada. Resumidamente, uma restrição sobre uma sequência de
+variáveis é a relação entre seus domínios. Pode ser vista como um
+requerimento que diz quais combinações de valores dos domínios das
+variáveis serão admitidas. Um problema é então simplificado usando
+entidades e seus relacionamentos. As entidades de um modelo de
+programação por restrição são chamadas de variáveis e os
+relacionamentos de restrições.
+
+\begin{defin}
+\label{defin:csp}
+Um modelo de programação por restrições $P$ é formado por:
+\begin{itemize}
+  \item{Um conjunto de variáveis $X = \{x_{1}, \ldots, x_{n}\}$, com
+  seus respectivos domínios $D_{1}, \ldots, D_{2}$.}
+
+  \item{Um conjunto finito de restrições $C$, cada um sobre uma
+  subsequencia de $X$.}
+\end{itemize}
+\end{defin}
+
+Então, o modelo pode ser escrito como $P = \langle C; x_{1} \in
+D_{1}, \ldots, x_{n} \in D_{n} \rangle$. A solução é a associação
+$\{(x_{1}, d_{1}), \ldots, (x_{n}, d_{n})\}$, onde $d_{i} \in D_{i}$,
+que satisfaz todas as restrições em $C$. Um modelo $P$ é
+chamado \textit{consistente} (ou \textit{viável}) se possuir pelo
+menos uma solução, caso contrário, é chamado de \textit{inconsistente}
+(ou \textit{inviável}).
+
+Nesta dissertação, usamos duas abordagens diferentes para a criação
+dos modelos, uma baseada na teoria do Problema de Satisfação de
+Restrições (CSP\footnote{Do inglês \estr{Constraint Satisfaction
+Problems}.}), e outra baseada na teoria do Problema de Otimização com
+Restrições (COP\footnote{Do inglês \estr{Constraint Optimization
+Problems}.}). Os modelos que usam a teoria CSP são descritos conforme
+a Definição \ref{defin:csp} acima.
+
+Os modelos que são baseados na teoria COP possuem o objetivo de
+encontrar a melhor solução de um conjunto de restrições, usando uma
+função de custo. Ou seja, considerando um modelo da teoria CSP,
+$P_{csp} = \langle C; x_{1} \in D_{1}, \ldots, x_{n} \in
+D_{n} \rangle$, e uma função de custo, $custo:
+D_{1} \times \ldots \times D_{n} \to R$, queremos encontrar a solução
+$\{(x_{1}, d_{1}), \ldots, (x_{n}, d_{n})\}$ de $P_{csp}$, para qual o
+valor $custo(d_{1}, \ldots, d_{n})$ seja ótimo. Logo, os modelos
+baseados na teoria COP são representados como $P_{cop} = \langle P_{csp},
+custo \rangle$.
+
+Recomendamos a leitura de Apt~\cite{Apt*2003}, Apt e
+Wallace~\cite{AptWallace*2007} e Marriot e
+Stuckey~\cite{Marriott*1998} para um aprofundamento maior sobre \pr{}.
+
+\subsection{Métodos de Solução dos Problemas de \PR{}}
+\label{subsec:sol_cp}
+Para encontrar soluções em um modelo de \pr{}, utiliza-se algoritmos
+de propagação de restrições, cujo objetivo é reduzir o espaço de busca
+nos domínios das variáveis. Esses algoritmos fazem a redução do
+problema em outro mais simples de solucionar. Para lidar com essa
+situação, usamos a Definição \ref{defin:cp_eq}.
+\begin{defin}
+\label{defin:cp_eq}
+Considere dois modelos de \pr{} $P_{1}$ e $P_{2}$ e uma sequência $X$
+das suas variáveis comuns ($X \subset X_{1}$ e $X \subset X_{2}$, onde
+$X_{1}$ e $X_{2}$ são, respectivamente, sequências das variáveis de
+$P_{1}$ e $P_{2}$). Então, $P_{1}$ e $P_{2}$ são equivalentes em
+relação a $X$, se:
+\begin{itemize}
+  \item{para toda solução $d$ em $P_{1}$, existe uma solução em
+  $P_{2}$ que coincide com $d$ nas variáveis em $X$.}
+
+  \item{para toda solução $e$ em $P_{2}$, existe uma solução em
+  $P_{1}$ que coincide com $e$ nas variáveis em $X$.}
+\end{itemize}
+\end{defin}
+
+Mas, em muitos casos, os modelos de \pr{} possuem restrições que não
+se ligam às restrições com sintaxe simples ou são um grupo de
+restrições de diversos tipos. Então, nestes casos utiliza-se métodos
+baseados em buscas sobre os domínios das variáveis. A seguir,
+listaremos alguns métodos de buscas mais utilizados.
+
+\begin{itemize}
+  \item{\textbf{Busca Local:} Classe de algoritmo, que possui o
+  objetivo de encontrar uma solução, utilizando uma atribuição inicial
+  definida sobre as variáveis (chamada neste contexto
+  de \textit{estado}) e tenta melhorar sua \textit{qualidade} a cada
+  iteração, fazendo pequenas mudanças locais, chamadas
+  de \textit{movimento}. A qualidade do estado é definida por uma
+  função de custo (Ex: Número de restrições violadas pelo
+  estado. Neste caso a qualidade será 0.).
+
+  O conceito principal de uma busca local é a utilização
+  de \textit{vizinhança}, que tem o objetivo de associar para cada
+  estado um conjunto de estados, chamados de \textit{vizinhos}. Então,
+  a busca local começa do estado inicial, entra em um \estr{loop}, no
+  qual realiza um movimento de um estado para seu vizinho. O estado
+  final é ou uma solução para o modelo, ou um estado de parada,
+  indicando que nenhuma solução foi encontrada até este estado.}
+
+  \item{\textbf{Busca Top-Down:}
+
+
+  }
+
+\end{itemize}
