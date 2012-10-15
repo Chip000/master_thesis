@@ -328,7 +328,7 @@ que é a distância de reversão e transposição entre a permutação $\pi$ e a
 permutação identidade $\iota$, denotado por $d_{rt}(\pi)$.
 
 Este problema foi estudado por Hannenhalli e
-co-autores~\cite{HannenhalliChappeyKooninPevzner*1995}, onde
+coautores~\cite{HannenhalliChappeyKooninPevzner*1995}, onde
 analisaram a evolução de genomas por diferentes tipos de eventos, em
 especial reversões e transposições. 
 
@@ -447,9 +447,42 @@ listaremos alguns métodos de buscas mais utilizados.
   final é ou uma solução para o modelo, ou um estado de parada,
   indicando que nenhuma solução foi encontrada até este estado.}
 
-  \item{\textbf{Busca Top-Down:}
+  \item{\textbf{Busca Top-Down:} Método de busca mais usado. Utiliza a
+  estratégia de \estr{branching} em conjunto aos algoritmos de
+  propagação de restrições. O \estr{branching} possibilita a divisão
+  de um modelo CSP em dois ou mais CSPs, sendo que a união destes é
+  equivalente ao problema inicial. A propagação de restrição permite
+  transformar um dado modelo CSP em um equivalente mais simples. A
+  Busca top-down alterna os métodos de \estr{branching} e de
+  propagação de algoritmos, usando uma árvore que é chamada
+  de \textit{árvore de busca}. As folhas desta árvore são ou CSPs
+  inconsistentes ou uma solução para um dos CSPs gerados pela
+  técnica. A Figura \ref{fig:searchtree} apresenta um exemplo de uma
+  árvore de busca, note que a árvore é
+  gerada \estr{on-the-fly}\footnote{Gerada no momento da execução do
+  modelo.}.
 
+  \begin{figure}[h]
+  \centering 
+  \includegraphics{images/searchtree.png}
+  \caption{Exemplo de árvore de busca para um modelo CSP.}
+  \label{fig:searchtree}
+  \end{figure}
 
-  }
+  O procedimento padrão de uma busca top-down é
+  o \estr{backtracking}. Ele inicia a busca pelo nó raiz da árvore e
+  segue para o primeiro nó descendente. O processo continua até que
+  uma folha é encontrada, neste caso, ele retorna para o nó ancestral
+  mais próximo que possua outro nó descendente, e então o processo
+  recomeça. Se o controle voltou para o nó raiz e todos os
+  descendentes foram visitados, o processo termina.
+
+  Um exemplo de \estr{branching} é a técnica conhecida
+  como \estr{labelling}, que divide um domínio (finito) de uma
+  variável em domínios unitários, correspondendo a uma busca
+  sistemática de todos os valores de uma determinada variável. Uma
+  forma de propagação de restrições, combinada com o \estr{branching},
+  é aplicada ao longo da árvore, removendo valores dos domínios das
+  variáveis que não participam de nenhuma solução.}
 
 \end{itemize}
