@@ -1,0 +1,100 @@
+%%% Codigo Fonte
+
+\lstset{language=Prolog, 
+  numbers=left, 
+  numberstyle=\footnotesize\color{gray},
+  basicstyle=\ttfamily,
+  commentstyle=\color{blue},
+  frame=leftline, 
+  breaklines=true, 
+  breakatwhitespace=false,
+  extendedchars=true,
+  showlines=true,
+  inputencoding=utf8, 
+  literate={á}{{\'a}}1
+           {ã}{{\~a}}1
+           {â}{{\^a}}1
+           {à}{{\`a}}1
+           {é}{{\'e}}1
+           {ê}{{\^e}}1
+           {í}{{\'i}}1
+           {õ}{{\~o}}1
+           {ú}{{\'u}}1
+           {ç}{{\c{c}}}1}
+
+Este apêndice apresentará os códigos fontes utilizados nesta dissertação.
+
+\section{ECLiPSe}
+\label{app:src_eclipse}
+Nesta seção apresentaremos o código fonte desenvolvido para o
+sistema \textit{ECLiPSe}. Dividimos por partes para simplificar o
+entendimento dos modelos.
+
+O início do arquivo~(\ref{src:basic}) contém predicados simples que
+facilitam a codificação dos predicados de ordenação.
+
+\vspace{1.0cm}
+
+\lstinputlisting[
+  linerange=1-83,
+  caption={Predicados básicos},
+  label=src:basic]{src/lib_proj.clp}
+
+Os predicados a seguir~(\ref{src:bounds}) são usados para calcular os
+limitantes, usando as ferramentas para ordenação por reversões e
+ordenação por transposições citadas no Capítulo~\ref{cap:basic}.
+
+\vspace{1.0cm}
+
+\lstinputlisting[
+  linerange=84-486,
+  firstnumber=last,
+  caption={Calculando os limitantes},
+  label=src:bounds]{src/lib_proj.clp}
+
+Os próximos predicados~(\ref{src:perm}) são usados para representar
+  permutações e permutações estendidas.
+
+\vspace{1.0cm}
+
+\lstinputlisting[
+  linerange=487-503,
+  firstnumber=last,
+  caption={Permutações},
+  label=src:perm]{src/lib_proj.clp}
+
+O predicado \textit{bound}, no próximo trecho de código, escolhe qual
+limitante será usado e retorna os valores dos limitantes.
+
+\vspace{1.0cm}
+
+\lstinputlisting[
+  linerange=504-550,
+  firstnumber=last,
+  caption={Predicado bound},
+  label=src:bound]{src/lib_proj.clp}
+
+No trecho de código a seguir~(\ref{src:csps}), apresentaremos os
+predicados dos problemas de ordenações usando a teoria CSP. Note que é
+possível modificar o código obter quais permutações foram utilizadas
+para ordenar a permutação original.
+
+\vspace{1.0cm}
+
+\lstinputlisting[
+  linerange=551-630,
+  firstnumber=last,
+  caption={Modelos CSPs},
+  label=src:csps]{src/lib_proj.clp}
+
+O último trecho~(\ref{src:cops}), modela os problemas de ordenações
+usando a teoria COP. 
+
+\vspace{1.0cm}
+
+\lstinputlisting[
+  firstline=631,
+  firstnumber=last,
+  caption={Modelos COPs},
+  label=src:cops]{src/lib_proj.clp}
+
