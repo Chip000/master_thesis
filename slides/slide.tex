@@ -1,6 +1,6 @@
 \documentclass{beamer}
 
-\mode<presentation>{
+\mode<presentation>{%
 \usetheme{Warsaw} %{Berkeley}
 % \usecolortheme{dolphin}
 \setbeamercovered{transparent} 
@@ -36,12 +36,29 @@
 
 \include{include/abaco}
 
-\title[CP aplicada a Problemas de Rearranjo de Genomas]{Programação por
+\defbeamertemplate*{footline}{shadow theme}
+{%
+    \leavevmode%
+    \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm
+        plus1fil]{title in head/foot}%
+        \usebeamerfont{title in
+        head/foot}\insertshorttitle%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm
+        plus1fil,rightskip=.3cm]{author in head/foot}%
+        \usebeamerfont{author in
+        head/foot}\insertshortauthor\hfill\insertframenumber\,/\,\inserttotalframenumber
+    \end{beamercolorbox}}%
+}
+
+
+\title[PR aplicada a Problemas de Rearranjo de Genomas]{Programação por
 Restrições aplicada a Problemas de Rearranjo de Genomas}
 
-\author{Victor de Abreu Iizuka\\ Orientador: Zanoni Dias}
+\author[Victor de Abreu Iizuka and Zanoni Dias]{Victor de Abreu Iizuka\\ 
+Orientador: Zanoni Dias}
 
-\institute[UNICAMP]{\textbf{Instituto de Computação,Univesidade Estadual
+\institute[UNICAMP]{\textbf{Instituto de Computação, Univesidade Estadual
 de Campinas}\\ \begin{columns}[t]
     \begin{column}{5cm}
         \vspace{-1.2cm}
@@ -57,15 +74,20 @@ de Campinas}\\ \begin{columns}[t]
 
 \date{}
 
+\renewcommand{\raggedright}{\leftskip=0pt \rightskip=0pt plus 0cm} 
+
 \begin{document}
 
+% slide 1
 \frame{\titlepage}
 
+% slide 2
 \frame{\tableofcontents}
 
 \section{Introdução}
 
-\frame{\frametitle{Introdução [1/4]}
+% slide 3
+\frame{\frametitle{Introdução [1/3]}
 
 \begin{itemize} 
 
@@ -81,7 +103,8 @@ de Campinas}\\ \begin{columns}[t]
 
 \end{itemize}}
 
-\frame{\frametitle{Introdução [2/4]}
+% slide 4
+\frame{\frametitle{Introdução [2/3]}
 
 \begin{itemize} 
     
@@ -95,32 +118,28 @@ de Campinas}\\ \begin{columns}[t]
 
 \end{itemize}}
 
-\frame{\frametitle{Introdução [3/4]}
+% slide 5
+\frame{\frametitle{Introdução [3/3]}
 
 \begin{itemize}
 
     \item{O trabalho desenvolvido nesta dissertação segue a linha de
-        pesquisa utilizada por Dias e Dias~(2009) e nós apresentaremos
-        modelos de Programação por Restrições (CP) para ordenação por
+        pesquisa utilizada por Dias and Dias~(2009) e nós apresentaremos
+        modelos de Programação por Restrições (PR/CP) para ordenação por
         reversões e ordenação por reversões e transposições, baseados na
-        teoria do Problema de Satisfação de Restrições (CSP) e na teoria
-        do Problema de Otimização com Restrições (COP).}
-
-\end{itemize}}
-
-\frame{\frametitle{Introdução [4/4]}
-
-\begin{itemize}
+        teoria do Problema de Satisfação de Restrições (PSR/CSP) e na teoria
+        do Problema de Otimização com Restrições (POR/COP).}
 
     \item{Nós fizemos comparações com os modelos de Programação por
-        Restrições para ordenação por transposições, descrito por Dias e
+        Restrições para ordenação por transposições, descrito por Dias and
         Dias~(2009), e no caso de ordenação por reversões e ordenação
         por reversões e transposições, com os modelos de Programação
-        Linear Inteira (ILP) descritos por Dias e Souza~(2007).}
+        Linear Inteira (PLI/ILP) descritos por Dias and Souza~(2007).}
 
 \end{itemize}}
 %%% \end{Introdução} %%%
 
+% slide 6
 \frame{\frametitle{Permutação}
 
 \begin{itemize}
@@ -131,7 +150,7 @@ de Campinas}\\ \begin{columns}[t]
 
     \item{Uma permutação é representada como $\pi =
         (\pi_{1}~\pi_{2}~\ldots~\pi_{n})$, para $\pi_{i} \in
-        \mathbb{N}$, $0 < \pi_{i} \leq n$ e $i \neq j \leftrightarrow
+        \mathbb{N}$, $1 \leq \pi_{i} \leq n$ e $i \neq j \leftrightarrow
         \pi_{i} \neq \pi_{j}$.}
 
     \item{A permutação identidade é representada como $\iota =
@@ -141,7 +160,8 @@ de Campinas}\\ \begin{columns}[t]
 
 \subsection{Problema da Distância de Reversão} 
 
-\frame{\frametitle{Problema da Distância de Reversão [1/3]} 
+% slide 7
+\frame{\frametitle{Problema da Distância de Reversão [1/2]} 
 
 \begin{beamerboxesrounded}[center,shadow=true]{Evento de reversão:} 
     \footnotesize
@@ -161,13 +181,14 @@ de Campinas}\\ \begin{columns}[t]
         \begin{figure} 
             \centering
             \includegraphics[width=4.5cm]{images/rev01.png} 
-            \caption{Uma reversão aplicada sobre uma permutação não
+            \caption{Uma~reversão~aplicada~sobre uma permutação não
             orientada.} 
         \end{figure} 
     \end{column}
 \end{columns} }
 
-\frame{\frametitle{Problema da Distância de Reversão [2/3]} 
+% slide 8
+\frame{\frametitle{Problema da Distância de Reversão [2/2]} 
 
 \begin{itemize} 
     
@@ -180,12 +201,6 @@ de Campinas}\\ \begin{columns}[t]
         permutação $\pi$ e a permutação identidade $\iota$, denotado por
         $d_{r}(\pi)$.}
 
-\end{itemize}}
-
-\frame{\frametitle{Problema da Distância de Reversão [3/3]} 
-
-\begin{itemize} 
-    
     \item{Se a orientação dos genes é conhecida, o problema pode ser
         solucionado com algoritmos polinomiais.}
 
@@ -193,10 +208,11 @@ de Campinas}\\ \begin{columns}[t]
         NP-Difíceis, com a prova apresentada por Caprara (1997).}  
 
     \item{Melhor algoritmo de aproximação possui razão de $1.375$ e foi
-        apresentado por by Berman, Hannenhalli and Karpinski (2002).}
+        apresentado por Berman, Hannenhalli and Karpinski (2002).}
 
 \end{itemize} }
 
+% slide 9
 \frame{\frametitle{Grafo de Breakpoints para Reversões [1/4]} 
 
 \begin{beamerboxesrounded}[center,shadow=true]{Breakpoints:}  
@@ -213,7 +229,7 @@ de Campinas}\\ \begin{columns}[t]
         $\pi_{0} = 0$ e $\pi_{n+1} = n+1$.}
 
     \item{Grafo de arestas coloridas $G(\pi)$ com $n+2$ vértices \{$0,
-        1,~\ldots~, n, n+1$\}.}
+        1,~\ldots~, n, \newline n+1$\}.}
 
     \item{Uma aresta preta liga os vértices $i$ e $j$ se $(i, j)$ for um
         \textit{breakpoint}.}
@@ -223,6 +239,7 @@ de Campinas}\\ \begin{columns}[t]
 
 \end{itemize} }
 
+% slide 10
 \frame{\frametitle{Grafo de Breakpoints para Reversões [2/4]} 
 
 \begin{columns}[t]
@@ -259,6 +276,7 @@ de Campinas}\\ \begin{columns}[t]
     \end{column}
 \end{columns} }
 
+% slide 11
 \frame{\frametitle{Grafo de Breakpoints para Reversões [3/4]}
 
 \begin{figure}[h]
@@ -273,6 +291,7 @@ de Campinas}\\ \begin{columns}[t]
     (4~7~3~6~2~5~1)$.}
 \end{figure} }
 
+% slide 12
 \frame{\frametitle{Grafo de Breakpoints para Reversões [4/4]}
 
 \begin{itemize}
@@ -304,6 +323,7 @@ de Campinas}\\ \begin{columns}[t]
 
 \subsection{Problema da Distância de Transposição} 
 
+% slide 13
 \frame{\frametitle{Problema da Distância de Transposição [1/2]}
 
 \begin{beamerboxesrounded}[center,shadow=true]{Evento de transposição:} 
@@ -317,6 +337,7 @@ de Campinas}\\ \begin{columns}[t]
     \caption{Uma transposição aplicada em uma permutação.}
 \end{figure} }
 
+% slide 14
 \frame{\frametitle{Problema da Distância de Transposição [2/2]}
 
 \begin{itemize}
@@ -326,18 +347,19 @@ de Campinas}\\ \begin{columns}[t]
         outro.} 
 
     \item{O Problema da Distância de Transposição é equivalente ao
-            problema de Ordenação por Transposições, que é a distância
-            de transposição entre a permutação $\pi$ e a permutação
-            identidade $\iota$, denotado por $d_{t}(\pi)$.}
+        problema de Ordenação por Transposições, que é a distância
+        de transposição entre a permutação $\pi$ e a permutação
+        identidade $\iota$, denotado por $d_{t}(\pi)$.}
 
     \item{Pertence à classe de problemas NP-Difíceis, a prova foi
-            apresentada por Bulteau, Fertin and Rusu (2010).} 
+        apresentada por Bulteau, Fertin and Rusu (2010).} 
 
     \item{O melhor algoritmo de aproximação possui razão de $1.375$ e
-            foi apresentado por Elias and Hartman (2006).} 
+        foi apresentado por Elias and Hartman (2006).} 
 
 \end{itemize} }
 
+% slide 15
 \frame{\frametitle{Breakpoints para Transposições} 
 
 \begin{beamerboxesrounded}[center,shadow=true]{Breakpoints:}  
@@ -353,8 +375,8 @@ de Campinas}\\ \begin{columns}[t]
         $\pi_{0} = 0$ e $\pi_{n+1} = n+1$.}
 
     \item{Uma transposição atua em três pontos de uma permutação, logo
-            pode reduzir o número de \textit{breakpoints} em pelo menos
-            e no máximo três.}
+        pode reduzir o número de \textit{breakpoints} em pelo menos
+        e no máximo três.}
 
 \end{itemize} 
 
@@ -367,11 +389,12 @@ de Campinas}\\ \begin{columns}[t]
     \normalsize
 \end{beamerboxesrounded} }
 
+% slide 16
 \frame{\frametitle{Grafo de Ciclos [1/3]}
 
 \begin{itemize}
 
-    \item{Introduzido por Bafna e Pevzner (1998).}
+    \item{Introduzido por Bafna and Pevzner (1998).}
 
     \item{Grafo direcionado com arestas coloridas $G(\pi)$ com $n+2$
           vértices $\{0,~1,~\ldots,~n,~n+1\}$.}
@@ -382,14 +405,13 @@ de Campinas}\\ \begin{columns}[t]
 
 \end{itemize} 
 
-
 \begin{figure}
     \centering
     \includegraphics[width=8cm]{images/trans_cycle_graph.png}
     \caption{Grafo de ciclos da permutação $\pi = (4~7~3~6~2~5~1)$}
 \end{figure} }
 
-
+% slide 17
 \frame{\frametitle{Grafo de Ciclos [2/3]}
 
 \begin{figure}[h]
@@ -402,7 +424,7 @@ de Campinas}\\ \begin{columns}[t]
   \label{fig:tra_grafo_bkp_dec}
 \end{figure} }
 
-
+% slide 18
 \frame{\frametitle{Grafo de Ciclos [3/3]}
 
 \begin{itemize}
@@ -417,7 +439,8 @@ de Campinas}\\ \begin{columns}[t]
         $G(\pi)$, para uma permutação $\pi$, e $\Delta c_{\text{ímpar}}
         (\rho) = c_{\text{ímpar}} (\pi \rho) - c_{\text{ímpar}} (\pi)$ a
         mudança no número de ciclos ímpares devido a transposição
-        $\rho$, temos que $\Delta c_{\text{ímpar}} \in \{2, 0, -2\}$,}
+        $\rho$, temos que $\Delta c_{\text{ímpar}} \in \{2, 0, -2\}$ [Bafna and
+        Pevzner (1998)].}
 
 \end{itemize} 
 
@@ -430,237 +453,805 @@ de Campinas}\\ \begin{columns}[t]
     \normalsize
 \end{beamerboxesrounded} }
 
-\subsection{Problema da Distância de Reversão e Transposição} \frame{
-\frametitle{Reversal and Transposition Distance Problem [1/1]} \begin{itemize}
-    \item{The reversal and transposition distance problem is to find the
-        minimum number of reversals and transpositions that transform one
-        genome into another.} \item{Walter, Dias and Meidanis (1998, 2002) and
-        Lin and Xue (1999) studied this problem.} \end{itemize} }
+\subsection{Problema da Distância de Reversão e Transposição} 
 
-\section{Modelo} \frame{ \frametitle{Model [1/3]}
-\begin{beamerboxesrounded}[center,shadow=true]{Permutation:} The permutation
-    $\pi$ is a list of elements ($\pi_{1},\pi_{2},\cdots,\pi_{n}$) where
-    $\pi_{i} \in \mathbb{N}$, $0 < \pi_{i} \le n$ and $\pi_{i} \neq \pi_{j}$
-    for $i \neq j$. The identity permutation $\iota$ is defined as $\iota =
-    (1~2~3~\cdots~n)$.  \end{beamerboxesrounded} \vspace{1cm} \scriptsize
-    \begin{beamerboxesrounded}[center,shadow=true]{permutation/2}
-        \vspace{-0.5cm} \begin{align} \textit{per}&\textit{mutation}(\pi,
-            N)~\text{:-} \nonumber\\ &\textit{length}(\pi, N), \nonumber\\
-            &\pi~::~[1~..~N], \nonumber\\ &\textit{all\_different}(\pi).
-            \nonumber \end{align} \end{beamerboxesrounded} \normalsize }
+% slide 19
+\frame{\frametitle{Problema da Distância de Reversão e Transposição} 
 
-\frame{ \frametitle{Model [2/3]}
-\begin{beamerboxesrounded}[center,shadow=true]{Reversal:} A reversal
-    $\rho(i,j)$, $0 < i < j \leq n$, split the list in three sub-lists
-    $C_{1}C_{2}C_{3}$ where $C_{1} = (\pi_{1} .. \pi_{i-1})$, $C_{2} = (\pi_{i}
-    .. \pi_{j})$ and $C_{3} = (\pi_{j+1} .. \pi_{n})$.  After that, we do a
-    reverse on the sub-list $C_{2}$ and the result is the sub-list $R_{C_{2}}$.
-    Finally we join the new sub-list $R_{C_{2}}$ with the sub-lists $C_{1}$ and
-    $C_{3}$ to form $\rho\pi = C_{1}R_{C_{2}}C_{3}$.  \end{beamerboxesrounded}
-    \vspace{0.1cm} \scriptsize
-    \begin{beamerboxesrounded}[center,shadow=true]{reversal/4} \vspace{-0.5cm}
-        \begin{align} \textit{rev}&\textit{ersal}(\pi, \sigma, I, J)~\text{:-}
-            \nonumber\\ &\textit{permutation}(\pi, N), \nonumber\\
-            &\textit{permutation}(\sigma, N), \nonumber \\ &1 \le I < J \le N,
-            \nonumber\\ &\textit{split}(\pi, I, J, C_{1}, C_{2}, C_{3}),
-            \nonumber\\ &\textit{reverse}(C_{2}, R_{C_{2}}), \nonumber \\
-            &\sigma = C_{1}, R_{C_{2}}, C_{3}. \nonumber \end{align}
-        \end{beamerboxesrounded} \normalsize }
+\begin{itemize}
 
-\frame{ \frametitle{Model [3/3]}
-\begin{beamerboxesrounded}[center,shadow=true]{Transposition:} A transposition
-    $\rho(i,j,k)$, $0 < i < j < k\leq n$, split the list in four sub-lists
-    $C_{1}C_{2}C_{3}C_{4}$ where $C_{1} = (\pi_{1} .. \pi_{i-1})$, $C_{2} =
-    (\pi_{i} .. \pi_{j-1})$, $C_{3} = (\pi_{j} .. \pi_{k-1})$ and $C_{4} =
-    (\pi_{k} .. \pi_{n})$. After we join them to form $\rho\pi =
-    C_{1}C_{3}C_{2}C_{4}$. Note that $C_{1}$ and $C_{4}$ could be empty.
-\end{beamerboxesrounded} \vspace{1cm} \scriptsize
-\begin{beamerboxesrounded}[center,shadow=true]{transposition/5} \vspace{-0.5cm}
-    \begin{align} \textit{tra}&\textit{nsposition}(\pi, \sigma, I, J,
-        K)~\text{:-} \nonumber\\ &\textit{permutation}(\pi, N), \nonumber\\
-        &\textit{permutation}(\sigma, N), \nonumber\\ &1 \le I < J < K \le N,
-        \nonumber \\ &\textit{split}(\pi, I, J, K, C_{1}, C_{2}, C_{3}, C_{4}),
-        \nonumber\\ &\sigma = C_{1}, C_{3}, C_{2}, C_{4}. \nonumber \end{align}
-    \end{beamerboxesrounded} \normalsize }
+    \item{Na natureza uma genoma não sofre apenas eventos de reversão ou
+        transposição de forma isolada.}
 
-\subsection{Modelo CSP} \frame{ \frametitle{CSP Model [1/3]} \begin{itemize}
-    \item{We first model the problem as CSP.} \item{The number of variables is
-        unknown because we need the value of distance $d_{r\_t}(\pi)$ to set
-        the constraints and variables that represent the permutations.}
-    \item{We pick a candidate value for distance $N$ such that $N \in [LB ..
-        UB]$ and try to find the appropriate combination of $N$ reversals and
-        transpositions.} \item{If the CSP fails, we choose another value for
-        $N$ just incrementing its value.} \item{We check the value of $N$ using
-        a bottom-up strategy.} \end{itemize} }
+    \item{O Problema da Distância de Reversão e Transposição é encontrar
+            o número mínimo de reversões e transposições necessárias
+        para transformar um genoma em outro.}
 
-\frame{ \frametitle{CSP Model [2/3]} \scriptsize
-\begin{beamerboxesrounded}[center,shadow=true]{rev\_trans\_dist/3}
-    \vspace{-0.5cm} \begin{align} \textit{rev}&\textit{\_trans\_dist}(\iota, 0,
-        \_Model). \nonumber\\ \textit{rev}&\textit{\_trans\_dist}(\pi, N,
-        Model)~\text{:-} \nonumber\\ &\textit{bound}(\pi, Model, LB, UB),
-        \nonumber\\ &N :: [LB .. UB], \nonumber\\ &\textit{indomain}(N),
-        \nonumber \\ &\textit{event}(\pi, \sigma), \nonumber \\
-        &\textit{rev\_trans\_dist}(\sigma, N-1, Model). \nonumber \end{align}
-    \end{beamerboxesrounded} \normalsize }
+    \item{Hannenhalli, Chappey, Koonin and Pevzner (1995), Walter, Dias
+        and Meidanis (1998, 2002), Gu, Peng and Sudborough (1999) e Lin
+    and Xue (1999) estudaram este problema.} 
 
-\frame{ \frametitle{CSP Model [3/3]}
-\begin{beamerboxesrounded}[center,shadow=true]{Bounds:} \begin{itemize}
-    \item{\textbf{def\_csp} doesn't use any lower bounds.}
-    \item{\textbf{r\_t\_br\_csp} chooses the best bound between the reversal
-        breakpoint lower and upper bounds described by Bafna and Pevzner (1996)
-        and the transposition breakpoint lower and upper bounds described by
-        Bafna and Pevzner (1998).} \item{\textbf{r\_t\_bc\_csp} chooses the
-        best bound between the reversal breakpoint lower and upper bounds and
-        the transposition edge-colored cycle graph lower and upper bounds
-        described by Bafna and Pevzner (1998).} \end{itemize}
-    \end{beamerboxesrounded} }
-
-\subsection{Modelo COP} \frame{ \frametitle{COP Model [1/5]} \begin{itemize}
-    \item{Another approach is to model the problem as a COP.} \item{This
-        approach needs an upper bound.} \item{We use the binary variables $B$
-        to indicate whether an event, reversal or transposition, has modified
-        the permutation.} \item{We use the same CSP bounds modified for COP
-        models. So we have the following bounds: \textbf{def\_cop},
-        \textbf{r\_t\_br\_cop} and \textbf{r\_t\_bc\_cop}.} \end{itemize} }
-
-\frame{ \frametitle{COP Model [2/5]} \begin{itemize} \item{The first predicate
-        that we need to create is \textit{reversal\_cop/5}. Given a permutation
-        $\rho(i, j)$, we add a new clause to allow $(i, j) = (0, 0)$. If $(i,
-        j) = (0, 0)$ then $\pi\rho = \pi$.} \item{The equivalent predicate for
-        transposition is \textit{transposition\_cop/6}. Given a permutation
-        $\rho(i, j, k)$, we add a new clause to allow $(i, j, k) = (0, 0, 0)$.
-        If $(i, j, k) = (0, 0, 0)$ then $\pi\rho = \pi$.} \end{itemize}
-        \begin{columns}[t] \begin{column}{5.5cm} \scriptsize
-            \begin{beamerboxesrounded}[center,shadow=true]{reversal\_cop/5}
-                \vspace{-0.5cm} \begin{align}
-                    \textit{rev}&\textit{ersal\_cop}(\iota, \iota, 0, 0, 0).
-                    \nonumber\\ \textit{rev}&\textit{ersal\_cop}(\pi, \sigma,
-                    I, J, 1)~\text{:-} \nonumber\\ &\textit{reversal}(\pi,
-                    \sigma, I, J). \nonumber \end{align}
-                \end{beamerboxesrounded} \normalsize \end{column}
-                \begin{column}{5.5cm} \scriptsize
-                    \begin{beamerboxesrounded}[center,shadow=true]{transposition\_cop/6}
-                        \vspace{-0.5cm} \begin{align}
-                            \textit{tra}&\textit{nsposition\_cop}(\iota, \iota,
-                            0, 0, 0, 0). \nonumber\\
-                            \textit{tra}&\textit{nsposition\_cop}(\pi, \sigma,
-                            I, J, K, 1)~\text{:-} \nonumber\\
-                            &\textit{transposition}(\pi, \sigma, I, J, K).
-                            \nonumber \end{align} \end{beamerboxesrounded}
-                            \normalsize \end{column} \end{columns} }
-
-\frame{ \frametitle{COP Model [3/5]} \begin{itemize} \item{To calculate the
-        reversal and transposition distance in the COP model we implemented the
-        \textit{rev\_trans\_dist\_cop/3} predicate.} \item{It sets the
-        variables $B$ using the upper bound and constrains the permutations by
-        making $\pi_{k} = \pi_{k-1} \rho_{k}$.} \item{\textit{length/2} is a
-        prolog built-in and is used to create a list of non instantiated
-        variables of a given size.} \item{The cost function \textit{Cost} is
-        the sum of variables $B$ associated with each $\rho_{k}$, $Cost =
-        \sum_{k=1}^{UB} B_{k}$.} \item{The reversal and transposition distance
-        is the minimum value of the cost function $d_{r\_t} = \min Cost$.}
 \end{itemize} }
 
-\frame{ \frametitle{COP Model [4/5]} \scriptsize
+\section{Modelos} 
+
+% slide 20
+\frame{\frametitle{Predicados Básicos [1/3]}
+
+\begin{beamerboxesrounded}[center,shadow=true]{Permutação:} 
+    \footnotesize
+    A permutação $\pi$ é uma lista de elementos
+    ($\pi_{1},\pi_{2},\cdots,\pi_{n}$) onde $\pi_{i} \in \mathbb{N}$, $0
+    < \pi_{i} \le n$ e $\pi_{i} \neq \pi_{j}$ para $i \neq j$. A
+    permutação identidade $\iota$ é definida como $\iota =
+    (1~2~3~\cdots~n)$.  
+    \normalsize
+\end{beamerboxesrounded} 
+
+\vspace{0.1cm}
+
+\begin{beamerboxesrounded}[center,shadow=true]{permutation/2}
+    \scriptsize
+    \vspace{-0.5cm}
+
+    \begin{align} 
+        \textit{per}&\textit{mutation}(\pi,N)~\text{:-} \nonumber\\ 
+        &\textit{length}(\pi, N), \nonumber\\
+        &\pi~::~[1~..~N], \nonumber\\ 
+        &\textit{all\_different}(\pi). \nonumber 
+    \end{align} 
+    \normalsize
+\end{beamerboxesrounded} }
+
+% slide 21
+\frame{\frametitle{Predicados Básicos [2/3]}
+
+\begin{beamerboxesrounded}[center,shadow=true]{Reversão:} 
+    \footnotesize
+    Uma reversão $\rho(i,j)$, $0 < i < j \leq n$, divide a lista em três
+    sublistas $C_{1}C_{2}C_{3}$ onde $C_{1} = (\pi_{1}~..~\pi_{i-1})$,
+    $C_{2} = (\pi_{i}~..~\pi_{j})$ e $C_{3} = (\pi_{j+1}~..~\pi_{n})$.
+    Aplicamos a reversão na sublista $C_{2}$, resultando na sublista
+    $R_{C_{2}}$. Então juntamos a sublista $R_{C_{2}}$ com as sublistas
+    $C_{1}$ e $C_{3}$ para formar $\pi\rho = C_{1}R_{C_{2}}C_{3}$.
+    \normalsize
+\end{beamerboxesrounded}
+
+\vspace{0.1cm} 
+
+\begin{beamerboxesrounded}[center,shadow=true]{reversal/4} 
+    \scriptsize
+    \vspace{-0.5cm}
+    
+    \begin{align} 
+        \textit{rev}&\textit{ersal}(\pi, \sigma, I, J)~\text{:-} 
+        \nonumber\\ 
+        &\textit{permutation}(\pi, N), \nonumber\\
+        &\textit{permutation}(\sigma, N), \nonumber \\ 
+        &1 \le I < J \le N, \nonumber\\ 
+        &\textit{split}(\pi, I, J, C_{1}, C_{2}, C_{3}), \nonumber\\ 
+        &\textit{reverse}(C_{2}, R_{C_{2}}), \nonumber \\
+        &\sigma = C_{1}, R_{C_{2}}, C_{3}. \nonumber 
+    \end{align}
+    \normalsize
+\end{beamerboxesrounded} }
+
+% slide 22
+\frame{\frametitle{Predicados Básicos [3/3]}
+
+\begin{beamerboxesrounded}[center,shadow=true]{Transposição:} 
+    \footnotesize
+    Uma transposição $\rho(i,j,k)$, $0 < i < j < k\leq n$, divide a
+    lista em quatro sublistas $C_{1}C_{2}C_{3}C_{4}$ onde $C_{1} =
+    (\pi_{1}~..~\pi_{i-1})$, $C_{2} = (\pi_{i}~..~\pi_{j-1})$, $C_{3} =
+    (\pi_{j}~..~\pi_{k-1})$ e $C_{4} = (\pi_{k}~..~\pi_{n})$. Então
+    juntamos as sublistas para formar $\pi\rho = C_{1}C_{3}C_{2}C_{4}$.
+    Observe que $C_{1}$ e $C_{4}$ podem ser vazias.
+    \normalsize
+\end{beamerboxesrounded} 
+
+\vspace{0.1cm}
+
+\begin{beamerboxesrounded}[center,shadow=true]{transposition/5} 
+    \scriptsize
+    \vspace{-0.5cm}
+    
+    \begin{align} 
+        \textit{tra}&\textit{nsposition}(\pi, \sigma, I, J, K)~\text{:-}
+        \nonumber\\ 
+        &\textit{permutation}(\pi, N), \nonumber\\
+        &\textit{permutation}(\sigma, N), \nonumber\\ 
+        &1 \le I < J < K \le N, \nonumber \\ 
+        &\textit{split}(\pi, I, J, K, C_{1}, C_{2}, C_{3}, C_{4}),
+        \nonumber\\ 
+        &\sigma = C_{1}, C_{3}, C_{2}, C_{4}. \nonumber 
+    \end{align}
+    \normalsize
+\end{beamerboxesrounded} }
+
+\subsection{Modelo CSP} 
+
+% slide 23
+\frame{\frametitle{Modelo CSP [1/5]} 
+
+\begin{itemize}
+
+    \item{Primeiramente modelamos os problemas usando a teoria CSP.} 
+    
+    \item{O número de variáveis é desconhecido, porque precisamos do
+        valor da distância $d(\pi)$ para criar as restrições e
+        variáveis que representam as permutações.}
+    
+    \item{Escolhemos um valor candidato para a distância $D$ tal que $D
+        \in [LB~..~UB]$ e tentamos achar uma combinação apropriada
+        de $D$ operações que solucionam o problema.} 
+    
+    \item{Se o CSP falha, escolhemos outro valor para $D$ apenas
+        incrementando o seu valor.} 
+    
+    \item{O valor de $D$ é escolhido usando a estratégia
+        \textit{bottom-up}.}
+
+\end{itemize} }
+
+% slide 24
+\frame{\frametitle{Modelo CSP [2/5]} 
+
+\begin{columns}[t] 
+    \begin{column}{5.5cm} 
+        \begin{beamerboxesrounded}[center,shadow=true]
+            {reversal\_distance/3}
+            \scriptsize
+            \vspace{-0.5cm} 
+            \begin{align}
+                \begin{split}
+                    \textit{rev}&\textit{ersal\_distance}(\iota, 0,
+                    \_Model).\\
+                    \textit{rev}&\textit{ersal\_distance}(\pi, R,
+                    Model)~\text{:-} \\ 
+                    &\textit{bound}(\pi, Model, LB, UB), \\ 
+                    &R :: [LB~..~UB], \\ 
+                    &\textit{indomain}(R), \\ 
+                    &\textit{reversal}(\pi, \sigma, \_I, \_J),  \\
+                    &\textit{reversal\_distance}(\sigma, R-1, Model).
+                \end{split} \nonumber
+            \end{align}
+            \normalsize
+        \end{beamerboxesrounded}
+    \end{column}
+    \begin{column}{5.5cm}
+        \begin{beamerboxesrounded}[center,shadow=true]
+            {transposition\_distance/3}
+            \scriptsize
+            \vspace{-0.5cm} 
+            \begin{align}
+                \begin{split}
+                    \textit{tra}&\textit{nsposition\_distance}(\iota, 
+                    0, \_Model). \\
+                    \textit{tra}&\textit{nsposition\_distance}(\pi, T, 
+                    Model)~\text{:-} \\
+                    &\textit{bound}(\pi, Model, LB, UB), \\
+                    &T :: [LB~..~UB], \\
+                    &\textit{indomain}(T),  \\
+                    &\textit{transposition}(\pi, \sigma, \_I, \_J, 
+                    \_K),  \\
+                    &\textit{transposition\_distance}(\sigma, T-1, 
+                    Model). 
+                \end{split} \nonumber
+            \end{align}
+            \normalsize
+        \end{beamerboxesrounded}
+    \end{column}
+\end{columns} }
+
+% slide 25
+\frame{\frametitle{Modelo CSP [3/5]}
+
+\begin{beamerboxesrounded}[center,shadow=true]{rev\_trans\_dist/3}
+    \scriptsize
+    \vspace{-0.5cm} 
+    \begin{align} 
+        \begin{split}
+            \textit{rev}&\textit{\_trans\_dist}(\iota, 0, \_Model). \\ 
+            \textit{rev}&\textit{\_trans\_dist}(\pi, N, 
+            Model)~\text{:-} \\ 
+            &\textit{bound}(\pi, Model, LB, UB), \\ 
+            &N :: [LB~..~UB], \\ 
+            &\textit{indomain}(N), \\ 
+            &\textit{event}(\pi, \sigma), \\
+            &\textit{rev\_trans\_dist}(\sigma, N-1, Model).
+        \end{split} \nonumber
+    \end{align}
+    \normalsize
+\end{beamerboxesrounded} }
+
+% slide 26
+\frame{\frametitle{Modelo CSP [4/5]}
+
+\begin{beamerboxesrounded}[center,shadow=true]{Limitantes [1/2]:} 
+    \footnotesize
+    \begin{itemize}
+
+        \item{\textbf{def\_csp} não usa nenhum limitante.}
+
+        \item{\textbf{rev\_br\_csp}: Modelo que usa o conceito de
+            \textit{breakpoints} em reversões para calcular os
+            limitantes descritos no Teorema 1.}
+
+        \item{\textbf{rev\_cg\_csp}: Modelo que usa o número de
+            $2$-ciclos na máxima decomposição em ciclos de $G(\pi)$ para
+            calcular os limitantes descritos no Teorema 2.}
+
+        \item{\textbf{tra\_br\_csp}: Modelo que usa o conceito de 
+            \textit{breakpoints} em transposições para calcular os 
+            limitantes conforme descrito no Teorema 3.}
+
+        \item{\textbf{tra\_cg\_csp}: Modelo que usa o conceito de grafo
+            de ciclos em transposições, fazendo a decomposição de ciclos e
+            analisando os ciclos ímpares separadamente para calcular os
+            limitantes conforme descrito no Teorema 4.}
+
+    \end{itemize}
+    \normalsize
+\end{beamerboxesrounded} }
+
+% slide 27
+\frame{\frametitle{Modelo CSP [5/5]}
+
+\begin{beamerboxesrounded}[center,shadow=true]{Limitantes [2/2]:} 
+    \footnotesize
+    \begin{itemize}
+
+        \item{\textbf{r\_t\_br\_csp}: Melhor limitante superior entre o
+            limitante de \textit{breakpoints} para reversões e o 
+            limitante de \textit{breakpoints} para transposições.}
+
+        \item{\textbf{r\_t\_bc\_csp}: Melhor limitante superior entre o
+            limitante de \textit{breakpoints} para reversões e o 
+            limitante do grafo de ciclos para transposições.}
+
+        \item{\textbf{r\_t\_cc\_csp}: Melhor limitante superior entre o
+            limitante do grafo de ciclos para reversões e o limitante do
+            grafo de ciclos para transposições.}
+
+    \end{itemize}
+    \normalsize
+\end{beamerboxesrounded} }
+
+\subsection{Modelo COP}
+
+% slide 28
+\frame{\frametitle{Modelo COP [1/7]} 
+
+\begin{itemize}
+
+    \item{Outra alternativa é modelar o problema usando a teoria COP.} 
+
+    \item{Esta abordagem necessita de um limitante superior.} 
+    
+    \item{Variáveis binárias $B$ indica quando o evento modificou ou não
+        a permutação fornecida.}
+    
+    \item{Os limitantes são os mesmos usados para os modelos CSP,
+            modificados para os modelos COP\@. Então temos os seguintes
+            limitantes: \textbf{def\_cop}, \textbf{rev\_br\_cop},
+            \textbf{rev\_cg\_cop}, \textbf{tra\_br\_cop},
+            \textbf{tra\_cg\_cop}, \textbf{r\_t\_br\_cop},
+            \textbf{r\_t\_bc\_cop} e \textbf{r\_t\_cc\_cop}.} 
+
+\end{itemize} }
+
+% slide 29
+\frame{\frametitle{Modelo COP [2/7]} 
+
+\begin{beamerboxesrounded}[center,shadow=true]{Reversão:}
+    \footnotesize
+    Dado uma reversão $\rho(i, j)$, adicionamos uma nova 
+    restrição para permitir $(i, j) = (0, 0)$. Se $(i, j)
+    = (0, 0)$ então $\pi\rho= \pi$.
+    \normalsize
+\end{beamerboxesrounded}
+
+\vspace{0.3cm}
+
+\begin{beamerboxesrounded}[center,shadow=true]{Transposição:}
+    \footnotesize
+    Dado uma transposição $\rho(i, j, k)$, adicionamos uma nova 
+    restrição para permitir $(i, j, k) = (0, 0, 0)$. Se $(i, j, k)
+    = (0, 0, 0)$ então $\pi\rho= \pi$.
+    \normalsize
+\end{beamerboxesrounded}
+
+\vspace{0.3cm}
+
+\begin{columns}[t] 
+    \begin{column}{5.5cm} 
+        \begin{beamerboxesrounded}[center,shadow=true]{reversal\_cop/5}
+            \scriptsize
+            \vspace{-0.5cm} 
+            \begin{align}
+                \begin{split}
+                    \textit{rev}&\textit{ersal\_cop}(\iota, \iota, 0, 
+                    0, 0).\\ 
+                    \textit{rev}&\textit{ersal\_cop}(\pi, \sigma, I, 
+                    J, 1)~\text{:-} \\ 
+                    &\textit{reversal}(\pi, \sigma, I, J). 
+                \end{split} \nonumber 
+            \end{align}
+            \normalsize
+        \end{beamerboxesrounded} 
+    \end{column}
+    \begin{column}{5.5cm} 
+        \begin{beamerboxesrounded}[center,shadow=true]
+            {transposition\_cop/6}
+            \scriptsize
+            \vspace{-0.5cm} 
+            \begin{align}
+                \begin{split}
+                    \textit{tra}&\textit{nsposition\_cop}(\iota, \iota,
+                    0, 0, 0, 0). \\
+                    \textit{tra}&\textit{nsposition\_cop}(\pi, \sigma,
+                    I, J, K, 1)~\text{:-} \\
+                    &\textit{transposition}(\pi, \sigma, I, J, K).
+                \end{split} \nonumber 
+            \end{align}
+            \normalsize
+        \end{beamerboxesrounded}
+    \end{column} 
+\end{columns} }
+
+% slide 30
+\frame{\frametitle{Modelo COP [3/7]}
+
+\begin{itemize} 
+    
+    \item{Predicados que calculam as distâncias foram modificados para
+        utilizar as variáveis binárias $B$.} 
+    
+    \item{Ajusta os valores de $B$ usando o limitante superior e 
+        restringe as permutações fazendo $\pi_{k} = \pi_{k-1}\rho_{k}$.} 
+    
+    \item{\textit{length/2} predicado interno do prolog usado para criar
+        uma lista de variáveis não instanciadas com o tamanho dado.} 
+    
+    \item{A função de custo \textit{Cost} é a soma das variáveis $B$
+        associadas com cada $\rho_{k}$, $Cost =
+        \sum_{k=1}^{UB} B_{k}$.} 
+    
+    \item{O valor da distância é o valor mínimo da função de custo
+        $d = \min Cost$.}
+        
+\end{itemize} }
+
+% slide 31
+\frame{\frametitle{Modelo COP [4/7]}
+
+\begin{beamerboxesrounded}[center,shadow=true]
+    {\textit{upperbound\_constraint\_rev/4}:}
+    \footnotesize
+    O predicado \textit{upperbound\_constraint\_rev/4} aplica na
+    permutação os efeitos de $\rho_{k}$ e retorna o valor apropriado de
+    $B$ para cada reversão $\rho_{k}$. 
+    \normalsize
+\end{beamerboxesrounded}
+
+\vspace{0.3cm}
+
+\begin{beamerboxesrounded}[center,shadow=true]
+    {reversal\_distance\_cop/3}
+    \scriptsize
+    \vspace{-0.5cm} 
+    \begin{align} 
+        \begin{split}
+            \textit{rev}&\textit{ersal\_distance\_cop}(\pi, R, 
+            Model)~\text{:-} \\
+            &\textit{bound}(\pi, Model, LB, UB), \\
+            &\textit{length}(B, UB),  \\
+            &\textit{upperbound\_constraint\_rev}(\pi, B, Model, 
+            UB), \\
+            &\textit{sum}(B, Cost),  \\
+            &\textit{Cost} \ge \textit{LB},  \\
+            &\textit{minimize}(Cost, R).
+        \end{split} \nonumber
+    \end{align}
+    \normalsize
+\end{beamerboxesrounded} } 
+
+% slide 32
+\frame{\frametitle{Modelo COP [5/7]}
+
+\begin{beamerboxesrounded}[center,shadow=true]
+    {\textit{upperbound\_constraint\_trans/4}:}
+    \footnotesize
+    O predicado \textit{upperbound\_constraint\_trans/4} aplica na
+    permutação os efeitos de $\rho_{k}$ e retorna o valor apropriado de
+    $B$ para cada transposição $\rho_{k}$. 
+    \normalsize
+\end{beamerboxesrounded}
+
+\vspace{0.3cm}
+
+\begin{beamerboxesrounded}[center,shadow=true]
+    {transposition\_distance\_cop/3}
+    \scriptsize
+    \vspace{-0.5cm} 
+    \begin{align} 
+        \begin{split}
+            \textit{tra}&\textit{nsposition\_distance\_cop}(\pi, T, 
+            Model)~\text{:-} \\
+            &\textit{bound}(\pi, Model, LB, UB), \\
+            &\textit{length}(B, UB),  \\
+            &\textit{upperbound\_constraint\_trans}(\pi, B, Model, 
+            UB), \\
+            &\textit{sum}(B, Cost),  \\
+            &\textit{Cost} \ge \textit{LB},  \\
+            &\textit{minimize}(Cost, T). 
+        \end{split} \nonumber
+    \end{align}
+    \normalsize
+\end{beamerboxesrounded} }
+
+% slide 33
+\frame{\frametitle{Modelo COP [6/7]}
+
+\begin{beamerboxesrounded}[center,shadow=true]
+    {\textit{upperbound\_constraint\_event/4}:}
+    \footnotesize
+    O predicado \textit{upperbound\_constraint\_event/4} escolhe o
+    melhor evento entre a reversão, usando o predicado
+    \textit{upperbound\_constraint\_rev/4}, e a transposição, usando o
+    predicado \textit{upperbound\_constraint\_trans/4}, para minimizar o
+    valor da distância.
+    \normalsize
+\end{beamerboxesrounded}
+
+\vspace{0.3cm}
+
 \begin{beamerboxesrounded}[center,shadow=true]{rev\_trans\_dist\_cop/3}
-    \vspace{-0.5cm} \begin{align} \textit{rev}&\textit{\_trans\_dist\_cop}(\pi,
-        N, Model)~\text{:-} \nonumber\\ &\textit{bound}(\pi, Model, LB, UB),
-        \nonumber\\ &\textit{length}(B, UB), \nonumber \\
-        &\textit{upperbound\_constraint\_rev\_trans}(\pi, B, Model, UB),
-        \nonumber\\ &\textit{sum}(B, Cost), \nonumber \\ &\textit{Cost} \ge
-        \textit{LB}, \nonumber \\ &\textit{minimize}(Cost, N). \nonumber
-    \end{align} \end{beamerboxesrounded} \normalsize }
+    \scriptsize
+    \vspace{-0.5cm} 
+    \begin{align} 
+        \begin{split}
+            \textit{rev}&\textit{\_trans\_dist\_cop}(\pi, N, 
+            Model)~\text{:-} \\
+            &\textit{bound}(\pi, Model, LB, UB), \\
+            &\textit{length}(B, UB),  \\
+            &\textit{upperbound\_constraint\_event}(\pi, B, Model, 
+            UB), \\
+            &\textit{sum}(B, Cost),  \\
+            &\textit{Cost} \ge \textit{LB},  \\
+            &\textit{minimize}(Cost, N). 
+        \end{split} \nonumber
+    \end{align}
+    \normalsize
+\end{beamerboxesrounded} }
 
-\frame{ \frametitle{COP Model [5/5]}
-\begin{beamerboxesrounded}[center,shadow=true]{the
-    upperbound\_constraint\_rev\_trans:} The
-    \textit{upperbound\_constraint\_rev\_trans/4} predicate applies the effects
-    of $\rho_{k}$ in permutation and returns the value of $B$ for every
-    reversal or transposition $\rho_{k}$.  \end{beamerboxesrounded}
-    \vspace{1cm} \scriptsize
-    \begin{beamerboxesrounded}[center,shadow=true]{upperbound\_constraint\_rev\_trans/4}
-        \vspace{-0.5cm} \begin{align}
-            \textit{upp}&\textit{erbound\_constraint\_rev\_trans}(\iota, [~],
-            \_Model, \_UB). \nonumber\\
-            \textit{upp}&\textit{erbound\_constraint\_rev\_trans}(\pi, [B|Bt],
-            Model, UB)~\text{:-} \nonumber\\ &\textit{event\_cop}(\pi, \sigma,
-            B), \nonumber\\ &\textit{bound}(\pi, Model, LB, \_UB), \nonumber\\
-            &UB \ge LB, \nonumber \\
-            &\textit{upperbound\_constraint\_rev\_trans}(\sigma, Bt, Model, UB
-            - 1), \nonumber \end{align} \end{beamerboxesrounded} \normalsize }
+% slide 34
+\frame{\frametitle{Modelo COP [7/7]}
 
-\section{Análise dos Resultados} \frame{ \frametitle{Computational Experiments
-[1/8]} \begin{itemize} \item{All the constraint logic programming models were
-        implemented using: \begin{itemize} \item{Open source programming system
-                \textit{ECLiPSe}.} \item{The proprietary C++ package
-                \textit{IBM\textregistered{} ILOG\textregistered{}
-                CPLEX\textregistered{} CP Optimizer}.} \end{itemize}} \item{All
-                the integer programming formulations were implemented using:
-                \begin{itemize} \item{Open source system \textit{GLPK}.}
-                    \item{The proprietary C++ package
-                        \textit{IBM\textregistered{} ILOG\textregistered{}
-                        CPLEX\textregistered{} Optimizer}.} \end{itemize}}
-                \end{itemize} }
+\begin{beamerboxesrounded}[center,shadow=true]
+    {upperbound\_constraint\_rev/4}
+        \scriptsize
+        \vspace{-0.5cm} 
+        \begin{align}
+            \begin{split}
+                \textit{upp}&\textit{erbound\_constraint\_rev}(\iota, 
+                [~], \_Model, \_UB). \\
+                \textit{upp}&\textit{erbound\_constraint\_rev}(\pi, 
+                [B|Bt], Model, UB)~\text{:-} \\
+                &\textit{reversal\_cop}(\pi, \sigma, \_I, \_J, B), \\
+                &\textit{bound}(\pi, Model, LB, \_UB), \\
+                &UB \ge LB,  \\
+                &\textit{upperbound\_constraint\_rev}(\sigma, Bt, 
+                Model, UB - 1).
+            \end{split} \nonumber
+        \end{align} 
+        \normalsize
+\end{beamerboxesrounded} 
 
-\frame{ \frametitle{Computational Experiments [2/8]}
-\begin{beamerboxesrounded}[center,shadow=true]{Computer Specifications:}
-    \begin{itemize} \item{Intel\textregistered{}~Core\texttrademark~2 Duo
-            2.33GHz.} \item{3 GB of RAM.} \item{Ubuntu Linux operating system
-            with kernel 2.6.31.} \item{\textit{ECLiPSe-6.0}.}
-        \item{\textit{GLPK-4.35}.} \item{\textit{IBM\textregistered{}
-            ILOG\textregistered{} CPLEX\textregistered{} CP Optimizer v 2.3}.}
-        \item{\textit{IBM\textregistered{} ILOG\textregistered{}
-            CPLEX\textregistered{} Optimizer v 12.1}.} \end{itemize}
-        \end{beamerboxesrounded} }
+\vspace{0.1cm}
 
-\frame{ \frametitle{Computational Experiments [3/8]} \begin{itemize} \item{The
-        ILP results used the formulations described in Dias and Souza (2007).}
-    \item{The column \textbf{size} represents the length of permutations used
-        in the tests.} \item{The CPU times (in seconds) reported refers to an
-        average of 50 instances where the permutation $\pi$ was randomly
-        generated.} \item{We made a comparison between the permutation $\pi$
-        and the identity permutation $\iota$.} \end{itemize} }
+\begin{beamerboxesrounded}[center,shadow=true]
+    {upperbound\_constraint\_trans/4}
+        \scriptsize
+        \vspace{-0.5cm} 
+        \begin{align}
+            \begin{split}
+                \textit{upp}&\textit{erbound\_constraint\_trans}(\iota, 
+                [~], \_Model, \_UB). \\
+                \textit{upp}&\textit{erbound\_constraint\_trans}(\pi, 
+                [B|Bt], Model, UB)~\text{:-} \\
+                &\textit{transposition\_cop}(\pi, \sigma, \_I, \_J, \_K, B), \\
+                &\textit{bound}(\pi, Model, LB, \_UB), \\
+                &UB \ge LB,  \\
+                &\textit{upperbound\_constraint\_trans}(\sigma, Bt, 
+                Model, UB - 1).
+            \end{split} \nonumber
+        \end{align} 
+        \normalsize
+\end{beamerboxesrounded} }
 
-\frame{ \frametitle{Computational Experiments [4/8]} \tiny
-\input{tables/r_t_eclipse.tex} \normalsize }
+\section{Análise dos Resultados}
 
-\frame{ \frametitle{Computational Experiments [5/8]} \tiny
-\input{tables/r_t_cp_ilog.tex} \normalsize }
+\subsection{Especificações Técnicas}
 
-\frame{ \frametitle{Computational Experiments [6/8]} \tiny
-\input{tables/r_t_ilp_ilog.tex} \normalsize }
+% slide 35
+\frame{\frametitle{Especificações Técnicas}
 
+\begin{beamerboxesrounded}[center,shadow=true]{Especificações Técnicas:}
+    \footnotesize
+    \begin{itemize}
 
-\frame{ \frametitle{Computational Experiments [7/8]} \begin{itemize} \item{The
-        times are given in seconds and grow very fast as the instance size
-        increases.} \item{CLP: Exponential search space.} \item{ILP: Model
-        sizes.} \item{Instances with $|\pi| \geq 13$ printed timeout (time
-        limit of 25 hours) in all models, except for the model
-        \textbf{r\_t\_bc\_csp}.} \item{CSP models have better times in
-        comparison to ILP models.} \item{COP models have the worst times.}
-    \item{\textbf{r\_t\_bc\_csp} have the best times, due to breakpoint bounds
-        with transposition edge-colored cycle graph bounds.} \end{itemize} }
+        \item{Processador: Intel\textregistered{}~Core\texttrademark~2
+            Duo 2.33GHz.}
 
-\frame{ \frametitle{Computational Experiments [8/8]} \begin{itemize} \item{CLP:
-        ILOG models were faster than ECLiPSe at first, but in the end the ILOG
-        models became slower.} \item{ILP: GLPK models, in average, had better
-        times than ILOG models.} \item{We did not use any heuristic in COP
-        models.} \item{The search mechanism of COP models is to find a solution
-        and try to improve it by looking for new solutions with improved value
-        of the cost function.} \item{It will lead to a greater search space
-        than CSP models.} \end{itemize} }
+        \item{Memória RAM: 3 GB.}
 
-\section{Conclusões} \frame{ \frametitle{Conclusion and Future Works [1/1]}
-\begin{itemize} \item{The analysis shows that the CLP models based on CSP
-        theory achieved better performance than ILP formulations.} \item{This
-        approach is still not viable in practice.} \item{CLP: \begin{itemize}
-            \item{Improve the models with better bounds for the problem.}
-            \item{Do some procedure to choose a set of reversals or
-                transpositions that will be branched firstly.} \end{itemize}}
-            \item{ILP: \begin{itemize} \item{Improve the bounds of models with
-                        techniques like \textit{Lagrangian Relaxation}.}
-                    \item{Writing a new model in order to apply \textit{Column
-                        Generation} or \textit{Branch-and-Cut}.} \end{itemize}}
-                \end{itemize} }
+        \item{Sistema Operacional: Ubuntu Linux com kernel 2.6.31.}
+
+        \item{Compilador para linguagem C++: gcc 4.4.3.}
+
+        \item{\textit{ECLiPSe-6.0}.}
+
+        \item{\textit{GLPK-4.35}.}
+
+        \item{Pacote proprietário para linguagem C++, proprietário
+            \textit{IBM\textregistered{} ILOG\textregistered{}
+            CPLEX\textregistered{} CP Optimizer v 2.3}.}
+
+        \item{Pacote proprietário para linguagem C++, proprietário
+            \textit{IBM\textregistered{} ILOG\textregistered{}
+            CPLEX\textregistered{} Optimizer v 12.1}.}
+
+    \end{itemize}
+\end{beamerboxesrounded} }
+
+\subsection{Descrição dos Testes}
+
+% slide 36
+\frame{\frametitle{Descrição dos Testes} 
+
+\begin{itemize} 
+
+    \item{Para ILP usamos as formulações descritas em Dias and Souza
+        (2007).}
+
+    \item{A coluna \textbf{size} indica o tamanho das permutações usadas
+        nos testes.} 
+
+    \item{O tempo de CPU (em segundos) mostrado é o tempo médio usado
+        para resolver 50 permutações aleatórias com tamanho $n$.}
+
+    \item{Fizemos uma comparação entre a permutação $\pi$ e a permutação
+        identidade $\iota$.} 
+
+    \item{O tempo limite para resolver uma instância é de 25 horas.}
+
+    \item{O caractere ``-'' significa que o modelo não conseguiu
+        resolver a instância dentro do tempo limite.}
+    
+    \item{O caractere ``*'' significa que o modelo não conseguir
+        resolver a instância devido ao limite de memória do sistema.}
+
+\end{itemize} }
+
+\subsection{Resultados}
+
+% slide 37
+\frame{\frametitle{Resultados: Ordenação por Reversões [1/4]} 
+
+\input{tables/rev_ecl.tex} }
+
+% slide 38
+\frame{\frametitle{Resultados: Ordenação por Reversões [2/4]} 
+
+\input{tables/rev_ilog.tex} }
+
+% slide 39
+\frame{\frametitle{Resultados: Ordenação por Reversões [3/4]} 
+
+\input{tables/rev_pli.tex} }
+
+% slide 40
+\frame{\frametitle{Resultados: Ordenação por Reversões [4/4]}
+
+\begin{itemize}
+
+    \item{Não resolveu algumas instâncias devido ao limite de memória do
+        sistema.}
+
+    \item{No \textit{ECLiPSe}, os modelos COP, quanto melhor o
+        limitante, maior é o tempo necessário para resolver as
+        instâncias (Complexidade dos limitantes + espaço de busca).}
+
+    \item{Nenhum modelo de Ordenação por Reversões conseguiu solucionar
+        as instâncias com permutações de tamanho $n > 13$ dentro do
+        tempo limite de 25 horas.}
+
+\end{itemize} }
+
+% slide 41
+\frame{\frametitle{Resultados: Ordenação por Transposições [1/4]} 
+
+\input{tables/trans_ecl.tex} }
+
+% slide 42
+\frame{\frametitle{Resultados: Ordenação por Transposições [2/4]} 
+
+\input{tables/trans_ilog.tex} }
+
+% slide 43
+\frame{\frametitle{Resultados: Ordenação por Transposições [3/4]} 
+
+\input{tables/trans_pli.tex} }
+
+% slide 44
+\frame{\frametitle{Resultados: Ordenação por Transposições [4/4]}
+
+\begin{itemize}
+
+    \item{Os modelos que usam o limitantes \textbf{tra\_br\_cop}
+        apresentaram os piores resultados.}
+
+    \item{No \textit{ECLiPSe}, os modelos COP, o melhor limitante possui
+        o melhor tempo de execução.}
+
+    \item{Nenhum modelo de Ordenação por Transposições conseguiu solucionar
+        as instâncias com permutações de tamanho $n > 14$ dentro do
+        tempo limite de 25 horas.}
+
+\end{itemize} }
+
+% slide 45
+\frame{\frametitle{Resultados: Ordenação por Reversões e Transposições 
+[1/4]} 
+
+\input{tables/r_t_ecl.tex} }
+
+% slide 46
+\frame{\frametitle{Resultados: Ordenação por Reversões e Transposições 
+[2/4]} 
+
+\input{tables/r_t_ilog.tex} }
+
+% slide 47
+\frame{\frametitle{Resultados: Ordenação por Reversões e Transposições 
+[3/4]} 
+
+\input{tables/r_t_pli.tex} }
+
+% slide 48
+\frame{\frametitle{Resultados: Ordenação por Reversões e Transposições 
+[4/4]} 
+
+\begin{itemize}
+
+    \item{Obteve os piores resultados. Espaço de busca maior por
+        realizar as duas operações em conjunto.}
+
+    \item{No \textit{ECLiPSe}, no modelo CSP que usa o limitante
+        \textbf{r\_t\_cc\_csp}, não foi possível resolver a instância
+        com permutações de tamanho $n = 7$ devido ao limite de memória
+        do sistema.}
+
+    \item{Rápido crescimento do espaço de busca conforme o tamanho das
+        permutações.}
+
+    \item{Nenhum modelo de Ordenação por Reversões conseguiu solucionar
+        as instâncias com permutações de tamanho $n > 10$ dentro do
+        tempo limite de 25 horas.}
+
+\end{itemize} }
+
+% slide 49
+\frame{\frametitle{Resultados [1/2]}
+
+\begin{itemize}
+
+    \item{Os modelos COP possuem o pior tempo de execução.}
+
+    \item{Busca uma solução base para depois encontrar uma solução
+        melhor, usando uma função de custo.}
+
+    \item{Espaço de busca é maior em relação aos modelos CSP.}
+
+    \item{Diferença na complexidade dos modelos desenvolvidos para
+            ILOG\@.
+        Motivos:
+        
+        \begin{itemize}
+
+            \item{Forma de modelagem. Modelo foi pensado para o
+                \textit{ECLiPSe}.}
+
+            \item{\textit{Backtracking}. O \textit{ECLiPSe} é baseado no
+                prolog (paradigma de programação lógica) e possui o
+                mecanismo embutido na linguagem. Já os modelos para o
+                ILOG foram escrito na linguagem C++.}
+
+        \end{itemize} }
+
+\end{itemize} }
+
+% slide 50
+\frame{\frametitle{Resultados [2/2]}
+
+\begin{beamerboxesrounded}[center,shadow=true]{Em ILP:}
+    \footnotesize
+    \begin{itemize}
+
+        \item{ILOG CPLEX foi melhor nas permutações com $n \leq 7$.}
+
+        \item{GLPK foi melhor nas permutações com $n > 7$, com excessão
+            das permutações com $n = 9$.}
+
+    \end{itemize} 
+\end{beamerboxesrounded}
+
+\vspace{0.5cm}
+
+\begin{beamerboxesrounded}[center,shadow=true]{Em CP:}
+    \footnotesize
+    \begin{itemize}
+
+        \item{Teoria COP: ILOG CP foi melhor nos três casos.}
+
+        \item{Teoria CSP: \textit{ECLiPSe} obteve tempos melhores e
+            resolveu instâncias maiores, exceto no caso de ordenação por
+            reversões e transposições.}
+
+    \end{itemize} 
+\end{beamerboxesrounded} }
+
+\section{Conclusões} 
+
+% slide 51
+\frame{\frametitle{Conclusões e Trabalhos Futuros}
+
+\begin{itemize} 
+   
+    \item{Resultados mostraram que os modelos de CP baseados na teoria
+        CSP obtiveram os melhores tempos em relação aos modelos de ILP.}
+
+    \item{Em ordenação por reversões, os modelos de CP baseados na
+        teoria COP obtiveram os piores resultados. As formulações ILP
+        obtiveram os piores resultados nos outros problemas.}
+
+    \item{Esta abordagem ainda é inviável na prática.}
+
+    \item{Heurísticas podem ser estudadas para melhorar o desempenho dos
+        modelos de CP (Redução do espaço de busca).}
+
+    \item{Para ILP, melhorar a formulação usando técnicas como relaxação
+        lagrangeana, ou escrever uma nova formulação, sem se preocupar
+        com o seu tamanho, para aplicar técnicas de geração de colunas e
+        \textit{branch-and-cut}.}
+    
+\end{itemize} }
+
+% slide 52
+\frame{\frametitle{Agradecimentos}
+
+\begin{columns}[t]
+
+    \begin{column}{5cm}
+        \begin{figure}
+            \centering
+            \includegraphics[scale=0.2]{images/logo_ic.png}
+        \end{figure}
+    \end{column}
+
+    \begin{column}{5cm}
+        \begin{figure}
+            \includegraphics[scale=0.4]{images/unicamp-logo.jpg}
+        \end{figure}
+    \end{column}
+\end{columns}
+
+\vspace{0.5cm}
+
+\begin{figure}
+    \includegraphics[scale=1]{images/cnpq.jpg}
+\end{figure} }
 
 \end{document}
