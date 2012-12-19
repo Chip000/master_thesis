@@ -343,7 +343,7 @@ de Campinas}\\ \begin{columns}[t]
 \begin{itemize}
 
     \item{O Problema da Distância de Transposição é encontrar o número
-        mínimo de reversões necessárias para transformar um genoma em
+        mínimo de transposições necessárias para transformar um genoma em
         outro.} 
 
     \item{O Problema da Distância de Transposição é equivalente ao
@@ -460,7 +460,7 @@ de Campinas}\\ \begin{columns}[t]
 
 \begin{itemize}
 
-    \item{Na natureza uma genoma não sofre apenas eventos de reversão ou
+    \item{Na natureza um genoma não sofre apenas eventos de reversão ou
         transposição de forma isolada.}
 
     \item{O Problema da Distância de Reversão e Transposição é encontrar
@@ -481,8 +481,8 @@ de Campinas}\\ \begin{columns}[t]
 \begin{beamerboxesrounded}[center,shadow=true]{Permutação:} 
     \footnotesize
     A permutação $\pi$ é uma lista de elementos
-    ($\pi_{1},\pi_{2},\cdots,\pi_{n}$) onde $\pi_{i} \in \mathbb{N}$, $0
-    < \pi_{i} \le n$ e $\pi_{i} \neq \pi_{j}$ para $i \neq j$. A
+    ($\pi_{1},\pi_{2},\cdots,\pi_{n}$) onde $\pi_{i} \in \mathbb{N}$, $1
+    \leq \pi_{i} \leq n$ e $\pi_{i} \neq \pi_{j}$ para $i \neq j$. A
     permutação identidade $\iota$ é definida como $\iota =
     (1~2~3~\cdots~n)$.  
     \normalsize
@@ -1180,10 +1180,10 @@ de Campinas}\\ \begin{columns}[t]
     \footnotesize
     \begin{itemize}
 
-        \item{ILOG CPLEX foi melhor nas permutações com $n \leq 7$.}
+        \item{ILOG CPLEX foi melhor nas permutações com $n < 7$.}
 
-        \item{GLPK foi melhor nas permutações com $n > 7$, com excessão
-            das permutações com $n = 9$.}
+        \item{GLPK foi melhor nas permutações com $n = 7$, mas não
+            conseguiu resolver permutações com $n \geq 8$.}
 
     \end{itemize} 
 \end{beamerboxesrounded}
