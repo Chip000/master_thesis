@@ -39,8 +39,30 @@
 % Revisao para adicionar nome do autor e cabecalho com nome do Instituto de Computacao na folha inicial 
 % Pedro J. de Rezende - 13.06.2012
 %
+% Branch para versões em Inglês
+% Matheus Mota 25.06.2012
+%
+% Revisao para adicionar traducao de todos os termos na capa
+% Rodrigo D. A. Senra - 04.11.2012
+%
+% Final hacking to produce a coherent set of front pages, starting
+% with the very bad template supplied by Unicamp's PRPG.
+% Hey! I've never hacked LaTeX before!
+% Paulo Licio de Geus - 20121105
+%
+% Revisao para unificar os modelos em ingles e em portugues da PRPG.
+% Caio Hoffman - 15.11.2012
+%
+% Revisao e correcao do modelo unificado em ingles/portugues/espanhol.
+% Caio Hoffman - 18.12.2012
 
-\typeout{Estilo: TESE IC - UNICAMP <13 de junho de 2012>.}
+\typeout{Estilo: TESE IC - UNICAMP <15 de novembro de 2012>.}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage[english,spanish,brazil]{babel}
+\usepackage{datetime}
+\usepackage{epstopdf}
 
 \long\def\comment#1{}
 %
@@ -51,10 +73,10 @@
 %    \documentclass[12pt]{report} % Use esta linha para tese com at{\'e} 100 p{\'a}ginas
 
     \usepackage{ic-tese}
-    \usepackage[latin1]{inputenc}
-    \usepackage[brazil]{babel}
+    \usepackage[latin1,utf8]{inputenc}
 
     \begin{document}
+    \thesislanguage{1} % Select 1 for English, 2 for Spanish, 3 for Brazilian Portuguese.
     \title{Como Escrever um T{\'\i}tulo em Duas Linhas\\
            para sua Disserta\c{c}{\~a}o ou Tese}
     \author{Donna S. A. St. Udent}
@@ -63,6 +85,7 @@
     \principaladvisor{Adam Astor}
     \advisortitle{Orientador} % Orientadora
     \coadvisor{Byron Meter (Co-orientador)} % Pode ser omitido.
+    \coadvisortitle{Co-Orientador} % Orientadora
     \firstreader{Charlie Brown\\ Departamento de Apicultura Subterr{\^a}nea
                  Computacional}
     \secondreader{Donald Duck}
@@ -215,6 +238,7 @@ the ic-tese documentation.}}{}
 \def\baselinestretch{1}\@normalsize
 \@xflo@t}
 
+
 % Redefine the macro used for footnotes to use single spacing
 \long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
     \interlinepenalty\interfootnotelinepenalty
@@ -224,6 +248,30 @@ the ic-tese documentation.}}{}
    \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
     {\rule{\z@}{\footnotesep}\ignorespaces
       #1\strut}}}
+
+% Define current year
+\def\thisyear#1{\gdef\@thisyear{#1}}
+
+% Define title in Portuguese
+\def\titlept#1{\gdef\@titlept{#1}}
+
+% Define the command that informs which language the thesis is being written.
+\newcommand{\thesislanguage}[1]{
+	\ifcase#1\relax%
+		\or 	\selectlanguage{english}%
+		\or		\selectlanguage{spanish}%
+		\else	\selectlanguage{brazil}%
+	\fi
+	\gdef\textlanguage{#1}
+}
+% Format the titles
+\newcommand{\thetitle}[2]{
+	\ifcase\textlanguage\relax%
+		\or		\title{#1}\titlept{\textit{#2}}
+		\or		\title{#1}\titlept{\textit{#2}}
+		\else	\title{#1}\titlept{#1}
+	\fi
+}
 
 % \author, \title are defined in report; here are the rest of the
 % front matter defining macros
@@ -236,6 +284,7 @@ the ic-tese documentation.}}{}
 \def\firstreader#1{\gdef\@firstreader{#1}}
 \def\coadvisor#1{\gdef\@coadvisor{#1}}
 \def\coadviser#1{\gdef\@coadvisor{#1}}
+\def\coadvisortitle#1{\gdef\@coadvisor{#1}}
 \def\secondreader#1{\gdef\@secondreader{#1}}
 \def\thirdreader#1{\gdef\@thirdreader{#1}}
 \def\fourthreader#1{\gdef\@fourthreader{#1}}
@@ -245,26 +294,138 @@ the ic-tese documentation.}}{}
 % Force the reference to the document to be:
 % - ``Tese'' de Doutorado
 % - ``Dissertacao'' de Mestrado
+\def\degreesought#1{\gdef\@degreesought{#1}}
+\newcommand{\tese}{
+% Conditionality for Language
+\ifcase\textlanguage\relax%
+	%English
+	\or
+	{
+		\def\@MSc{MSc}
+		\ifx\@MSc\@degreesought
+			Dissertation
+		\else
+			Thesis
+		\fi%
+	}
+	%Espanol
+	\or
+	{
+		\def\@MSc{Mag\'ister}
+		\ifx\@MSc\@degreesought
+			Dissertac\'ion
+		\else
+			Tesis
+		\fi%
+	}
+	%Portugues
+	\else
+	{
+		\relax%
+	}
+\fi
+% End Conditionality
+}
+
 \def\@Mestrado{Mestrado}
-\def\degreesought#1{\gdef\@degreesought{#1}\ifx\@Mestrado\@degreesought
-\gdef\@tese{Disserta\c{c}{\~a}o}\else\gdef\@tese{Tese}\fi}%
-\degreesought{Mestrado} % default
+\def\degreesoughtpt#1{\gdef\@degreesoughtpt{#1}\ifx\@Mestrado\@degreesoughtpt
+\gdef\@tesept{Disserta\c{c}{\~a}o}\else\gdef\@tesept{Tese}\fi}%
+\degreesoughtpt{Mestrado} % default
+
+% End Conditionality
 %
 \def\titlesought#1{\gdef\@titlesought{#1}}%
-\titlesought{Mestre} % default
-\def\submitdate#1{\gdef\@submitdate{#1}}
+\def\titlesoughtpt#1{\gdef\@titlesoughtpt{#1}}%
+% Commented by Caio
+%\def\submitdate#1{\gdef\@submitdate{#1}}
+%\def\date#1{\gdef\@submitdate{#1}}
+\def\defencedate#1#2#3{
+% Conditionality for Language
+\ifcase\textlanguage\relax%
+    %English
+    \or
+    {
+        \gdef\@defencedate{
+			\monthname[#2]\ #1, #3
+		}
+    }
+    %Espanol
+    \or
+    {
+		\gdef\@defencedate{
+			#1\ de\ \monthname[#2]\ de\ #3
+		}
+    }
+    %Portugues
+    \else
+    {
+		\gdef\@defencedate{
+			#1\ de\ \ifcase#2\relax
+					\or Janeiro
+					\or Fevereiro
+					\or Mar\c{c}o
+					\or Abril
+					\or Maio
+					\or Junho
+					\or Julho
+					\or Agosto
+					\or Setembro
+					\or Outubro
+					\or Novembro
+					\or Dezembro
+					\fi de\ #3
+		}
+    }
+\fi
+% End Conditionality
+}
+
 \def\copyrightyear#1{\gdef\@copyrightyear{#1}}
 \def\@title{}\def\@author{}\let\@dept\relax\let\@grants\relax
-\def\@faculty{Instituto de Computa\c{c}{\~a}o}
+
+\newcommand{\faculty}{
+% Conditionality for Language
+	\ifcase\textlanguage\relax%
+		%English
+		\or %
+			Institute of Computing
+		%Espanol
+		\or %
+			Instituto de la Computac\'ion
+		%Portuguese
+		\else %
+			\relax%
+	\fi
+% End Conditionality
+}
+\newcommand{\university}{
+% Conditionality for Language
+	\ifcase\textlanguage\relax%
+		%English
+		\or %
+			University of Campinas
+		%Espanol
+		\or %
+			Universidad de Campinas
+		%Portuguese
+		\else %
+			\relax%
+	\fi
+% End Conditionality
+}
+\def\@facultypt{Instituto de Computa\c{c}{\~a}o}
+\def\@universitypt{Universidade Estadual de Campinas}
+
 \def\@principaladvisor{}\def\@advisor{}\def\@firstreader{}\let\@coadvisor\relax\def\@secondreader{}\def\@thirdreader{}\let\@fourthreader\relax\let\@fifthreader\relax\let\@sixthreader\relax
 \def\today{\number\the\day{}\space de\space \ifcase\the\month\or
   janeiro\or fevereiro\or mar\c{c}o\or abril\or maio\or junho\or
   julho\or agosto\or setembro\or outubro\or novembro\or dezembro\fi
   \space de \number\the\year}
-\def\@submitdate{\ifcase\the\month\or
-  Janeiro\or Fevereiro\or Mar\c{c}o\or Abril\or Maio\or Junho\or
-  Julho\or Agosto\or Setembro\or Outubro\or Novembro\or Dezembro\fi
-  \space de \number\the\year}
+% Old version commented by Caio
+%\def\@submitdate{\the\day{}\space de\space\ifcase\the\month\or
+%  Janeiro\or Fevereiro\or Mar\c{c}o\or Abril\or Maio\or Junho\or
+%  Julho\or Agosto\or Setembro\or Outubro\or Novembro\or Dezembro\fi
+%  \space de \number\the\year}
 \def\@copyrightyear{\number\the\year}
 
 \newif\iffinalversion
@@ -281,8 +442,30 @@ the ic-tese documentation.}}{}
         \begin{center}
                 \hrule\vspace{1pt}\hrule\vspace{1ex}
                 \ifx\@dept\relax\else\@dept\ \\\fi
-                \@faculty\\
-                Universidade Estadual de Campinas\\[1ex]
+%                \@faculty \\
+%                \@facultypt \\
+% Conditionality for Languague
+				\ifcase\textlanguage\relax%
+					%English
+					\or
+					{
+						\faculty/\textit{\@facultypt} \\
+				    	\university/\textit{\@universitypt}\\[1ex]
+					}
+					%Espanol
+					\or
+					{
+						\faculty/\textit{\@facultypt} \\
+				    	\university/\textit{\@universitypt}\\[1ex]
+					}
+					%Portugues
+					\else
+					{
+					 	\@facultypt\\
+				    	\@universitypt\\[1ex]
+					}
+				\fi
+% End Conditionality
                 \hrule\vspace{1pt}\hrule
         \end{center}
         \vfill
@@ -292,13 +475,32 @@ the ic-tese documentation.}}{}
         \vspace{.5cm}
         \begin{center}
         {\large\bf\@author\ifx\@grants\relax\else\footnote{\@grants}\fi}\\[2ex]
-            {\small\@submitdate}
+            {\small\@defencedate}
         \end{center}
         \vfill
-        {\bf Banca Examinadora:}
+% Conditionality for Language
+		\ifcase\textlanguage\relax%
+			%English
+			\or
+			{
+                {\bf Examiner Board/\textit{Banca Examinadora}:}
+			}
+			%Espanol
+			\or
+			{
+                {\bf Examinadores/\textit{Banca Examinadora}:}
+			}
+			%Portugues
+			\else
+			{
+                {\bf Banca Examinadora:}
+
+			}
+		\fi
+% End Conditionality
         \begin{itemize}
         \item \@principaladvisor\ (\@advisor)
-%       \ifx\@coadvisor\relax\else\item \@coadvisor\fi
+%       \ifx\@coadvisor\relax\else\item \@coadvisor\ (\@coadvisor\ ) \fi
         \item \@firstreader
         \item \@secondreader
         \item \@thirdreader
@@ -317,36 +519,311 @@ the ic-tese documentation.}}{}
         \end{center}
         \vskip.5in\newpage}
 
-\def\notfinalversiontext{Este exemplar corresponde {\`a} reda\c{c}{\~a}o
-da \@tese\ apresentada para a Banca Examinadora antes da defesa da \@tese.}
 
-\def\finalversiontext{Este exemplar corresponde {\`a} reda\c{c}{\~a}o
-final da \@tese\ devidamente corrigida e defendida por \@author\ e
-aprovada pela Banca Examinadora.}
+
+\def\notfinalversiontext{This text corresponds to the \tese\ presented to the Board of Examiners before the defense.\\\textit{Este exemplar corresponde {\`a} reda\c{c}{\~a}o da \@tesept\ apresentada para a Banca Examinadora antes da defesa da \@tesept.}}
+
+\def\finalversiontext{This text corresponds to the final version of the \tese\, duly corrected and defended by  \@author\ and approved by the Board of Examiners.\\\textit{Este exemplar corresponde {\`a} reda\c{c}{\~a}o
+final da \@tesept\ devidamente corrigida e defendida por \@author\ e
+aprovada pela Banca Examinadora.}}
+
+
+\def\finalversionfront{
+
+ \begin{figure}[t]
+  \includegraphics[width=2.5cm]{logo-unicamp-name-line-blk-red-0480.eps}
+   \hfill
+  \includegraphics[width=2.6cm]{logo-ic-unicamp-slant-line-wht-sky-ora-0480.eps}
+ \end{figure}
+ 
+	\begin{center}
+	   \Large\@author \\
+	   \vskip 2cm
+% Conditionality for Language
+	\ifcase\textlanguage\relax%
+		%English
+		\or \Large\bf``\@title''\\
+		%Espanol
+		\or \Large\bf``\@title''\\
+		%Portugues
+		\else \hfill\\ 
+	\fi
+% End Conditionality
+	   \vskip 2cm
+       \Large{\bf``\@titlept''} \\
+      \vfill
+      \large
+      CAMPINAS \\
+       \@thisyear
+	\end{center}
+	\pagebreak
+}
 
 \def\finalversiontitle{
-%  \thispagestyle{empty}%
-  \begin{center}
-    \hrule\vspace{1pt}\hrule\vspace{1ex}
-    \ifx\@dept\relax\else\@dept\ \\\fi
-    \@faculty\\
-    Universidade Estadual de Campinas\\[1ex]
-    \hrule\vspace{1pt}\hrule
-    \vfill
-    \Large\bf\expandafter{\@title}
+	\begin{figure}[t]
+	 \includegraphics[width=2.5cm]{logo-unicamp-name-line-blk-red-0480.eps}
+	  \hfill
+	 \includegraphics[width=2.6cm]{logo-ic-unicamp-slant-line-wht-sky-ora-0480.eps}
+	\end{figure}
+
+\noindent
+% Conditionality for Language
+	\ifcase\textlanguage\relax%
+		%English
+		\or {
+				\begin{minipage}{.46\textwidth}
+					\centering
+				     \textbf{\university} \\
+    				 \textbf{\faculty} \\
+				\end{minipage}
+				%
+				\begin{minipage}{.52\textwidth}
+					\centering
+					\textbf{\emph{\@universitypt}} \\
+				    \textbf{\emph{\@facultypt}} \\
+				\end{minipage}
+			}
+		%Espanol
+		\or {
+				\begin{minipage}{.46\textwidth}
+					\centering
+				     \textbf{\university} \\
+    				 \textbf{\faculty} \\
+				\end{minipage}
+				%
+				\begin{minipage}{.52\textwidth}
+					\centering
+					\textbf{\emph{\@universitypt}} \\
+				    \textbf{\emph{\@facultypt}} \\
+				\end{minipage}
+			}
+		%Portugues
+		\else {
+			\centering
+			\textbf{\@universitypt} \\
+		    \textbf{\@facultypt} \\
+		}
+	\fi
+% End Conditionality
+	\begin{center}
+     \vskip .3cm
+   \large\bf\@author \\
+   \vspace{0.3cm}
+% Conditionality for Language
+	\ifcase\textlanguage\relax%
+		%English
+		\or \Large``\@title''\vspace{-3pt}
+		%Espanol
+		\or \Large``\@title''\vspace{-3pt}
+		%Portuguese
+		\else \vspace{0.5in}\Large``\@title''\vspace{0.4in}
+	\fi
+% End Conditionality
   \end{center}
-  \vskip 1.5cm
-  \hfill{\parbox[t]{8.35cm}{\large\bf\@author}} \par
-  \vskip 1.5cm
-  \hfill{\parbox[t]{8.35cm}{\iffinalversion\finalversiontext\newpage\else\notfinalversiontext\fi}} \par
-  \vskip 1.5cm
-  \hfill{\parbox[t]{8.35cm}{\centerline{Campinas, \@date.}}}\par
-  \vskip 1.2cm
-  \hfill{\parbox[t]{8.35cm}{\begin{center}{\@principaladvisor\ (\@advisor)\ifx\@coadvisor\relax\else\\[2.0cm]\@coadvisor\fi}\end{center}}}\par
-  \vskip 2cm
-  \hfill{\parbox[t]{8.35cm}{\@tese\ apresentada ao Instituto de
-  Com\-pu\-ta\-\c{c}{\~a}o, {\sc unicamp}, como requisito parcial para a
-  obten\c{c}{\~a}o do t{\'\i}tulo de \@titlesought\ em Ci{\^e}ncia da Computa\c{c}{\~a}o.}} \par
+
+\noindent
+
+%%% Commented by Caio %%%
+%\begin{minipage}[c]{.2\textwidth}
+%\raggedleft
+%\small
+% Conditionality
+%	\ifcase\textlanguage\relax%
+%		\or Supervisor: \\ \emph{Orientador(a):}
+%		\else Orientador(a):
+%	\fi
+% End Conditionality
+%\end{minipage}
+%
+%\begin{minipage}[c]{.8\textwidth}
+%\raggedright
+%\small
+%\textbf{\@principaladvisor}
+%\textbf{\@coadvisor\fi}
+%\end{minipage}
+
+%\vspace{2ex}
+
+%\noindent
+%\begin{minipage}[c]{.2\textwidth}
+%\raggedleft
+%\small
+%\ifx\@coadvisor\relax\else
+% Conditionality
+%	\ifcase\textlanguage\relax%
+%		\or Co-Supervisor: \\ \emph{Co-orientador(a):}
+%		\else Co-orientador(a):
+%	\fi
+% End Conditionality
+%\fi
+%\end{minipage}
+%
+%\begin{minipage}[c]{.8\textwidth}
+%\raggedright
+%\small
+%\textbf{\@coadvisor}
+%\end{minipage}
+
+% Conditionality for Language
+\ifcase\textlanguage\relax%
+	%English
+	\or
+	{
+		\begin{tabular}{@{}>{\arraybackslash\raggedleft}p{0.19\textwidth}>{\arraybackslash\raggedright}p{0.735\textwidth}@{}}
+			\small Supervisor: & \tabularnewline
+			\small \emph{Orientador(a):} & \multirow{-2}{*}{\textbf{\@principaladvisor}} \tabularnewline
+			& \tabularnewline [-12pt]
+			\ifx\@coadvisor\relax\else
+				\small Co-Supervisor: & \tabularnewline
+				\small \emph{Co-orientador(a):} & \multirow{-2}{*}{\textbf{\@coadvisor}}
+			\fi
+		\end{tabular}
+	}
+	%Espanol
+	\or
+	{
+		\begin{tabular}{@{}>{\arraybackslash\raggedleft}p{0.19\textwidth}>{\arraybackslash\raggedright}p{0.735\textwidth}@{}}
+			\small Director(a): & \tabularnewline
+			\small \emph{Orientador(a):} & \multirow{-2}{*}{\textbf{\@principaladvisor}}\tabularnewline
+			& \tabularnewline [-12pt]
+			\ifx\@coadvisor\relax\else
+				\small Co-Director(a): & \tabularnewline
+				\small \emph{Co-orientador(a):} & \multirow{-2}{*}{\textbf{\@coadvisor}}
+			\fi
+		\end{tabular}
+	}
+	%Portugues
+	\else
+	{
+		\begin{tabular}{@{}>{\arraybackslash\raggedleft}p{0.19\textwidth}>{\arraybackslash\raggedright}p{0.735\textwidth}@{}}
+			\small Orientador(a): & \textbf{\@principaladvisor}\tabularnewline
+			& \tabularnewline [-12pt]
+			\ifx\@coadvisor\relax\else
+				\small Co-Orientador(a): & \textbf{\@coadvisor}\
+			\fi
+		\end{tabular}
+	}
+\fi
+% End Conditionality
+
+% Conditionality for Language
+	\ifcase\textlanguage\relax%
+		%English
+		\or
+		 {
+			\begin{center}
+				\vspace{-6pt}
+				\Large\bf\textit{``\@titlept''}
+			\end{center}
+		}
+		%Espanol
+		\or
+		 {
+			\begin{center}
+				\vspace{-6pt}
+				\Large\bf\textit{``\@titlept''}
+			\end{center}
+		}
+		%Portugues
+		\else
+		{
+			\relax			
+		}
+	\fi
+% End Conditionality
+
+\noindent
+%%% Commented by Caio %%%
+%\begin{minipage}[t]{.46\textwidth}
+%\small\@degreesoughten\ \@teseen\ presented to the Post Graduate Program of the Institute of Computing of the University of Campinas to obtain a \@degreesoughten\  degree in Computer Science. 
+
+%\vspace{0.3cm}
+
+%\textsc{This volume corresponds to the final version of the \@teseen\ defended by \@author, under the supervision of ~\@principaladvisor.}
+%\end{minipage}
+%
+%\hfill
+%
+%\begin{minipage}[t]{.52\textwidth}
+%\small \emph{\@tesept\ de \@degreesoughtpt\ apresentada ao Programa de
+%P\'os-Gradua\c{c}{\~a}o em Ci\^encia da Computa\c{c}{\~a}o do Instituto de Com\-pu\-ta\-\c{c}{\~a}o da
+%Universidade Estadual de Campinas para obten\c{c}{\~a}o do t{\'\i}tulo de \@titlesought\ em Ci{\^e}ncia da Computa\c{c}{\~a}o.}
+
+%\vspace{0.3cm}
+
+%\textsc{Este exemplar corresponde \`{a} vers{\~a}o final da \@tesept\ 
+%defendida por \@author, sob orienta\c{c}{\~a}o de ~\@principaladvisor.}
+%\end{minipage}
+
+% Conditionality for Language
+\ifcase\textlanguage\relax%
+	%English
+	\or
+	{
+		\hspace*{-24pt}
+		\begin{minipage}[!h]{\textwidth}
+			\center
+			\begin{tabular}{@{}p{.46\textwidth}p{.51\textwidth}@{}}
+				\small\@degreesought\ \tese\ presented to the Post Graduate Program of the \faculty\ of the \university\ to obtain a \@titlesought\ degree in Computer Science. &
+				\small \emph{\@tesept\ de \@degreesoughtpt\ apresentada ao Programa de P\'os-Gradua\c{c}{\~a}o em Ci\^encia da Computa\c{c}{\~a}o do \@facultypt\ da \@universitypt\ para obten\c{c}{\~a}o do t{\'\i}tulo de \@titlesoughtpt\ em Ci{\^e}ncia da Computa\c{c}{\~a}o.} \tabularnewline 
+				& \tabularnewline[-3pt]
+				\small \textsc{This volume corresponds to the final version of the \tese\ defended by \@author, under the supervision of ~\@principaladvisor.} &
+				\small \textsc{Este exemplar corresponde \`{a} vers{\~a}o final da \@tesept\ defendida por \@author, sob orienta\c{c}{\~a}o de ~\@principaladvisor.}
+			\end{tabular}
+		\end{minipage}
+	}
+	%Espanol
+	\or
+	{
+		\hspace*{-24pt}
+		\begin{minipage}[!h]{\textwidth}
+			\center
+			\begin{tabular}{@{}p{.46\textwidth}p{.51\textwidth}@{}}
+				\small\tese\ de \@degreesought\ presentada a el Programa de Postgrado del \faculty\ de la \university\ para obtener lo t\'itulo de \@titlesought\ en Ciencias de la Computaci\'on. &
+				\small \emph{\@tesept\ de \@degreesoughtpt\ apresentada ao Programa de P\'os-Gradua\c{c}{\~a}o em Ci\^encia da Computa\c{c}{\~a}o do \@facultypt\ da \@universitypt\ para obten\c{c}{\~a}o do t{\'\i}tulo de \@titlesoughtpt\ em Ci{\^e}ncia da Computa\c{c}{\~a}o.}\tabularnewline
+				& \tabularnewline[-3pt]
+				\small \textsc{Este ejemplo corresponde a la versi\'on final de la \tese\ defendida por \@author, bajo de la direcci\'on de ~\@principaladvisor.} &
+				\small \textsc{Este exemplar corresponde \`{a} vers{\~a}o final da \@tesept\ defendida por \@author, sob orienta\c{c}{\~a}o de ~\@principaladvisor.}
+			\end{tabular}
+		\end{minipage}
+	}
+	%Portugues
+	\else
+	{
+
+		\begin{flushright}
+			\@tesept\ de \@degreesoughtpt\ apresentada ao Programa de P\'os-Gradua\c{c}{\~a}o em Ci\^encia da Computa\c{c}{\~a}o do \@facultypt\ da \@universitypt\ para obten\c{c}{\~a}o do t{\'\i}tulo de \@titlesoughtpt\ em Ci{\^e}ncia da Computa\c{c}{\~a}o.
+		\end{flushright}
+
+		\vspace{12pt}
+
+		\begin{minipage}[!h]{0.45\textwidth}
+			\small \textsc{Este exemplar corresponde \`{a} vers{\~a}o final da \@tesept\ defendida por \@author, sob orienta\c{c}{\~a}o de ~\@principaladvisor.}
+		\end{minipage}
+	}
+\fi
+% End Conditionality
+\vskip 1cm
+\hskip -18pt
+\begin{minipage}[!h]{\textwidth}
+    \begin{center}
+    \rule{.56\textwidth}{1pt} \\
+% Conditionality for Language
+    \ifcase\textlanguage\relax%
+        %English
+        \or {\small Supervisor's signature / \emph{Assinatura do Orientador(a)}}
+        %Espanol
+        \or {\small Firma de Director(a)/ \emph{Assinatura do Orientador(a)}}
+        %Portugues
+        \else {\small Assinatura do Orientador(a)}
+    \fi\\
+% End Conditionality
+    \vspace{.25cm}
+    CAMPINAS \\
+    \@thisyear
+    \end{center}
+\end{minipage}
+
 }
 
 \def\fichacatalografica{
@@ -355,7 +832,7 @@ aprovada pela Banca Examinadora.}
     \vspace{10cm}
     {\Large\bf\expandafter{Substitua pela ficha catalogr{\'a}fica}\\
     {\rm (Esta p{\'a}gina deve ser o verso da p{\'a}gina anterior mesmo no\\
-    caso em que n{\~a}o se imprime frente e verso, i.{\'e}., at{\'e} 100 p{\'a}ginas.)}}
+    caso em que n{\~a}o se imprime frente e verso, i.e. at{\'e} 100 p{\'a}ginas.)}}
 %    \addtocounter{page}{-1}
   \end{center}
 }
@@ -395,7 +872,7 @@ aprovada pela Banca Examinadora.}
        \end{tabular}\par
     }
     \vskip 1.5ex
-    {\bf \@tese\ de \@degreesought}
+    {\bf \@tesept\ de \@degreesoughtpt}
    \end{center}
 }\end{center}
   \vfill}
@@ -405,31 +882,53 @@ aprovada pela Banca Examinadora.}
 % PATCH: Here, I fix \cleardoublepage so that the skipped pages are really blank! PJR
     \let\origdoublepage\cleardoublepage
     \newcommand{\clearemptydoublepage}{%
-      \clearpage
+      \clearpage 
       {\pagestyle{empty}\origdoublepage}%
     }
     \let\cleardoublepage\clearemptydoublepage
 
 \def\beforepreface{
-        \pagenumbering{roman}
-          \pagestyle{plain}
+	\pagenumbering{roman}
+	\pagestyle{plain}
   %        \windowtitle
-      \finalversiontitle
+	\finalversionfront
+%\rule{0pt}{4ex}
+% A primeira folha interna e a página de rosto devem ser ambas de ``frente''.
+	\newpage
+	\mbox{}
+	\newpage
+	\finalversiontitle
 % Insert a \clearemptydoublepage in case this is not a final version
 % to separate \finalversiontitle from \titlep when \finalversionfalse is set.
 % Collapsed both \fichacatalografica and \assinaturabanca in a single if.
-     \iffinalversion%
- 	\fichacatalografica\clearemptydoublepage%
+	\iffinalversion%
+	\fichacatalografica\clearemptydoublepage%
  	\assinaturabanca\clearemptydoublepage%
-     \else\clearemptydoublepage\fi
-      \titlep
-      \ifcopyright\clearemptydoublepage\copyrightpage\fi\clearemptydoublepage}
+    \else\clearemptydoublepage\fi
+    \titlep
+    \ifcopyright\clearemptydoublepage\copyrightpage\fi\clearemptydoublepage
+}
 
 \def\prefacesection#1{%
     \clearemptydoublepage
     \chapter*{#1}
     \addcontentsline{toc}{chapter}{#1}
     }
+
+\newenvironment{dedico}[1]{
+	\newpage
+%	\phantomsection
+	\addcontentsline{toc}{chapter}{#1}
+	\chaptermark{#1}
+	\vspace*{6in}
+	\begin{flushright}
+    	\begin{minipage}[l]{0.45\textwidth}
+}
+{
+ 	   \end{minipage}
+	\end{flushright}
+	\pagebreak
+}
 
 \def\afterpreface{\clearemptydoublepage
     \tableofcontents
@@ -461,7 +960,7 @@ aprovada pela Banca Examinadora.}
 % table of contents
 \let\@ldthebibliography\thebibliography
 \renewcommand{\thebibliography}[1]{\newpage
-        \addcontentsline{toc}{chapter}{Bibliografia}
+        \addcontentsline{toc}{chapter}{\bibname}
         \@ldthebibliography{#1}}
 
 % Start out normal

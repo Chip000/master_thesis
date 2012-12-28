@@ -30,10 +30,17 @@
 % Jeronimo Pellegrini - 24.05.2006
 %
 % Revisao de formato para conformidade com as novas normas da UNICAMP, conforme
-% Informa\c{c}{\~a}o CCPG/002/06
+% Informacao CCPG/002/06
 % Jeronimo Pellegrini e Pedro J. de Rezende - 01.12.2006
+%
+% Revisao para compatibilizar com o pacote color (alteracao feita substituindo a definicao de \@xfloat).
+% Pedro J. de Rezende - 10.06.2010
+%
+% Revisao para adicionar nome do autor e cabecalho com nome do Instituto de Computacao na folha inicial 
+% Pedro J. de Rezende - 13.06.2012
+%
 
-\typeout{Estilo: TESE IC - UNICAMP <01 de Dezembro de 2006>.}
+\typeout{Estilo: TESE IC - UNICAMP <13 de junho de 2012>.}
 
 \long\def\comment#1{}
 %
@@ -61,11 +68,11 @@
     \secondreader{Donald Duck}
     \thirdreader{Era Stoteles}
     \fourthreader{Fairy Tail}
-    \grants{{\rm Suporte financeiro de: Bolsa do CNPq (processo XYZ) 1990--1992, Projeto Finep (processo UVW)
-    1992--1993 e Universidade Federal de Santa Rita do Passa Tr{\^e}s 1994--1996.}} % Pode ser omitido.
+    \grants{{\rm Suporte financeiro de: Bolsa do CNPq (processo XYZ) 2009--2012, Projeto Finep (processo UVW)
+    2007--2008 e Universidade Federal de Santa Rita do Passa Tr{\^e}s 2007--2008.}} % Pode ser omitido.
 %
-    \submitdate{Abril de 1997} % Pode ser omitido.
-    \date{12 de junho de 1997} % Pode ser omitido.
+    \submitdate{Abril de 2012} % Pode ser omitido.
+    \date{13 de junho de 2012} % Pode ser omitido.
 %
 %   Se pretende utilizar \copyrighttrue, consulte antes seu orientador ou a CPG!!!
 %   Este ponto envolve quest{\~o}es legais complexas e de graves conseq{\"u}{\^e}ncias.
@@ -78,8 +85,8 @@
     \tablespagetrue % Caso queira que apareca a Lista de Tabelas.
 %    \tablespagefalse % Caso nao queira que apareca a Lista de Tabelas.
 %
-    \figurespagetrue % Caso queira que apareca o Lista de Figuras.
-%    \figurespagefalse % Caso nao queira que apareca o Lista de Figuras.
+    \figurespagetrue % Caso queira que apareca a Lista de Figuras.
+%    \figurespagefalse % Caso nao queira que apareca a Lista de Figuras.
 %
     \beforepreface
     \prefacesection{Resumo}
@@ -102,26 +109,23 @@
       \caption{A Lista de Figuras {\'e} opcional.}
     \end{figure}
 
-    \begin{table}
+    \begin{table}[h]
       \centerline{
       \begin{tabular}{|c|c|} \hline
         {\bf Algoritmo} & {\bf Complexidade de Tempo}\\\hline
-        Algo 1 & R{\'a}pido\\\hline
-        Algo 2 & Veloz \\\hline
+        Algoritmo 1 & R{\'a}pido\\\hline
+        Algoritmo 2 & Veloz \\\hline
       \end{tabular}}
       \caption{A Lista de Tabelas {\'e} opcional.}
     \end{table}
 
-
     \chapter{Conclus{\~o}es}
         Atrav{\'e}s dos contra-exemplos apresentados ...
-
 
     \appendix
     \chapter{Uma Longa Demonstra\c{c}{\~a}o}
         Utilizando as t{\'e}cnicas vistas nos cap{\'\i}tulos anteriores,
         vamos demonstrar neste ap{\^e}ndice que ${\bf P = NP}$. ...
-
 
     \bibliographystyle{plain}
     \bibliography{mybib}
@@ -166,11 +170,14 @@ Documentation:
         \copyrighttrue or \copyrightfalse
                 - produce or don't produce a copyright page
                   (false by default)
-        \figurespagetrue or \figurespagefalse
-                - produce or don't produce a List of Figures page
-                  (true by default)
         \tablespagetrue or \tablespagefalse
                 - produce or don't produce a List of Tables page
+                  (true by default)
+        \finalversiontrue or \finalversionfalse
+                - produce or don't produce certain pages and formats required
+                   in the final version
+        \figurespagetrue or \figurespagefalse
+                - produce or don't produce a List of Figures page
                   (true by default)
 
 This style uses interline spacing that is 1.1 times normal, except
@@ -203,21 +210,10 @@ the ic-tese documentation.}}{}
 % so that single spacing is used.
 % (Note \def\figure{\@float{figure}set single spacing} doesn't work
 % because figure has an optional argument)
-\def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
-   \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
-      \@parmoderr\@floatpenalty\z@
-    \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
-       \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
-       \@tfor \@tempa :=#2\do
-                        {\if\@tempa h\advance\@tempcnta \@ne\fi
-                         \if\@tempa t\advance\@tempcnta \tw@\fi
-                         \if\@tempa b\advance\@tempcnta 4\relax\fi
-                         \if\@tempa p\advance\@tempcnta 8\relax\fi
-         }\global\count\@currbox\@tempcnta}\@fltovf\fi
-    \global\setbox\@currbox\vbox\bgroup
-    \def\baselinestretch{1}\@normalsize
-    \boxmaxdepth\z@
-    \hsize\columnwidth \@parboxrestore}
+\let\@xflo@t=\@xfloat
+\def\@xfloat{%
+\def\baselinestretch{1}\@normalsize
+\@xflo@t}
 
 % Redefine the macro used for footnotes to use single spacing
 \long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
@@ -271,8 +267,14 @@ the ic-tese documentation.}}{}
   \space de \number\the\year}
 \def\@copyrightyear{\number\the\year}
 
-\newif\ifcopyright \newif\iffigurespage \newif\iftablespage \newif\iffinalversion
-\copyrightfalse \figurespagetrue \tablespagetrue
+\newif\iffinalversion
+\finalversiontrue
+\newif\ifcopyright
+\copyrightfalse
+\newif\iftablespage
+\tablespagetrue
+\newif\iffigurespage
+\figurespagetrue 
 
 \def\titlep{%
 %        \thispagestyle{empty}%
@@ -325,14 +327,22 @@ aprovada pela Banca Examinadora.}
 \def\finalversiontitle{
 %  \thispagestyle{empty}%
   \begin{center}
+    \hrule\vspace{1pt}\hrule\vspace{1ex}
+    \ifx\@dept\relax\else\@dept\ \\\fi
+    \@faculty\\
+    Universidade Estadual de Campinas\\[1ex]
+    \hrule\vspace{1pt}\hrule
+    \vfill
     \Large\bf\expandafter{\@title}
   \end{center}
-  \vskip 3cm
+  \vskip 1.5cm
+  \hfill{\parbox[t]{8.35cm}{\large\bf\@author}} \par
+  \vskip 1.5cm
   \hfill{\parbox[t]{8.35cm}{\iffinalversion\finalversiontext\newpage\else\notfinalversiontext\fi}} \par
-  \vskip 3cm
+  \vskip 1.5cm
   \hfill{\parbox[t]{8.35cm}{\centerline{Campinas, \@date.}}}\par
-  \vskip 2.2cm
-  \hfill{\parbox[t]{8.35cm}{\begin{center}{\@principaladvisor\ (\@advisor)\ifx\@coadvisor\relax\else\\[2.5cm]\@coadvisor\fi}\end{center}}}\par
+  \vskip 1.2cm
+  \hfill{\parbox[t]{8.35cm}{\begin{center}{\@principaladvisor\ (\@advisor)\ifx\@coadvisor\relax\else\\[2.0cm]\@coadvisor\fi}\end{center}}}\par
   \vskip 2cm
   \hfill{\parbox[t]{8.35cm}{\@tese\ apresentada ao Instituto de
   Com\-pu\-ta\-\c{c}{\~a}o, {\sc unicamp}, como requisito parcial para a
@@ -402,16 +412,18 @@ aprovada pela Banca Examinadora.}
 
 \def\beforepreface{
         \pagenumbering{roman}
-        \pagestyle{plain}
-%        \windowtitle
-    \finalversiontitle
-    \newpage
-    \iffinalversion\fichacatalografica\clearemptydoublepage %\newpage
-    \else\null\fi
-    \iffinalversion\assinaturabanca\clearemptydoublepage %\newpage
-    \else\null\fi
-    \titlep
-    \ifcopyright\clearemptydoublepage\copyrightpage\fi\clearemptydoublepage}
+          \pagestyle{plain}
+  %        \windowtitle
+      \finalversiontitle
+% Insert a \clearemptydoublepage in case this is not a final version
+% to separate \finalversiontitle from \titlep when \finalversionfalse is set.
+% Collapsed both \fichacatalografica and \assinaturabanca in a single if.
+     \iffinalversion%
+ 	\fichacatalografica\clearemptydoublepage%
+ 	\assinaturabanca\clearemptydoublepage%
+     \else\clearemptydoublepage\fi
+      \titlep
+      \ifcopyright\clearemptydoublepage\copyrightpage\fi\clearemptydoublepage}
 
 \def\prefacesection#1{%
     \clearemptydoublepage
