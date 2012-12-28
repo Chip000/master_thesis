@@ -40,9 +40,10 @@ clean:
 	rm -f *.aux *.log *.loa *.bbl *.blg *.lof *.lot 
 	rm -f sections/*.aux
 	rm -f *.toc *.ps .nfs* *.out
+	rm -f logo*.pdf
 
 clean_all:
 	rm -f *~ $(OUTFILE) $(PS) $(DVI) $(PDF) $(TARGET).rtf
 	rm -f *.aux *.log *.loa *.bbl *.blg *.lof *.lot 
 	rm -f sections/*.aux
-	rm -f *.toc *.ps .nfs* *.out
+	rm -f *.toc *.ps .nfs* *.out logo*.pdf
