@@ -1,60 +1,55 @@
-% introducao
-O processo evolutivo foi o principal responsável pela diferenciação
-entre os seres vivos e uma das teorias contemporâneas acerca do modo
-como ocorre esse processo afirma que, durante o curso da evolução,
-mudanças genéticas aconteceram, criando diferentes espécies de seres
-vivos.
+% introdução
+A teoria da seleção natural de Darwin afirma que os seres vivos atuais
+descendem de ancestrais, e ao longo da evolução, mudanças genéticas
+propiciaram o aparecimento de diferentes espécies de seres vivos. 
 
-Muitas dessas mudanças são devido a mutações pontuais que alteram a
-cadeia de DNA, impedindo que a informação seja expressa, ou que seja
-expressa de um modo diferente. Tais alterações debilitam, na maioria
-dos casos, o organismo portador ou proporcionam vantagens no processo
-de seleção natural.
+Muitas mutações são pontuais, alterando a cadeia de DNA, o que pode
+impedir que a informação seja expressa, ou pode expressá-la de um modo
+diferente. Tais alterações debilitam, na maioria dos casos, o organismo
+portador ou proporcionam vantagens no processo de seleção natural.
 
-A comparação de sequência é o método mais usual de se caracterizar a
+A comparação de sequências é o método mais usual de se identificar a
 ocorrência de mutações pontuais, sendo um dos problemas mais abordados
-em Biologia Computacional. O interesse em fazer tal comparação é
+em Biologia Computacional. Um método de comparar duas sequências é
 encontrar a distância de edição~\cite{SetubalMeidanis*1997}, que é o
 número mínimo de operações de inserções, remoções e substituições
-necessárias para transformar uma sequência em outra.
+necessárias para transformar uma sequência em outra. 
 
 A distância de edição é uma medida capaz de estimar a distância
 evolutiva entre duas cadeias, mas não possui a informação de quais
-operações globais foram utilizadas para a transformação de uma
-sequência em outra. Estas operações globais são os chamados
-Rearranjos de Genomas, que podem ser, por exemplo, reversões,
-transposições, fissões e fusões.
+operações ocorreram para a transformação de uma sequência em outra.
 
-Um conceito de distância pode ser definido para qualquer classe de
-rearranjo como sendo o menor número de operações pertencentes a essa
-classe que são necessárias para transformar um genoma em outro. Por
-exemplo, chama-se a distância de reversão o menor número de reversões
-necessárias para transformar um genoma em
-outro~\cite{BafnaPevzner*1996} e a distância de transposição é o menor
-número de transposições~\cite{BafnaPevzner*1998}.
+Outra abordagem usada é a de Rearranjo de Genomas, que tem como objetivo
+encontrar o menor número de operações que transformam um cromossomo em
+outro. Essas operações podem ser, por exemplo, reversões, onde um bloco
+do cromossomo é invertido, transposições, onde dois blocos adjacentes no
+cromossomo trocam de posição, fissões, efetua a quebra do cromossomo em
+dois cromossomos, e fusões, junta dois cromossomos em um único
+cromossomo.
+
+O conceito de distância de rearranjo pode ser definido para estas
+operações, por exemplo, a distância de reversão é o número mínimo de
+reversões que transformam um genoma~\footnote{Quando usamos genoma,
+estamos referindo a um determinado cromossomo.} em
+outro~\cite{BafnaPevzner*1996} e a distância de transposição é o número
+mínimo de transposições que transformam um genoma em
+outro~\cite{BafnaPevzner*1998}. 
 
 Estudos mostram que os rearranjos de genomas são mais apropriados que
-mutações pontuais quando se deseja comparar os genoma de duas
-espécies~\cite{PalmerHerbon*1988}. Nesse contexto, a distância
-evolutiva entre dois genomas pode ser estimada pelo conceito de
-distância para uma classe de rearranjo definido no parágrafo anterior.
+mutações pontuais quando se deseja comparar genoma de certas
+espécies~\cite{PalmerHerbon*1988}, por exemplo nas espécies de plantas
+\textit{Brassica}, e no DNA cloroplasto das espécies \textit{Tobacco
+fervens} e \textit{Lobelia fervens}~\cite{BafnaPevzner*1996}. Nesse
+contexto, a distância evolutiva entre dois genomas pode ser estimada
+pelo conceito de distância para uma ou mais operações de rearranjo.
 
 Neste trabalho, trataremos os casos em que os eventos de transposição e
 reversão ocorrem de forma isolada e os casos quando os dois eventos
 ocorrem ao mesmo tempo.
 
-% transposição
-O evento de transposição ocorre quando dois blocos adjacentes no
-genoma trocam de posição. O problema da distância de transposição é
-encontrar o número mínimo de transposições necessárias para
-transformar um genoma em outro. Este problema pertence à classe dos
-problemas NP-Difíceis e a prova foi apresentada por Bulteau, Fertin e
-Rusu~\cite{BulteauFertinRusu*2010}. O melhor algoritmo de aproximação
-conhecido possui razão de $1.375$ e foi apresentado por Elias e
-Hartman~\cite{EliasHartman*2006}.
-
+% Os problemas
 % reversão
-O evento de reversão ocorre quando um bloco do genoma é invertido. O
+A operação de reversão ocorre quando um bloco do genoma é invertido. O
 problema da distância de reversão é encontrar o número mínimo de
 reversões necessárias para transformar um genoma em outro. Neste
 problema é importante saber se a orientação dos genes é conhecida,
@@ -66,37 +61,63 @@ algoritmo de aproximação conhecido possui razão de $1.375$ apresentado
 por Berman, Hannenhalli e
 Karpinski~\cite{BermanHannenhalliKarpinski*2002}.
 
+% transposição
+A operação de transposição ocorre quando dois blocos adjacentes no
+genoma trocam de posição. O problema da distância de transposição é
+encontrar o número mínimo de transposições necessárias para
+transformar um genoma em outro. Este problema pertence à classe dos
+problemas NP-Difíceis e a prova foi apresentada por Bulteau, Fertin e
+Rusu~\cite{BulteauFertinRusu*2010}. O melhor algoritmo de aproximação
+conhecido possui razão de $1.375$ e foi apresentado por Elias e
+Hartman~\cite{EliasHartman*2006}.
+
 % reversão+transposição
 Na natureza um genoma não sofre apenas eventos de reversão ou de
-transposição, ele está exposto a diversos eventos diferentes. Para
-esta situação, iremos estudar o caso onde os eventos de reversão e
-transposição ocorrem simultaneamente sobre um genoma. Os trabalhos de
-Walter, Dias e
-Meidanis~\cite{MeidanisWalterDias*2002,WalterDiasMeidanis*1998} e Lin
-e Xue~\cite{LinXue*1999} estudaram o problema de encontrar o número
-mínimo de reversões e transposições necessárias para transformar um
-genoma em outro.
+transposição isoladamente, ele pode sofrer mutações causadas por
+operações mutacionais diferentes. Para esta situação, iremos estudar o
+caso onde as operações de reversão e transposição ocorrem
+simultaneamente sobre um genoma. Os trabalhos de Walter, Dias e
+Meidanis~\cite{MeidanisWalterDias*2002,WalterDiasMeidanis*1998} e Lin e
+Xue~\cite{LinXue*1999} estudaram o problema de encontrar o número mínimo
+de reversões e transposições necessárias para transformar um genoma em
+outro.
 
-O trabalho desenvolvido nesta dissertação segue a linha de pesquisa
-utilizada por Dias e Dias~\cite{DiasDias*2009} e nós apresentaremos
-modelos de Programação por Restrições (CP\footnote{Do
-inglês \estr{Constraint Programming}.}) para ordenação por reversões e
-ordenação por reversões e transposições, baseados na teoria do
-Problema de Satisfação de Restrições (CSP\footnote{Do
-inglês \estr{Constraint Satisfaction Problems}.}) e na teoria do
-Problema de Otimização com Restrições (COP\footnote{Do
-inglês \estr{Constraint Optimization Problems}.}). Nós fizemos
-comparações com os modelos de Programação por Restrições para
-ordenação por transposições, descrito por Dias e
-Dias~\cite{DiasDias*2009}, e no caso de ordenação por reversões e
-ordenação por reversões e transposições, com os modelos de Programação
-Linear Inteira (ILP\footnote{Do inglês \estr{Integer Linear
-Programming}.}) descritos por Dias e Souza~\cite{DiasSouza*2007}.
+% O método usado
+Nós criamos modelos de Programação por Restrições para ordenação por
+reversões e ordenação por reversões e transposições, seguindo a linha de
+pesquisa utilizada por Dias e Dias~\cite{DiasDias*2009}. Nós
+apresentaremos os modelos de Programação por Restrições (CP\footnote{Do
+inglês \estr{Constraint Programming}.}) que buscam os resultados exatos
+para os problemas de ordenação por reversões, ordenação por
+transposições e ordenação por reversões e transposições, baseados na
+teoria do Problema de Satisfação de Restrições (CSP\footnote{Do inglês
+\estr{Constraint Satisfaction Problems}.}) e na teoria do Problema de
+Otimização com Restrições (COP\footnote{Do inglês \estr{Constraint
+Optimization Problems}.}). O modelo de programação por restrições para o
+problema de ordenação por reversões e transposições foi apresentado no
+artigo ``\textit{Constraint Logic Programming Models for Reversal and
+Transposition Distance Problems}''~\cite{IizukaDias*2011}, publicado no
+\textit{VI Brazilian Symposium on Bioinformatics (BSB'2011)}.
+
+% Objetivos
+Nós fizemos comparações com os modelos de Programação por Restrições
+para ordenação por transposições, descrito por Dias e
+Dias~\cite{DiasDias*2009}, e com as formulações de Programação Linear
+Inteira (ILP\footnote{Do inglês \estr{Integer Linear Programming}.}) que
+buscam os resultados exatos para os problemas de ordenação por
+reversões, ordenação por transposições e ordenação por reversões e
+transposições, descritos por Dias e Souza~\cite{DiasSouza*2007}.
+Tanto os modelos de CP quanto as formulações de ILP foram escritas
+usando softwares proprietários e softwares de código aberto, com o
+objetivo de comparar seus desempenhos, verificando se os softwares
+proprietários são inferiores ou superiores aos software de código
+aberto.
 
 O texto da dissertação está dividido da seguinte maneira. O
-Capítulo \ref{cap:basic} apresenta uma série de conceitos básicos
+Capítulo \ref{cap:basic} apresenta conceitos básicos
 necessários para o entendimento deste trabalho. O
 Capítulo \ref{cap:model} descreve os modelos usados neste trabalho. O
 Capítulo \ref{cap:resul} traz a análise dos resultados obtidos durante
 o trabalho. O Capítulo \ref{cap:concl} apresenta as conclusões da
 dissertação.
+
