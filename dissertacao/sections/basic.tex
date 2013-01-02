@@ -371,7 +371,7 @@ Um modelo de programação por restrições $P$ é formado por:
   seus respectivos domínios $D_{1}, \ldots, D_{n}$.}
 
   \item{Um conjunto finito de restrições $C$, cada um sobre uma
-  subsequencia de $X$.}
+  subsequência de $X$.}
 \end{itemize}
 \end{defin}
 
@@ -383,28 +383,99 @@ chamado \textit{consistente} (ou \textit{viável}) se possuir pelo
 menos uma solução, caso contrário, é chamado de \textit{inconsistente}
 (ou \textit{inviável}).
 
-Nesta dissertação, usamos duas abordagens diferentes para a criação
-dos modelos, uma baseada na teoria do Problema de Satisfação de
-Restrições (CSP\footnote{Do inglês \estr{Constraint Satisfaction
-Problems}.}), e outra baseada na teoria do Problema de Otimização com
-Restrições (COP\footnote{Do inglês \estr{Constraint Optimization
-Problems}.}). Os modelos que usam a teoria CSP são descritos conforme
-a Definição \ref{defin:csp} acima.
+Os modelos que usam a teoria do Problema de Satisfação de Restrições
+(CSP\footnote{Do inglês \estr{Constraint Satisfaction Problems}.}) são
+descritos conforme a Definição~\ref{defin:csp} acima. Para exemplificar
+os modelos que usam a teoria CSP, iremos usar o problema das $n$
+rainhas, que é um dos problemas mais conhecido baseado na teoria CSP.
 
-Os modelos que são baseados na teoria COP possuem o objetivo de
-encontrar a melhor solução de um conjunto de restrições, usando uma
-função de custo. Ou seja, considerando um modelo da teoria CSP,
-$P_{csp} = \langle C; x_{1} \in D_{1}, \ldots, x_{n} \in
-D_{n} \rangle$, e uma função de custo, $custo:
+O problema das $n$ rainhas consiste em posicionar as rainhas em um
+tabuleiro $n \times n$, onde $n \geq 3$, de modo que nenhuma rainha seja
+atacada por outra. A Figura~\ref{fig:n-queens} mostra uma das soluções
+para o problema quando temos $n = 8$.
+
+\begin{figure}[h]
+  \centering 
+  \includegraphics[scale=1]{images/n-queens.png} 
+  \caption{Uma das soluções para o problema das 8 rainhas.}
+  \label{fig:n-queens}
+\end{figure}
+
+Uma das possíveis representações usando a teoria CSP para o problema usa
+$n$ variáveis, $X = \{x_{1}, \ldots, x_{n}\}$, onde $1 \leq x_{i} \leq
+n$ para todo $1 \leq i \leq n$. Então, uma variável $x_{i}$ representa a
+posição da rainha posicionada na $i$-ésima coluna do tabuleiro. Por
+exemplo, a solução mostrada na figura~\ref{fig:n-queens} corresponde aos
+valores $X = \{6, 4, 7, 1, 8, 2, 5, 3\}$, sendo que a primeira rainha da
+esquerda foi posicionada na sexta linha de baixo para cima, a segunda
+rainha foi posicionada na quarta linha, e segue desta maneira para as
+outras rainhas.
+
+O conjunto de restrições pode ser formulado usando as seguintes
+desigualdades para $1 \leq i \leq n - 1$ e $i + 1 \leq j \leq n$:
+
+\begin{itemize}
+
+    \item{$x_i \neq x_j$ (Não permite duas rainhas na mesma linha),}
+
+    \item{$x_i - x_j \neq i - j$ (Não permite duas rainhas na diagonal
+        ascendente),}
+
+    \item{$x_i - x_j \neq j - i$ (Não permite duas rainhas na diagonal
+        descendente).}
+
+\end{itemize}
+
+Os modelos que são baseados na teoria do Problema de Otimização com
+Restrições (COP\footnote{Do inglês \estr{Constraint Optimization
+Problems}.}) possuem o objetivo de encontrar a melhor solução de um
+conjunto de restrições, usando uma função de custo, ou seja,
+considerando um modelo da teoria CSP, $P_{csp} = \langle C; x_{1} \in
+D_{1}, \ldots, x_{n} \in D_{n} \rangle$, e uma função de custo, $custo:
 D_{1} \times \ldots \times D_{n} \to R$, queremos encontrar a solução
 $\{(x_{1}, d_{1}), \ldots, (x_{n}, d_{n})\}$ de $P_{csp}$, para qual o
 valor $custo(d_{1}, \ldots, d_{n})$ seja ótimo. Logo, os modelos
-baseados na teoria COP são representados como $P_{cop} = \langle P_{csp},
-custo \rangle$.
+baseados na teoria COP são representados como $P_{cop} = \langle
+P_{csp}, custo \rangle$. Para exemplificar os modelos que usam a teoria
+COP, iremos usar o problema da mochila, um problema bastante famoso na
+área de otimização combinatória.
 
+O problema da mochila é preencher a mochila com um conjunto de objetos
+cujo valor total seja máximo, sem ultrapassar o peso total da mochila.
+Formalizando, nós temos $n$ objetos com pesos $A = \{a_1, \ldots, a_n\}$
+e valores $B = \{b_1, \ldots, b_n\}$ e o peso máximo que a mochila
+suporta $w$. Usaremos o conjunto de variáveis binárias $X = \{x_1,
+\ldots, x_n\}$, que serão usadas para determinar se o objeto $i$ será
+colocado ou não dentro da mochila, sendo que $x_i = 1$ caso o objeto é
+colocado na mochila, e $x_i = 0$ caso contrário.
+
+A restrição do problema é se a mochila suporta o peso total dos
+objetos colocados:
+
+\[
+    \sum_{i=1}^{n} a_i \cdot x_i \leq w
+\]
+
+Nós então procuramos a solução para esta restrição, que será a seguinte 
+soma:
+
+\[
+    \sum_{i=1}^{n} b_i \cdot x_i
+\]
+
+Como o modelo é baseado na teoria COP, precisamos otimizar a solução.
+Logo, a função de custo será:
+
+\[
+    \max \sum_{i=1}^{n} b_i \cdot x_i
+\]
+
+Nesta dissertação, usamos duas abordagens diferentes para a criação dos
+modelos, uma baseada na teoria do Problema de Satisfação de Restrições,
+e outra baseada na teoria do Problema de Otimização com Restrições.
 Recomendamos a leitura de Apt~\cite{Apt*2003}, Apt e
-Wallace~\cite{AptWallace*2007} e Marriot e
-Stuckey~\cite{Marriott*1998} para um aprofundamento maior sobre \pr{}.
+Wallace~\cite{AptWallace*2007} e Marriot e Stuckey~\cite{Marriott*1998}
+para um aprofundamento maior sobre \pr{}.
 
 \subsection{Métodos de Solução dos Problemas de \PR{}}
 \label{subsec:sol_cp}
