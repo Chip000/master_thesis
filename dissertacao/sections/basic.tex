@@ -12,7 +12,7 @@ Seção~\ref{sec:def_cp} explica o conceito de \pr{}.
 \label{sec:defin}
 Para todos os problemas usamos as seguintes formalizações.
 
-\textit{Permutação.} Um genoma é representado por uma $n$-tupla de
+\paragraph{Permutação.} Um genoma é representado por uma $n$-tupla de
 genes, e quando não há genes repetidos, essa $n$-tupla é chamada de
 permutação. Uma permutação é representada como $\pi =
 (\pi_{1}~\pi_{2}~\ldots~\pi_{n})$, para $\pi_{i} \in \mathbb{N}$, $0 <
@@ -20,7 +20,7 @@ permutação. Uma permutação é representada como $\pi =
 permutação identidade é representada como $\iota = (1~2~3~\ldots~n)$.
 Como exemplo, usaremos como a permutação $\pi = (4~7~3~6~2~5~1)$.
 
-\textit{Eventos de rearranjo.} Os eventos de rearranjo tratados neste
+\paragraph{Eventos de rearranjo.} Os eventos de rearranjo tratados neste
 trabalho são os eventos de transposição e reversão ocorrendo
 isoladamente e ocorrendo de forma conjunta. Os eventos são representados
 por $\rho$ e são aplicados a $\pi$ de uma maneira específica. Por
@@ -477,89 +477,135 @@ Recomendamos a leitura de Apt~\cite{Apt*2003}, Apt e
 Wallace~\cite{AptWallace*2007} e Marriot e Stuckey~\cite{Marriott*1998}
 para um aprofundamento maior sobre \pr{}.
 
-\subsection{Métodos de Solução dos Problemas de \PR{}}
-\label{subsec:sol_cp}
-Para encontrar soluções em um modelo de \pr{}, utiliza-se algoritmos
-de propagação de restrições, cujo objetivo é reduzir o espaço de busca
-nos domínios das variáveis. Esses algoritmos fazem a redução do
-problema em outro mais simples de solucionar. Para lidar com essa
-situação, usamos a Definição \ref{defin:cp_eq}.
+\paragraph{Métodos de Solução dos Problemas de \PR{}.}
+Para encontrar soluções em um modelo de \pr{}, utiliza-se algoritmos de
+propagação de restrições, cujo objetivo é reduzir o espaço de busca nos
+domínios das variáveis. Esses algoritmos fazem a redução do problema em
+outro mais simples de solucionar. Para lidar com essa situação, usamos a
+Definição \ref{defin:cp_eq}.
+
 \begin{defin}
 \label{defin:cp_eq}
-Considere dois modelos de \pr{} $P_{1}$ e $P_{2}$ e uma sequência $X$
-das suas variáveis comuns ($X \subset X_{1}$ e $X \subset X_{2}$, onde
-$X_{1}$ e $X_{2}$ são, respectivamente, sequências das variáveis de
-$P_{1}$ e $P_{2}$). Então, $P_{1}$ e $P_{2}$ são equivalentes em
-relação a $X$, se:
-\begin{itemize}
-  \item{para toda solução $d$ em $P_{1}$, existe uma solução em
-  $P_{2}$ que coincide com $d$ nas variáveis em $X$.}
+    Considere dois modelos de \pr{} $P_{1}$ e $P_{2}$ e uma sequência
+    $X$ das suas variáveis comuns ($X \subset X_{1}$ e $X \subset
+    X_{2}$, onde $X_{1}$ e $X_{2}$ são, respectivamente, sequências das
+    variáveis de $P_{1}$ e $P_{2}$). Então, $P_{1}$ e $P_{2}$ são
+    equivalentes em relação a $X$, se:
 
-  \item{para toda solução $e$ em $P_{2}$, existe uma solução em
-  $P_{1}$ que coincide com $e$ nas variáveis em $X$.}
-\end{itemize}
+    \begin{itemize}
+
+        \item{para toda solução $d$ em $P_{1}$, existe uma solução em
+            $P_{2}$ que coincide com $d$ nas variáveis em $X$.}
+
+        \item{para toda solução $e$ em $P_{2}$, existe uma solução em
+            $P_{1}$ que coincide com $e$ nas variáveis em $X$.}
+
+    \end{itemize}
+
 \end{defin}
 
-Mas, em muitos casos, os modelos de \pr{} possuem restrições que não
-se ligam às restrições com sintaxe simples ou são um grupo de
-restrições de diversos tipos. Então, nestes casos utiliza-se métodos
-baseados em buscas sobre os domínios das variáveis. A seguir,
-listaremos alguns métodos de buscas mais utilizados.
+Mas, em muitos casos, os modelos de \pr{} possuem restrições que não se
+ligam às restrições simples ou são um grupo de restrições de diversos
+tipos. Então, nestes casos utiliza-se métodos baseados em buscas sobre
+os domínios das variáveis. A seguir, listaremos alguns métodos de buscas
+mais utilizados.
 
 \begin{itemize}
-  \item{\textbf{Busca Local:} Classe de algoritmo, que possui o
-  objetivo de encontrar uma solução, utilizando uma atribuição inicial
-  definida sobre as variáveis (chamada neste contexto
-  de \textit{estado}) e tenta melhorar sua \textit{qualidade} a cada
-  iteração, fazendo pequenas mudanças locais, chamadas
-  de \textit{movimento}. A qualidade do estado é definida por uma
-  função de custo (Ex: Número de restrições violadas pelo
-  estado. Neste caso a qualidade será 0.).
 
-  O conceito principal de uma busca local é a utilização
-  de \textit{vizinhança}, que tem o objetivo de associar para cada
-  estado um conjunto de estados, chamados de \textit{vizinhos}. Então,
-  a busca local começa do estado inicial, entra em um \estr{loop}, no
-  qual realiza um movimento de um estado para seu vizinho. O estado
-  final é ou uma solução para o modelo, ou um estado de parada,
-  indicando que nenhuma solução foi encontrada até este estado.}
+    \item{\textbf{Busca Local:} Classe de algoritmo, usada para os
+        modelos que usam as teorias CSP e COP, que possui o objetivo de
+        encontrar uma solução utilizando uma atribuição inicial definida
+        sobre as variáveis (chamada neste contexto de \textit{estado}) e
+        tenta melhorar sua \textit{qualidade} a cada iteração, fazendo
+        pequenas mudanças locais, chamadas de \textit{movimento}. A
+        qualidade do estado é definida por uma função de custo (Ex:
+        Número de restrições violadas pelo estado.  Então a qualidade de
+        uma solução será 0.).
 
-  \item{\textbf{Busca Top-Down:} Método de busca mais usado. Utiliza a
-  estratégia de \estr{branching} em conjunto aos algoritmos de
-  propagação de restrições. O \estr{branching} possibilita a divisão
-  de um modelo CSP em dois ou mais CSPs, sendo que a união destes é
-  equivalente ao problema inicial. A propagação de restrição permite
-  transformar um dado modelo CSP em um equivalente mais simples. A
-  Busca top-down alterna os métodos de \estr{branching} e de
-  propagação de algoritmos, usando uma árvore que é chamada
-  de \textit{árvore de busca}. As folhas desta árvore são ou CSPs
-  inconsistentes ou uma solução para um dos CSPs gerados pela
-  técnica. A Figura \ref{fig:searchtree} apresenta um exemplo de uma
-  árvore de busca, note que a árvore é
-  gerada \estr{on-the-fly}\footnote{Gerada no momento da execução do
-  modelo.}.
+        O conceito principal de uma busca local é a utilização de
+        \textit{vizinhança}, que tem o objetivo de associar para cada
+        estado um conjunto de estados, chamados de \textit{vizinhos}.
+        Então, a busca local começa do estado inicial, entra em um
+        \estr{loop}, no qual realiza um movimento de um estado para seu
+        vizinho. O estado final é ou uma solução para o modelo, ou um estado
+        de parada, indicando que nenhuma solução foi encontrada até este
+        estado.}
 
-  \begin{figure}[h]
-  \centering 
-  \includegraphics{images/searchtree.png}
-  \caption{Exemplo de árvore de busca para um modelo CSP.}
-  \label{fig:searchtree}
-  \end{figure}
+    \item{\textbf{Busca Top-Down:} Método de busca mais usado em
+        modelos que usam a teoria CSP\@. Utiliza a estratégia de
+        \estr{branching} em conjunto aos algoritmos de propagação de
+        restrições. O \estr{branching} possibilita a divisão de um
+        modelo CSP em dois ou mais CSPs, sendo que a união destes é
+        equivalente ao problema inicial. A propagação de restrição
+        permite transformar um dado modelo CSP em um equivalente mais
+        simples. A Busca top-down alterna os métodos de \estr{branching}
+        e de propagação de algoritmos, usando uma árvore que é chamada
+        de \textit{árvore de busca}. As folhas desta árvore são ou CSPs
+        inconsistentes ou uma solução para um dos CSPs gerados pela
+        técnica. A Figura~\ref{fig:searchtree} apresenta um exemplo de
+        uma árvore de busca, note que a árvore é gerada
+        \estr{on-the-fly}\footnote{Gerada no momento da execução do
+        modelo.}.
 
-  O procedimento padrão de uma busca top-down é
-  o \estr{backtracking}. Ele inicia a busca pelo nó raiz da árvore e
-  segue para o primeiro nó descendente. O processo continua até que
-  uma folha é encontrada, neste caso, ele retorna para o nó ancestral
-  mais próximo que possua outro nó descendente, e então o processo
-  recomeça. Se o controle voltou para o nó raiz e todos os
-  descendentes foram visitados, o processo termina.
+        \begin{figure}[h]
+            \centering 
+            \includegraphics{images/searchtree.png}
+            \caption{Exemplo de árvore de busca para um modelo CSP.}
+            \label{fig:searchtree}
+        \end{figure}
 
-  Um exemplo de \estr{branching} é a técnica conhecida
-  como \estr{labelling}, que divide um domínio (finito) de uma
-  variável em domínios unitários, correspondendo a uma busca
-  sistemática de todos os valores de uma determinada variável. Uma
-  forma de propagação de restrições, combinada com o \estr{branching},
-  é aplicada ao longo da árvore, removendo valores dos domínios das
-  variáveis que não participam de nenhuma solução.}
+        O procedimento padrão de uma busca top-down é
+        o \estr{backtracking}. Ele inicia a busca pelo nó raiz da árvore e
+        segue para o primeiro nó descendente. O processo continua até que
+        uma folha é encontrada, neste caso, ele retorna para o nó ancestral
+        mais próximo que possua outro nó descendente, e então o processo
+        recomeça. Se o controle voltou para o nó raiz e todos os
+        descendentes foram visitados, o processo termina.
+
+        Um exemplo de \estr{branching} é a técnica conhecida
+        como \estr{labelling}, que divide um domínio (finito) de uma
+        variável em domínios unitários, correspondendo a uma busca
+        sistemática de todos os valores de uma determinada variável. Uma
+        forma de propagação de restrições, combinada com o \estr{branching},
+        é aplicada ao longo da árvore, removendo valores dos domínios das
+        variáveis que não participam de nenhuma solução.}
+
+    \item{\textbf{Busca Branch and Bound:} Método de busca mais usado em
+        modelos que usam a teoria COP\@. Utiliza a técnica de
+        \textit{backtracking} levando em conta a função de custo.
+        Suponha que o objetivo do problema é encontrar uma solução com o
+        valor mínimo para a função de custo. Durante a busca usamos uma
+        variável \textit{bound} para guardar o \textit{melhor valor
+        encontrado}. O valor inicial desta variável é $\infty$. Então a
+        cada vez que uma solução menor é encontrada, este valor é
+        guardado em \textit{bound}.
+
+        Há diversas variações no algoritmo de branch and bound, mas um
+        ponto importante a ser considerado é o que fazer após encontrar
+        uma solução com melhor custo. O método mais simples é reiniciar
+        o processamento com a variável \textit{bound} inicializada com o
+        novo valor para o custo.
+
+        Uma alternativa é continuar a busca por soluções melhores sem
+        reiniciar o processamento. Neste caso a restrição $custo(x_1,
+        \ldots, x_n) < \textit{bound}$ é usada e a cada vez que
+        encontramos uma solução com custo melhor, esta solução é
+        adicionada dinamicamente à restrição $custo(x_1, \ldots, x_n) <
+        \textit{bound}$. A propagação de restrição é acionada por esta
+        restrição, levando à poda da árvore de busca ao identificar que
+        as soluções a partir de um determinado nó não pode gerar uma
+        solução com custo melhor que o atual, mantido pela variável
+        \textit{bound}.  A figura~\ref{fig:bbsearchtree} mostra o estado
+        de uma árvore de busca usando o método branch and bound. As
+        linhas pontilhadas representam as partes ignoradas durante a
+        busca por não gerar uma solução melhor.
+
+        \begin{figure}[h]
+            \centering 
+            \includegraphics{images/bbsearchtree.png}
+            \caption{Exemplo de árvore de busca usando método branch and
+            bound.} 
+            \label{fig:bbsearchtree}
+        \end{figure}}
 
 \end{itemize}
