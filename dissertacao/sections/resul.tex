@@ -8,8 +8,9 @@ durante este trabalho.
 
 \section{Especificações Técnicas}
 \label{sec:tspec}
-O computador utilizado para executar os testes possui as seguintes
-características:
+O computador\footnote{Computador disponível com as licenças dos
+softwares proprietários.} utilizado para executar os testes possui as
+seguintes características:
 
 \begin{itemize}
 
@@ -64,11 +65,14 @@ $n$.
 
 Todas as instâncias foram executadas nos softwares indicados na
 Seção~\ref{sec:tspec}. Para cada instância foi dado o tempo máximo de
-$25$ horas. Os modelos de programação por restrições e as formulações de
-programação linear inteira produzem o resultado exato para a distância
-escolhida. Fazemos a comparação dos modelos baseando nos tempos
-médios usados para resolver cada instância. Como referência usamos os
-modelos de \pli{} descritos na Seção~\ref{sec:pli}.
+$25$ horas, decidido após alguns testes iniciais, onde foi possível
+observar que havia um número pequeno de instâncias que não eram
+solucionadas devido ao limite de memória do sistema. Os modelos de
+programação por restrições e as formulações de programação linear
+inteira produzem o resultado exato para a distância escolhida. Fazemos a
+comparação dos modelos baseando nos tempos médios usados para resolver
+cada instância. Como referência usamos os modelos de \pli{} descritos na
+Seção~\ref{sec:pli}.
 
 \section{Análise dos Resultados}
 \label{sec:analise}
@@ -146,9 +150,9 @@ reversões.
 Entretanto, se focarmos apenas nos melhores limitantes dos dois tipos de
 ordenação, colunas \textit{rev\_cg\_cop}, \textit{rev\_cg\_csp},
 \textit{tra\_cg\_cop} e \textit{tra\_cg\_csp}, ocorre justamente o
-inverso. Este comportamente pode ser explicado usando a decomposição em
+inverso. Este comportamento pode ser explicado usando a decomposição em
 ciclos. Na transposição a decomposição é única, para todo vértice do
-grafo de ciclos, toda aresta chegando é únicamente pareada com uma
+grafo de ciclos, toda aresta chegando é unicamente pareada com uma
 aresta saindo de cor diferente, então basta encontrar o número de ciclos
 ímpares. No caso da reversão, todo vértice possui o mesmo número de
 arestas incidentes cinzas e pretas no grafo de \bkp{}. Logo existem
@@ -191,57 +195,60 @@ $25$ horas.
 
 \subsection{Ordenação por Transposições}
 \label{subsec:analise_tra}
-Nos modelos de ordenação por transposições, Tabela \ref{table:trans},
-os modelos baseados na teoria COP que usam o
-limitante \textit{tra\_br\_cop} apresentaram os piores resultados,
-apresentando nenhuma vantagem em relação ao modelo que usa limitantes
-triviais \textit{def\_cop}.
+Nos modelos de ordenação por transposições, Tabela~\ref{table:trans}, os
+modelos baseados na teoria COP que usam o limitante
+\textit{tra\_br\_cop} apresentaram os piores resultados, não apresentando
+nenhuma vantagem em relação ao modelo que usa limitantes triviais
+\textit{def\_cop}.
 
 No \textit{ECLiPSe}, é possível observar que, diferentemente do modelo
-de ordenação por reversões, nos modelos baseados na teoria COP, o
-melhor limitante, \textit{tra\_cg\_cop}, obteve o melhor tempo de
-execução. Este limitante conseguiu reduzir o espaço de busca por ser
-mais preciso que os outros. Neste caso, a redução do espaço de busca
-supriu a necessidade da quantidade de processamento para encontrar o
-número de ciclos ímpares no grafo de ciclos da ordenação por
-transposições, ao contrário do modelo de ordenação por reversões que
-usa o limitante \textit{rev\_cg}.
+de ordenação por reversões, nos modelos baseados na teoria COP, o melhor
+limitante, \textit{tra\_cg\_cop}, obteve o melhor tempo de execução.
+Este limitante conseguiu reduzir o espaço de busca por ser mais preciso
+que os outros. Neste caso, a redução do espaço de busca supriu a
+necessidade da quantidade de processamento para encontrar o número de
+ciclos ímpares no grafo de ciclos da ordenação por transposições, ao
+contrário do modelo de ordenação por reversões que usa o limitante
+\textit{rev\_cg\_cop}. Em relação aos modelos baseados na teoria CSP, o
+modelo de ordenação por transposições que usa o limitante
+\textit{tra\_cg\_csp} obteve tempos de execução melhores que o modelo de
+ordenação por reversões que usa o limitante \textit{rev\_cg\_csp}.
 
 Similar ao modelo de ordenação por reversões, nos modelos baseados na
 teoria CSP desenvolvidos para o \textit{ILOG CP}, quanto melhor o
 limitante, maior é o tempo necessário para resolver as instâncias.
 
 Nenhum modelo de ordenação por transposições conseguiu solucionar as
-instâncias com permutações de tamanho $n > 14$ dentro do tempo limite
-de $25$ horas.
+instâncias com permutações de tamanho $n > 14$ dentro do tempo limite de
+$25$ horas.
 
 \input{tables/trans.tex}
 
 \subsection{Ordenação por Reversões e Transposições}
 \label{subsec:analise_r_t}
 Os modelos de ordenação por reversões e transposições,
-Tabela \ref{table:r_t}, obtiveram os piores resultados. Isto já era
+Tabela~\ref{table:r_t}, obtiveram os piores resultados. Isto já era
 esperado, devido ao fato que os modelos utilizam tanto a operação de
 reversão como a operação de transposição, resultando em um espaço de
 busca maior e no aumento do tempo necessário para encontrar a solução.
 
-O modelo baseado na teoria CSP que usa o
-limitante \textit{r\_t\_cc\_csp} desenvolvido para o \textit{ECLiPSe}
-não conseguiu resolver a instância com permutações de tamanho $n = 7$
-devido ao limite de memória do sistema. Foi o único modelo de
-ordenação por reversões e transposições que ocorreu este problema.
+O modelo baseado na teoria CSP que usa o limitante
+\textit{r\_t\_cc\_csp} desenvolvido para o \textit{ECLiPSe} não
+conseguiu resolver a instância com permutações de tamanho $n = 7$ devido
+ao limite de memória do sistema. Foi o único modelo de ordenação por
+reversões e transposições que ocorreu este problema.
 
-É possível notar claramente o rápido crescimento do espaço de busca
-dos modelos conforme o tamanho das permutações. Como exemplo, podemos
-pegar os modelos baseados na teoria CSP desenvolvidos para
-o \textit{ILOG CP}. O modelo que obteve o pior tempo para a instância
-com permutações de tamanho $n = 10$ foi o modelo \textit{def\_csp},
-que não utiliza limitantes, e o seu tempo de execução para essa
-instância foi de $0.012$ segundos. Um tempo excelente para o modelo
-que, diferentemente dos modelos que utilizam as operações
-isoladamente, conseguiu solucionar esta instância. Porém para as
-instâncias com permutações de tamanho $n > 10$, os modelos não
-conseguiram solucionar todas permutações dentro do limite de tempo.
+É possível notar claramente o rápido crescimento do espaço de busca dos
+modelos conforme o tamanho das permutações. Como exemplo, podemos pegar
+os modelos baseados na teoria CSP desenvolvidos para o \textit{ILOG CP}.
+O modelo que obteve o pior tempo para a instância com permutações de
+tamanho $n = 10$ foi o modelo \textit{def\_csp}, que não utiliza
+limitantes, sendo o tempo de execução para essa instância $0.012$
+segundos. Um tempo excelente para o modelo que, diferentemente dos
+modelos que utilizam as operações isoladamente, conseguiu solucionar
+esta instância. Porém para as instâncias com permutações de tamanho $n >
+10$, os modelos não conseguiram solucionar todas permutações dentro do
+limite de tempo.
 
 Nenhum modelo de ordenação por reversões e transposições conseguiu
 solucionar as instâncias com permutações de tamanho $n > 10$ dentro do
@@ -251,35 +258,117 @@ tempo limite de $25$ horas.
 
 \subsection{Comparação das ferramentas}
 \label{subsec:analise_ferramentas}
-Um dos objetivos deste trabalho é analisar se os softwares
-proprietários são inferiores ou superiores aos softwares de código
-aberto.
+Um dos objetivos deste trabalho é analisar se os softwares proprietários
+são inferiores ou superiores aos softwares de código aberto. Usaremos a
+Tabela~\ref{table:n_inst} para analisar o número de instâncias
+resolvidas por cada ferramenta utilizada.
 
-No caso das formulações em programação linear inteira, podemos notar
-que as formulações desenvolvidas para o \textit{ILOG CPLEX} obtiveram
-os melhores tempos para as instâncias com permutações de tamanho
-$n \le 7$, mas para permutações com $n > 7$ as formulações
-desenvolvidas para o \textit{GLPK} foram mais rápidas, com exceção da
-instância com permutações de tamanho $n = 9$ que o \textit{GLPK} não
-conseguiu solucionar dentro do tempo limite, ao contrário
-do \textit{ILOG CPLEX}. Se analisamos somente a quantia de instâncias
-resolvidas, podemos afirmar que \textit{ILOG CPLEX} é o mais adequado
-para os problemas de ordenação, devido ao fato de resolver uma
-instância a mais em relação ao \textit{GLPK}. Mas se analisamos os
-tempos de execução, o \textit{ILOG CPLEX} ganha somente nos modelos de
-ordenação por reversões, perdendo para o \textit{GLPK} nos modelos de
-ordenação por transposições e ordenação por reversões e transposições.
+No caso das formulações em programação linear inteira, podemos notar que
+as formulações desenvolvidas para o \textit{ILOG CPLEX} obtiveram os
+melhores tempos para as instâncias com permutações de tamanho $n < 7$, e
+as formulações desenvolvidas para o \textit{GLPK} foram mais rápidas nas
+permutações de tamanho $n = 7$, para todas formulações, e $n = 8$, no
+caso de ordenação por reversões, ver Tabela~\ref{table:rev}, mas não
+conseguiu resolver instâncias com permutações de tamanho $n > 8$, ao
+contrário do \textit{ILOG CPLEX}.  Se analisamos somente o número de
+instâncias resolvidas, ver Tabela~\ref{table:n_inst}, podemos afirmar
+que \textit{ILOG CPLEX} é o mais adequado para os problemas de
+ordenação, devido ao fato de resolver uma instância a mais em relação ao
+\textit{GLPK}. Apesar do pequeno número de instâncias resolvidas pelas
+formulações de programação linear inteira, podemos notar que escrever as
+formulações usando o pacote do \textit{ILOG CPLEX} é mais adequado para
+os três problemas de ordenação.
 
-No caso dos modelos de programação por restrições, podemos notar que
-os modelos baseados na teoria COP, nos três casos, o \textit{ILOG CP}
-foi superior ao \textit{ECLiPSe}, tanto nos tempos de execução, quanto
-na quantia de instâncias resolvidas. Para os modelos baseados na teria
-COP, podemos afirmar que o \textit{ILOG CP} é o mais adequado para os
-problemas de ordenação.
+No caso dos modelos de programação por restrições, iremos dividir a
+análise em dois casos. Nos modelos baseados na teoria COP, podemos notar
+que, nos três casos, o \textit{ILOG CP} foi superior ao
+\textit{ECLiPSe}, tanto nos tempos de execução, quanto no número de
+instâncias resolvidas, sendo $70$ instâncias resolvidas pelo
+\textit{ILOG CP} e $30$ instâncias resolvidas pelo \textit{ECLiPSe}.
+Então, para os modelos baseados na teria COP, podemos afirmar que o
+pacote do \textit{ILOG CP} é o mais adequado para os problemas de
+ordenação.
 
 Mas para os modelos baseados na teoria CSP, o \textit{ECLiPSe} não só
-obteve tempos melhores, mas também resolveu instâncias maiores, exceto
-nos modelos de ordenação por reversões e transposições. Então, para o
-modelo de ordenação por reversões e transposições, o \textit{ILOG CP}
-é o mais adequado, mas para os outros modelos, podemos afirmar que
-o \textit{ECLiPSe} é o mais adequado.
+obteve tempos melhores, mas também resolveu instâncias maiores. No caso
+do problema de ordenação por reversões, o \textit{ECLiPSe} resolveu $24$
+instâncias com permutações de tamanho até $n~=~12$, enquanto que o
+\textit{ILOG CP} resolveu $21$ instâncias com permutações de tamanho até
+$n = 9$. No caso do problema de ordenação por transposições, o
+\textit{ECLiPSe} resolveu $24$ instâncias com permutações de tamanho até
+$n = 14$, enquanto que o \textit{ILOG CP} resolveu $21$ instâncias com
+permutações de tamanho até $n = 9$. Mas no caso do problema de ordenação
+por reversões e transposições, o \textit{ILOG CP} foi melhor, resolvendo
+$32$ instâncias com permutações de tamanho até $n = 10$, enquanto o
+\textit{ECLiPSe} resolveu $19$ instâncias com permutações de tamanho até
+$n = 7$.  Então, para o problema de ordenação por reversões e
+transposições, o \textit{ILOG CP} é o mais adequado, mas para os outros
+problemas, podemos afirmar que o \textit{ECLiPSe} é o mais adequado.
+
+\pagebreak
+\clearpage
+\newpage
+
+\begin{table}[ht]
+    \caption[Número de instâncias resolvidas]{Quantidade de instâncias
+    resolvidas por cada ferramenta utilizada.}
+    \label{table:n_inst}
+
+    \begin{center}
+        \begin{tabular}{|>{\raggedright}p{3.0cm}| 
+                         >{\raggedleft\arraybackslash}p{1.3cm}|
+                         >{\raggedleft\arraybackslash}p{1.3cm}|
+                         >{\raggedleft\arraybackslash}p{1.3cm}|
+                         >{\raggedleft\arraybackslash}p{1.3cm}|
+                         >{\raggedleft\arraybackslash}p{1.4cm}|
+                         >{\raggedleft\arraybackslash}p{1.5cm}|
+                         >{\raggedleft\arraybackslash}p{1.3cm}|}
+                     
+            \hline
+            
+            \multicolumn{8}{|c|}{\textbf{Número de instâncias
+            Resolvidas}} \\
+            
+            \hline
+            
+            & %\multirow{2}{*}{\textbf{Ordenação}} & 
+            \multicolumn{2}{c|}{\textbf{ECLiPSe}} &
+            \multicolumn{2}{c|}{\textbf{ILOG CP}} &
+            \multirow{2}{1.4cm}{\centering\textbf{GLPK}} & 
+            \multirow{2}{1.5cm}{\centering\textbf{ILOG CPLEX}} &
+            \multirow{2}{1.3cm}{\centering\textbf{Total}} \\
+
+            \cline{02-05}
+
+            & \centering\textbf{COP} & \centering\textbf{CSP} &
+            \centering\textbf{COP} & \centering\textbf{CSP} & & & \\
+            
+            \hline
+
+            \textbf{Reversões} & 9 & 24 & 21 & 21 & 6 & 7 & 88 \\
+
+            \hline
+
+            \textbf{Transposições} & 10 & 24 & 21 & 21 & 5 & 5 & 86 \\
+
+            \hline
+
+            \multirow{2}{3.0cm}{\textbf{Reversões e Transposições}} & 
+            \multirow{2}{*}{11} & \multirow{2}{*}{19} &
+            \multirow{2}{*}{28} & \multirow{2}{*}{32} &
+            \multirow{2}{*}{5} &  \multirow{2}{*}{5} &
+            \multirow{2}{*}{100} \\
+
+            & & & & & & & \\
+
+            \hline
+
+            \textbf{Total} & 30 & 67 & 70 & 74 & 16 & 17 & 274 \\
+            
+            \hline
+
+        \end{tabular}
+    \end{center}
+\end{table}
+
+

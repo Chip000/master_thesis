@@ -2,17 +2,39 @@
 % DO NOT FORGET THE PACKAGE 'array'!!!!
 % DO NOT FORGET THE PACKAGE 'multirow'!!!!
 \begin{sidewaystable}[!ht]
-  \caption[Modelos de Ordenação por Reversões e Transposições.]{Tempo médio (em segundos) para o modelo de ordernação por reversões e transposições. O caractere ``-'' significa que o modelo não conseguiu terminar o conjunto de testes dentro do limite de 25 horas. O caractere ``*'' significa que o modelo não conseguir terminar devido ao limite de memória do sistema.}
+  \caption[Modelos de Ordenação por Reversões e Transposições.]{Tempo
+      médio (em segundos) para o modelo de ordernação por reversões e
+      transposições. O caractere ``-'' significa que o modelo não
+      conseguiu terminar o conjunto de testes dentro do limite de 25
+      horas. O caractere ``*'' significa que o modelo não conseguir
+      terminar devido ao limite de memória do sistema. Os softwares de
+      código aberto são: \textit{ECLiPSe} para programação por
+      restrições e \textit{GLPK} para programação linear inteira. Os
+      softwares proprietários são: \textit{ILOG CP} para programação por
+      restrições e \textit{ILOG CPLEX} para programação linear inteira.
+      Os limitantes usados para a teoria CSP, coluna \textit{CSP}, são:
+      \textit{def\_csp}, não usa nenhum limitante, \textit{r\_t\_br\_csp}
+      usa o melhor limitante superior entre o limitante de
+      \textit{breakpoints} para reversões e o limitante de
+      \textit{breakpoints} para transposições, \textit{r\_t\_bc\_csp}
+      usa o melhor limitante superior entre o limitante de
+      \textit{breakpoints} para reversões e o limitante do grafo de
+      ciclos para transposições e \textit{r\_t\_cc\_csp} usa melhor 
+      limitante superior entre o limitante do grafo de ciclos para
+      reversões e o limitante do grafo de ciclos para transposições. Os
+      limitantes equivalentes para a teoria COP, coluna \textit{COP},
+      são: \textit{def\_cop}, \textit{r\_t\_br\_cop},
+      \textit{r\_t\_bc\_cop} e \textit{r\_t\_cc\_cop}.}
   \label{table:r_t}
   \begin{center}
-  \scalebox{0.520000}{
-    \begin{tabular}{| r | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} | >{\raggedleft\arraybackslash}p{1.8cm} |}
+  \scalebox{0.54}{
+    \begin{tabular}{| r | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} | >{\raggedleft\arraybackslash}p{1.7cm} |}
       \hline
       \multicolumn{19}{|c|}{\textbf{Modelos de Ordenação por Reversões e Transposições}} \\
       \hline
       \multirow{4}{*}{\textbf{size}} & \multicolumn{16}{c|}{\textbf{CP}} & \multicolumn{2}{c|}{\textbf{ILP}} \\
       \cline{02-19}
-        & \multicolumn{8}{c|}{\textbf{ECLiPSe}} & \multicolumn{8}{c|}{\textbf{ILOG CP}} & \centering\multirow{3}{*}{\textbf{GLPK}} & \multirow{3}{1.8cm}{\centering\textbf{ILOG CPLEX}} \\
+        & \multicolumn{8}{c|}{\textbf{ECLiPSe}} & \multicolumn{8}{c|}{\textbf{ILOG CP}} & \centering\multirow{3}{*}{\textbf{GLPK}} & \multirow{3}{1.7cm}{\centering\textbf{ILOG CPLEX}} \\
       \cline{02-17}
         & \multicolumn{4}{c|}{\textbf{COP}} & \multicolumn{4}{c|}{\textbf{CSP}} & \multicolumn{4}{c|}{\textbf{COP}} & \multicolumn{4}{c|}{\textbf{CSP}} &  & \\
       \cline{02-17}
@@ -26,6 +48,8 @@
       ~8~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~11.894~ & ~11.727~ & ~12.367~ & ~12.369~ & ~0.002~ & ~0.004~ & ~0.004~ & ~0.004~ & ~-~ & ~-~ \\
       ~9~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~310.012~ & ~304.331~ & ~331.275~ & ~328.956~ & ~0.006~ & ~0.006~ & ~0.004~ & ~0.005~ & ~-~ & ~-~ \\
       ~10~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~0.012~ & ~0.010~ & ~0.010~ & ~0.011~ & ~-~ & ~-~ \\
+      ~11~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ &
+      ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ \\
       \hline
     \end{tabular}
   }

@@ -2,7 +2,21 @@
 % DO NOT FORGET THE PACKAGE 'array'!!!!
 % DO NOT FORGET THE PACKAGE 'multirow'!!!!
 \begin{sidewaystable}[!ht]
-  \caption[Modelos de Ordenação por Transposições.]{Tempo médio (em segundos) para o modelo de ordernação por transposições. O caractere ``-'' significa que o modelo não conseguiu terminar o conjunto de testes dentro do limite de 25 horas.}
+  \caption[Modelos de Ordenação por Transposições.]{Tempo médio (em
+      segundos) para o modelo de ordernação por transposições. O
+      caractere ``-'' significa que o modelo não conseguiu terminar o
+      conjunto de testes dentro do limite de 25 horas. Os softwares de
+      código aberto são: \textit{ECLiPSe} para programação por
+      restrições e \textit{GLPK} para programação linear inteira. Os
+      softwares proprietários são: \textit{ILOG CP} para programação por
+      restrições e \textit{ILOG CPLEX} para programação linear inteira.
+      Os limitantes usados para a teoria CSP, coluna \textit{CSP}, são:
+      \textit{def\_csp}, não usa nenhum limitante, \textit{tra\_br\_csp}
+      usa os limitantes descritos no teorema~\ref{teo:trans_br_bound} e
+      \textit{tra\_cg\_csp} usa os limitantes descritos no
+      Teorema~\ref{teo:trans_cg_bound}. Os limitantes equivalentes para
+      a teoria COP, coluna \textit{COP}, são: \textit{def\_cop},
+      \textit{tra\_br\_cop} e \textit{tra\_cg\_cop}.}
   \label{table:trans}
   \begin{center}
   \scalebox{0.670000}{
@@ -30,6 +44,7 @@
       ~12~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~43.893~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ \\
       ~13~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~521.840~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ \\
       ~14~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~1223.512~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ \\
+      ~15~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ & ~-~ \\
       \hline
     \end{tabular}
   }

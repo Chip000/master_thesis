@@ -1,8 +1,24 @@
 % DO NOT FORGET THE PACKAGE 'rotating'!!!!
 % DO NOT FORGET THE PACKAGE 'array'!!!!
 % DO NOT FORGET THE PACKAGE 'multirow'!!!!
-\begin{sidewaystable}[!ht]
-  \caption[Modelos de Ordenação por Reversões.]{Tempo médio (em segundos) para o modelo de ordernação por reversões. O caractere ``-'' significa que o modelo não conseguiu terminar o conjunto de testes dentro do limite de 25 horas. O caractere ``*'' significa que o modelo não conseguiu terminar devido ao limite de memória do sistema.}
+\begin{sidewaystable}[!ht] 
+    \caption[Modelos de Ordenação por Reversões.]{Tempo médio (em
+        segundos) para o modelo de ordernação por reversões. O caractere
+        ``-'' significa que o modelo não conseguiu terminar o conjunto
+        de testes dentro do limite de 25 horas. O caractere ``*''
+        significa que o modelo não conseguiu terminar devido ao limite
+        de memória do sistema. Os softwares de código aberto são:
+        \textit{ECLiPSe} para programação por restrições e \textit{GLPK}
+        para programação linear inteira. Os softwares proprietários são:
+        \textit{ILOG CP} para programação por restrições e \textit{ILOG
+        CPLEX} para programação linear inteira. Os limitantes usados
+        para a teoria CSP, coluna \textit{CSP}, são: \textit{def\_csp},
+        não usa nenhum limitante, \textit{rev\_br\_csp} usa os
+        limitantes descritos no teorema~\ref{teo:rev_bkp_bound} e
+        \textit{rev\_cg\_csp} usa os limitantes descritos no
+        Teorema~\ref{teo:rev_cic_bound}. Os limitantes equivalentes para
+        a teoria COP, coluna \textit{COP}, são: \textit{def\_cop},
+        \textit{rev\_br\_cop} e \textit{rev\_cg\_cop}.} 
   \label{table:rev}
   \begin{center}
   \scalebox{0.670000}{
