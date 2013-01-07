@@ -1,24 +1,39 @@
-% conclusao
-Neste trabalho foram apresentados modelos de Programação por
-Restrições para ordenação por reversões e ordenação por reversões e
-transposições, baseados na teoria do Problema de Satisfação de
-Restrições e na teoria do Problema de Otimização com Restrições,
+% conclusao 
+Neste trabalho, nós criamos modelos de Programação por Restrições para
+ordenação por reversões e ordenação por reversões e transposições,
 seguindo a linha de pesquisa utilizada por Dias e
-Dias~\cite{DiasDias*2009}.
+Dias~\cite{DiasDias*2009}. Nós apresentamos os modelos de Programação
+por Restrições que buscam os resultados exatos para os problemas de
+ordenação por reversões, ordenação por transposições e ordenação por
+reversões e transposições, baseados na teoria do Problema de Satisfação
+de Restrições e na teoria do Problema de Otimização com Restrições.
 
-Fizemos a comparação dos modelos de programação por restrições para os
-problemas de ordenação por transposições, descrito por Dias e
-Dias~\cite{DiasDias*2009}, ordenação por reversões e ordenação por
-reversões e transposições com as formulações de programação linear
-inteira para os mesmos problemas descritos em Dias e
-Souza~\cite{DiasSouza*2007}.
+No Capítulo~\ref{cap:basic} apresentamos os conceitos usados nesta
+dissertação. Na Seção~\ref{sec:defin} mostramos as formalizações usadas
+pelos problemas de rearranjos de genomas. Nas
+seções~\ref{sec:rev},~\ref{sec:trans} e~\ref{sec:rev_trans} descrevemos
+os problemas de ordenação por reversões, ordenação por transposições e
+ordenação por reversões e transposições, respectivamente. Na
+Seção~\ref{sec:def_cp} explicamos o conceito de Programação por
+Restrições. Os modelos de Programação por Restrições e as formulações de
+Programação Linear Inteira foram descritos no Capítulo~\ref{cap:model}.
+
+No Capítulo~\ref{cap:resul} apresentamos os resultados obtidos. Nós
+fizemos comparações com os modelos de Programação por Restrições para
+ordenação por transposições, descrito por Dias e
+Dias~\cite{DiasDias*2009}, e com as formulações de Programação Linear
+Inteira que buscam os resultados exatos para os problemas de ordenação
+por reversões, ordenação por transposições e ordenação por reversões e
+transposições, descritos por Dias e Souza~\cite{DiasSouza*2007}.
 
 Os resultados foram analisados observando os tempos médios usados para
 resolver cada instâncias dos testes. Analisamos também qual ferramenta
 é a mais adequada para o problema, no caso de programação linear
 inteira usamos o \textit{GLPK} e o \textit{ILOG CPLEX}, e no caso de
 programação por restrições usamos o \textit{ECLiPSe} e o \textit{ILOG
-CP}.
+CP}, sendo que o \textit{GLPK} e o \textit{ECLiPSe} são softwares de
+código aberto, e o \textit{ILOG CPLEX} e o \textit{ILOG CP} são
+softwares proprietários.
 
 Os resultados mostraram que os modelos de programação por restrições
 baseados na teoria CSP obtiveram os melhores tempos em relação às
@@ -28,25 +43,25 @@ modelo de ordenação por reversões, e as formulações de programação
 linear inteira obtiveram os piores resultados nos outros problemas de
 ordenação.
 
+O modelo de programação por restrições para o
+problema de ordenação por reversões e transposições foi apresentado no
+artigo ``\textit{Constraint Logic Programming Models for Reversal and
+Transposition Distance Problems}''~\cite{IizukaDias*2011}, publicado no
+\textit{VI Brazilian Symposium on Bioinformatics (BSB'2011)}, realizado
+em Brasília, DF em 2011.
+
 Apesar de ser mais uma ferramenta para solucionar os problemas de
 ordenação por reversões, ordenação por transposições e ordenação por
-reversões e transposições, esta abordagem ainda é inviável na
-prática.
+reversões e transposições, esta abordagem ainda é inviável na prática.
 
-Um artigo~\cite{IizukaDias*2011} com os principais resultados dessa
-dissertação foi apresentado no \textit{VI Brazilian Symposium on
-Bioinformatics (BSB'2011)}, realizado em Brasília, DF em 2011.
+Para trabalhos futuros, heurísticas podem ser estudadas para melhorar o
+desempenho dos modelos de programação por restrições (observe que não
+foi utilizada nenhuma heurística na criação dos modelos). As heurísticas
+vão desde a escolha de qual permutação deve ser analisada primeiro até a
+análise de permutações que possuem alguma característica em comum. Em
+ambos os casos, o objetivo é reduzir o espaço de busca do problema.
 
-Para trabalhos futuros, heurísticas podem ser estudadas para melhorar
-o desempenho dos modelos de programação por restrições (observe que
-não foi utilizada nenhuma heurística na criação dos modelos). As
-heurísticas vão desde a escolha de qual permutação deve ser analisada
-primeiro até a análise de permutações que possuem alguma
-característica em comum. Em ambos os casos, o objetivo é reduzir o
-espaço de busca do problema.
-
-Podemos melhorar a formulação de programação linear inteira,
-utilizando relaxação lagrangeana, ou escrever uma nova formulação sem
-se preocupar com o seu tamanho para aplicar técnicas como geração de
-colunas
-e \textit{branch-and-cut}~\cite{NemhauserWolsey*1988,Wolsey*1998}.
+Podemos melhorar a formulação de programação linear inteira, utilizando
+relaxação lagrangeana, ou escrever uma nova formulação sem preocupação
+com o seu tamanho para aplicar técnicas como geração de colunas e
+\textit{branch-and-cut}~\cite{NemhauserWolsey*1988,Wolsey*1998}.
