@@ -32,6 +32,9 @@
 \usepackage{amsfonts}
 \usepackage{amsthm}
 
+% incluir pdf
+\usepackage{pdfpages}
+
 % Hiperlinks
 \usepackage[pdftex,colorlinks=true,allcolors=black]{hyperref}
 
@@ -150,6 +153,24 @@
 \label{app:src_code}
 \input{sections/appendix/src_code}
 
+\chapter[CLP Models for Reversal and Transposition Distance
+Problems]{Constraint Logic Programming Models for Reversal and
+Transposition Distance Problems}
+\label{app:artigo}
+Este apêndice apresentará o artigo ``\textit{Constraint Logic
+Programming Models for Reversal and Transposition Distance
+Problems}''~\cite{IizukaDias*2011}, com texto em inglês publicado no
+\textit{VI Brazilian Symposium on Bioinformatics (BSB'2011)}, realizado
+em Brasília, DF em 2011.
+
+Este artigo apresenta modelos de programação por restrições que buscam o
+resultados exato para o problema de ordenação por reversões e
+transposições, baseados na teoria do Problema de Satisfação por
+Restrições e na teoria do Problema de Otimização com Restrições.
+
+\includepdf[pages={33-40},pagecommand={}]{sections/appendix/2011BSBDP.pdf}
+
+\phantomsection
 \bibliographystyle{plain}
 \bibliography{bioinf}
 
