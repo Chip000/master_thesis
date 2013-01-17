@@ -99,13 +99,26 @@
 
 \defencedate{19}{12}{2012} % dia mes ano
 
+\def\fichacatalografica{
+    \begin{center}
+        \vspace{10cm} {\Large\bf\expandafter{Substitua pela ficha
+            catalogr{\'a}fica}\\ {\rm (Esta p{\'a}gina deve ser o verso da
+            p{\'a}gina anterior mesmo no\\ caso em que n{\~a}o se imprime
+            frente e verso, i.e. at{\'e} 100 p{\'a}ginas.)}}
+    \end{center}
+}
+
+\def\assinaturabanca{
+    \includepdf[pages={-}, pagecommand={}]{termo_aprovacao.pdf}
+}
+
 %   Se pretende utilizar \copyrighttrue, consulte antes seu orientador ou a CPG!!!
 %   Este ponto envolve quest{\~o}es legais complexas e de graves conseq{\"u}{\^e}ncias.
 \copyrightfalse % Caso nao queira que apareca a pagina de Copyright.
 %    \copyrighttrue % Caso queira que apareca a pagina de Copyright.
 
-%    \finalversiontrue % Caso seja a versao final.
-\finalversionfalse % Caso nao seja a versao final ainda.
+\finalversiontrue % Caso seja a versao final.
+%\finalversionfalse % Caso nao seja a versao final ainda.
 %
 \tablespagetrue % Caso queira que apareca a Lista de Tabelas.
 %    \tablespagefalse % Caso nao queira que apareca a Lista de Tabelas.
@@ -159,9 +172,9 @@ Transposition Distance Problems}
 \label{app:artigo}
 Este apêndice apresentará o artigo ``\textit{Constraint Logic
 Programming Models for Reversal and Transposition Distance
-Problems}''~\cite{IizukaDias*2011}, com texto em inglês publicado no
-\textit{VI Brazilian Symposium on Bioinformatics (BSB'2011)}, realizado
-em Brasília, DF em 2011.
+Problems}''~\cite{IizukaDias*2011}, com texto em inglês publicado nos
+anais do \textit{VI Brazilian Symposium on Bioinformatics (BSB'2011)},
+realizado em Brasília, DF em 2011.
 
 Este artigo apresenta modelos de programação por restrições que buscam o
 resultados exato para o problema de ordenação por reversões e

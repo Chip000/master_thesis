@@ -55,9 +55,6 @@
 %
 % Revisao e correcao do modelo unificado em ingles/portugues/espanhol.
 % Caio Hoffman - 18.12.2012
-%
-% Revisao e correcao. Adicao da possibilidade de dedicatoria e epigrafe.
-% Caio Hoffman - 24.12.2012
 
 \typeout{Estilo: TESE IC - UNICAMP <15 de novembro de 2012>.}
 \usepackage{multirow}
@@ -72,53 +69,42 @@
 % BEGIN COMMENT
 \comment{
   Example of usage:
-    \documentclass[12pt,twoside]{report} % Use  esta linha para tese com mais de 100 p{\'a}ginas
+    \documentclass[12pt,twoside]{report} % Use esta linha para tese com mais de 100 p{\'a}ginas
 %    \documentclass[12pt]{report} % Use esta linha para tese com at{\'e} 100 p{\'a}ginas
 
     \usepackage{ic-tese}
-    \usepackage[latin1, utf8]{inputenc}
+    \usepackage[latin1,utf8]{inputenc}
 
-    \begin{document}    
-    %\selectlanguage{english}     
-	\thesislanguage{1} % Select 1 for English, 2 for Spanish, 3 for Brazilian Portuguese.
-	% Para mais informacoes consulte: http://www.prpg.unicamp.br/arqpdfnormas/infccpg002_2011.pdf
-	% Title for text in english:
-	% \thetitle{My English Title}{My Portuguese Title}
-	% Title for text in spanish:
-	% \thetitle{My Spanish Title}{My Portuguese Title}
-	% Title for text in portuguese:
-	% \thetitle{My Portuguese Title}
-    \thetitle
-		{The title of your work in English: This is a very long example with subtitle. El t\'itulo en espa\~nol.}%
-		{O t\'{i}tulo do seu trabalho em Portugu\^es: Esse \'e um exemplo muito longo com subt\'itulo.}
-    \thisyear{2012}         
-    \author{John D. Smith}
-    \degreesoughtpt{Doutorado} % Mestrado
-    \degreesought{DEGREE} % PhD/MSc/Doctorado/Mag\'ister
-    
-    \titlesoughtpt{Doutor} % Mestre
-    \titlesought{TITLE} % Doutor/Doutora/Mestre/Maestro/Maestra/PhD/Doctor(somente para o espanhol)/Doctora
-    
-	\principaladvisor{Prof. Dr. Fulano Orientador Silva}     
-	\advisortitle{Supervisor/\textit{Orientador}} % Orientadora/Director/Directora
-	\coadvisor{Prof. Dr.  Sicrano Braga} %Co-orientadora  , pode ser omitido
-	\firstreader{Prof. Dr. Member 2\\Institute of Computing - UNICAMP} 
-	\secondreader{Prof. Dr. Member 3\\ Institute of Computing - UNICAMP}  
-	\thirdreader{Dr. External Member 4\\ Institute X}  
-	\fourthreader{Dr. External Member 5\\ Institute X or Y}    
-	\fifthreader{\ldots}
-	%\sixthreader{Prof. Dr. Member 7\\ Institute of Computing - UNICAMP (Substitute/\textit{Suplente})}
-	\grants{{\rm Financial support: CNPq scholarship (process XYZ) 2010--2012}} % Pode ser omitido.   
-
-	\defencedate{25}{12}{2012} % Use o formato \defencedate{dia}{mes}{ano}.
-
+    \begin{document}
+    \thesislanguage{1} % Select 1 for English, 2 for Spanish, 3 for Brazilian Portuguese.
+    \title{Como Escrever um T{\'\i}tulo em Duas Linhas\\
+           para sua Disserta\c{c}{\~a}o ou Tese}
+    \author{Donna S. A. St. Udent}
+    \degreesought{Doutorado} % Mestrado
+    \titlesought{Doutor}     % Doutora/Mestre
+    \principaladvisor{Adam Astor}
+    \advisortitle{Orientador} % Orientadora
+    \coadvisor{Byron Meter (Co-orientador)} % Pode ser omitido.
+    \coadvisortitle{Co-Orientador} % Orientadora
+    \firstreader{Charlie Brown\\ Departamento de Apicultura Subterr{\^a}nea
+                 Computacional}
+    \secondreader{Donald Duck}
+    \thirdreader{Era Stoteles}
+    \fourthreader{Fairy Tail}
+    \grants{{\rm Suporte financeiro de: Bolsa do CNPq (processo XYZ) 2009--2012, Projeto Finep (processo UVW)
+    2007--2008 e Universidade Federal de Santa Rita do Passa Tr{\^e}s 2007--2008.}} % Pode ser omitido.
+%
+    \submitdate{Abril de 2012} % Pode ser omitido.
+    \date{13 de junho de 2012} % Pode ser omitido.
+%
 %   Se pretende utilizar \copyrighttrue, consulte antes seu orientador ou a CPG!!!
 %   Este ponto envolve quest{\~o}es legais complexas e de graves conseq{\"u}{\^e}ncias.
     \copyrightfalse % Caso nao queira que apareca a pagina de Copyright.
 %    \copyrighttrue % Caso queira que apareca a pagina de Copyright.
-    \finalversiontrue % Caso seja a versao final. 
+%
+    \finalversiontrue % Caso seja a versao final.
 %    \finalversionfalse % Caso nao seja a versao final ainda.
-%  
+%
     \tablespagetrue % Caso queira que apareca a Lista de Tabelas.
 %    \tablespagefalse % Caso nao queira que apareca a Lista de Tabelas.
 %
@@ -126,32 +112,12 @@
 %    \figurespagefalse % Caso nao queira que apareca a Lista de Figuras.
 %
     \beforepreface
-    \prefacesection{Abstract}
-        The abstract must contain at most 500 words...
-% Enable this only when spanish is the main language.
-%    \prefacesection{Resumen}
-%        El resumen debe contener como m{\'a}ximo 500 palabras...
     \prefacesection{Resumo}
         O resumo deve conter no m{\'a}ximo 500 palavras...
-
-% Exemplo de uso de dedicatoria. A dedicatoria pode ser omitida.
-%	\begin{dedico}{Dedication}
-%       \textit{
-%          To somebody that is very special to me. 
-%        }
-%	\end{dedico}
-    
-    \prefacesection{Acknowledgements} % Acknowledgements/Agradecimientos/Agradecimentos
- I would like to thank\ldots
-
-% Exemplo de uso de epigrafe. A epigrafe pode ser omitida.
-%	\begin{dedico}{Epigraph}
-%        \textit{
-%            ``If you read this work, you will be able to read the work of everyone else.''
-%        }\\
-%        \raggedleft A philosophical person
-%	\end{dedico}
-
+    \prefacesection{Abstract}
+        The abstract must contain at most 500 words...
+    \prefacesection{Agradecimentos}
+        Eu gostaria de agradecer a...
     \afterpreface % Gera: Conteudo, Lista de Tabelas, Lista de Figuras.
 %
     \chapter{Introdu\c{c}{\~a}o}
@@ -179,14 +145,13 @@
     \chapter{Conclus{\~o}es}
         Atrav{\'e}s dos contra-exemplos apresentados ...
 
-	%Bibliography always comes before the appendix.
-    \bibliographystyle{plain}
-    \bibliography{mybib}
     \appendix
     \chapter{Uma Longa Demonstra\c{c}{\~a}o}
         Utilizando as t{\'e}cnicas vistas nos cap{\'\i}tulos anteriores,
         vamos demonstrar neste ap{\^e}ndice que ${\bf P = NP}$. ...
 
+    \bibliographystyle{plain}
+    \bibliography{mybib}
     \end{document}
 
 Documentation:
@@ -952,17 +917,16 @@ aprovada pela Banca Examinadora.}}
 
 \newenvironment{dedico}[1]{
 	\newpage
-	\vspace*{0.7\textheight}
 %	\phantomsection
 	\addcontentsline{toc}{chapter}{#1}
 	\chaptermark{#1}
+	\vspace*{6in}
 	\begin{flushright}
     	\begin{minipage}[l]{0.45\textwidth}
 }
 {
  	   \end{minipage}
 	\end{flushright}
-	\vfill
 	\pagebreak
 }
 
