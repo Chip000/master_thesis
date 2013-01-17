@@ -34,10 +34,11 @@ ferramentas:
         própria, baseada no prolog.}
 
     \item{O código foi escrito na linguagem C++, usando o pacote
-        proprietário \textit{IBM\textregistered{} ILOG\textregistered{}
-        CPLEX\textregistered{} CP Optimizer v 2.3}\footnote{Quando
-        usamos ILOG CP, estamos falando sobre este pacote de programação
-        por restrições.}~\cite{ilogcp*2011}.}
+        proprietário \textit{IBM\textregistered{}
+        ILOG\textregistered{} CPLEX\textregistered{} CP Optimizer v
+        2.3}\footnote{Quando usamos o termo ILOG CP, estamos falando
+        sobre este pacote de programação por
+        restrições.}~\cite{ilogcp*2011}.}
 \end{itemize}
 
 Todas as formulações de programação linear inteira foram implementadas
@@ -51,8 +52,8 @@ usando as seguintes ferramentas:
     \item{O código foi escrito na linguagem C++, usando o pacote
         proprietário \textit{IBM\textregistered{} ILOG\textregistered{}
         CPLEX\textregistered{} Optimizer v 12.1}\footnote{Quando usamos
-        ILOG CPLEX, estamos falando sobre este pacote de programação
-        linear.}~\cite{ilogcplex*2011}.}
+        o termo ILOG CPLEX, estamos falando sobre este pacote de
+        programação linear.}~\cite{ilogcplex*2011}.}
 \end{itemize}
 
 \section{Descrição dos Testes}
@@ -130,7 +131,7 @@ espaço de busca gerado pelo modelo COP.
 
 A diferença na complexidade pode ser observada quando comparamos os
 resultados de ordenação por reversões com os resultados de ordenação por
-transposições, Tabela~\ref{table:trans}. É possível notar que, nos
+transposições (Tabela~\ref{table:trans}). É possível notar que, nos
 resultados dos limitantes triviais\footnote{Limitante inferior igual à
 $0$ e limitante superior igual ao tamanho da permutação fornecida como
 entrada.}, colunas \textit{def\_cop} e \textit{def\_csp}, e dos
@@ -268,10 +269,10 @@ as formulações desenvolvidas para o \textit{ILOG CPLEX} obtiveram os
 melhores tempos para as instâncias com permutações de tamanho $n < 7$, e
 as formulações desenvolvidas para o \textit{GLPK} foram mais rápidas nas
 permutações de tamanho $n = 7$, para todas formulações, e $n = 8$, no
-caso de ordenação por reversões, ver Tabela~\ref{table:rev}, mas não
+caso de ordenação por reversões (Tabela~\ref{table:rev}) mas não
 conseguiu resolver instâncias com permutações de tamanho $n > 8$, ao
 contrário do \textit{ILOG CPLEX}.  Se analisamos somente o número de
-instâncias resolvidas, ver Tabela~\ref{table:n_inst}, podemos afirmar
+instâncias resolvidas (Tabela~\ref{table:n_inst}) podemos afirmar
 que \textit{ILOG CPLEX} é o mais adequado para os problemas de
 ordenação, devido ao fato de resolver uma instância a mais em relação ao
 \textit{GLPK}. Apesar do pequeno número de instâncias resolvidas pelas
@@ -289,15 +290,15 @@ Então, para os modelos baseados na teria COP, podemos afirmar que o
 pacote do \textit{ILOG CP} é o mais adequado para os problemas de
 ordenação.
 
-Mas para os modelos baseados na teoria CSP, o \textit{ECLiPSe} não só
-obteve tempos melhores, mas também resolveu instâncias maiores. No caso
+Para os modelos baseados na teoria CSP, o \textit{ECLiPSe} não só
+obteve tempos melhores, como também resolveu instâncias maiores. No caso
 do problema de ordenação por reversões, o \textit{ECLiPSe} resolveu $24$
 instâncias com permutações de tamanho até $n~=~12$, enquanto que o
 \textit{ILOG CP} resolveu $21$ instâncias com permutações de tamanho até
 $n = 9$. No caso do problema de ordenação por transposições, o
 \textit{ECLiPSe} resolveu $24$ instâncias com permutações de tamanho até
 $n = 14$, enquanto que o \textit{ILOG CP} resolveu $21$ instâncias com
-permutações de tamanho até $n = 9$. Mas no caso do problema de ordenação
+permutações de tamanho até $n = 9$. No caso do problema de ordenação
 por reversões e transposições, o \textit{ILOG CP} foi melhor, resolvendo
 $32$ instâncias com permutações de tamanho até $n = 10$, enquanto o
 \textit{ECLiPSe} resolveu $19$ instâncias com permutações de tamanho até

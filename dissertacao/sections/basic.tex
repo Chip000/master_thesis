@@ -18,16 +18,17 @@ permutação. Uma permutação é representada como $\pi =
 (\pi_{1}~\pi_{2}~\ldots~\pi_{n})$, para $\pi_{i} \in \mathbb{N}$, $0 <
 \pi_{i} \leq n$ e $i \neq j \leftrightarrow \pi_{i} \neq \pi_{j}$. A
 permutação identidade é representada como $\iota = (1~2~3~\ldots~n)$.
-Como exemplo, usaremos como a permutação $\pi = (4~7~3~6~2~5~1)$.
+Como exemplo, usaremos a permutação $\pi = (4~7~3~6~2~5~1)$.
 
 \paragraph{Eventos de rearranjo.} Os eventos de rearranjo tratados neste
 trabalho são os eventos de transposição e reversão ocorrendo
 isoladamente e ocorrendo de forma conjunta. Os eventos são representados
 por $\rho$ e são aplicados a $\pi$ de uma maneira específica. Por
 exemplo, uma reversão $\rho(1, 3)$ aplicada a permutação $\pi =
-(4~7~3~6~2~5~1)$ será representada por $\pi\rho = (3~7~4~6~2~5~1)$, e
-uma transposição $\rho(2,4,6)$ aplicada a permutação $\pi =
-(4~7~3~6~2~5~1)$ será representada por $\pi\rho = (4~6~2~7~3~5~1)$.
+(4~7~3~6~2~5~1)$ será representada por $\pi\rho =
+(\underline{3~7~4}~6~2~5~1)$, e uma transposição $\rho(2,4,6)$ aplicada
+a permutação $\pi = (4~7~3~6~2~5~1)$ será representada por $\pi\rho =
+(4~\underline{6~2}~\underline{7~3}~5~1)$.
 
 \section{Ordenação por Reversões}
 \label{sec:rev}
@@ -124,7 +125,7 @@ permutação $\pi = (4~7~3~6~2~5~1)$. Neste caso o número de
 
 Usando o conceito de \bkp{}, temos que uma reversão atua em dois pontos
 em uma permutação e, portanto, pode reduzir~\footnote{Uma reversão pode
-aumentar o número de \bkp{}, mas queremos a reduzir o seu número
+aumentar o número de \bkp{}, mas queremos reduzir o seu número
 para diminuir a diferença entre o número de \bkp{} da permutação
 $\pi$ e o número de \bkp{} da permutação identidade $\iota$
 ($b_r(\iota) = 0$).} o número de \bkp{} em pelo menos um e no máximo
@@ -296,7 +297,7 @@ Para melhorar o limitante, Bafna e Pevzner~\cite{BafnaPevzner*1998}
 estudaram separadamente os ciclos pares e ímpares. Um ciclo é impar se
 possui um número ímpar de arestas pretas e par caso contrário. Seja
 $c_{\text{ímpar}}(\pi)$ o número de ciclos ímpares de $G(\pi)$, para uma
-permutação $\pi$, e $\Delta c_{\text{ímpar}} (\rho) = c_{\text{ímpar}}
+permutação $\pi$, e $\Delta c_{\text{ímpar}} (\pi,\rho) = c_{\text{ímpar}}
 (\pi \rho) - c_{\text{ímpar}} (\pi)$ a mudança no número de ciclos
 ímpares devido a transposição $\rho$, temos que $\Delta c_{\text{ímpar}}
 \in \{2, 0, -2\}$ gerando o resultado do
@@ -595,7 +596,7 @@ mais utilizados.
         restrição, levando à poda da árvore de busca ao identificar que
         as soluções a partir de um determinado nó não pode gerar uma
         solução com custo melhor que o atual, mantido pela variável
-        \textit{bound}.  A figura~\ref{fig:bbsearchtree} mostra o estado
+        \textit{bound}. A Figura~\ref{fig:bbsearchtree} mostra o estado
         de uma árvore de busca usando o método branch and bound. As
         linhas pontilhadas representam as partes ignoradas durante a
         busca por não gerar uma solução melhor.
